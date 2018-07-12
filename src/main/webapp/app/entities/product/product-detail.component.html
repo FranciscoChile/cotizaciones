@@ -1,0 +1,60 @@
+
+<div *ngIf="product">
+    <h2><span jhiTranslate="cotizacionesApp.product.detail.title">Product</span> {{product.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="cotizacionesApp.product.model">Model</span></dt>
+        <dd>
+            <span>{{product.model}}</span>
+        </dd>
+        <dt><span jhiTranslate="cotizacionesApp.product.priceList">Price List</span></dt>
+        <dd>
+            <span>{{product.priceList}}</span>
+        </dd>
+        <dt><span jhiTranslate="cotizacionesApp.product.stock">Stock</span></dt>
+        <dd>
+            <span>{{product.stock}}</span>
+        </dd>
+        <dt><span jhiTranslate="cotizacionesApp.product.description">Description</span></dt>
+        <dd>
+            <span>{{product.description}}</span>
+        </dd>
+        <dt><span jhiTranslate="cotizacionesApp.product.imageRef">Image Ref</span></dt>
+        <dd>
+            <div *ngIf="product.imageRef">
+                <a (click)="openFile(product.imageRefContentType, product.imageRef)" jhiTranslate="entity.action.open">open</a>
+                {{product.imageRefContentType}}, {{byteSize(product.imageRef)}}
+            </div>
+        </dd>
+        <dt><span jhiTranslate="cotizacionesApp.product.loadDiagram">Load Diagram</span></dt>
+        <dd>
+            <div *ngIf="product.loadDiagram">
+                <a (click)="openFile(product.loadDiagramContentType, product.loadDiagram)" jhiTranslate="entity.action.open">open</a>
+                {{product.loadDiagramContentType}}, {{byteSize(product.loadDiagram)}}
+            </div>
+        </dd>
+        <dt><span jhiTranslate="cotizacionesApp.product.createDate">Create Date</span></dt>
+        <dd>
+            <span>{{product.createDate | date:'medium'}}</span>
+        </dd>
+        <dt><span jhiTranslate="cotizacionesApp.product.active">Active</span></dt>
+        <dd>
+            <span>{{product.active}}</span>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'product/'+ product.id + '/edit'} }]"
+            replaceUrl="true"
+            queryParamsHandling="merge"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>

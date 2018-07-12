@@ -1,0 +1,42 @@
+
+<div *ngIf="client">
+    <h2><span jhiTranslate="cotizacionesApp.client.detail.title">Client</span> {{client.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="cotizacionesApp.client.name">Name</span></dt>
+        <dd>
+            <span>{{client.name}}</span>
+        </dd>
+        <dt><span jhiTranslate="cotizacionesApp.client.numDocument">Num Document</span></dt>
+        <dd>
+            <span>{{client.numDocument}}</span>
+        </dd>
+        <dt><span jhiTranslate="cotizacionesApp.client.address">Address</span></dt>
+        <dd>
+            <span>{{client.address}}</span>
+        </dd>
+        <dt><span jhiTranslate="cotizacionesApp.client.comments">Comments</span></dt>
+        <dd>
+            <span>{{client.comments}}</span>
+        </dd>
+        <dt><span jhiTranslate="cotizacionesApp.client.createDate">Create Date</span></dt>
+        <dd>
+            <span>{{client.createDate | date:'dd/MM/yyyy'}}</span>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'client/'+ client.id + '/edit'} }]"
+            replaceUrl="true"
+            queryParamsHandling="merge"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>

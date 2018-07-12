@@ -1,0 +1,89 @@
+<form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+
+    <div class="modal-header">
+        <h4 class="modal-title" id="myContactLabel" jhiTranslate="cotizacionesApp.contact.home.createOrEditLabel">Create or edit a Contact</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                (click)="clear()">&times;</button>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="form-group" [hidden]="!contact.id">
+            <label for="id" jhiTranslate="global.field.id">ID</label>
+            <input type="text" class="form-control" id="id" name="id"
+                   [(ngModel)]="contact.id" readonly />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="cotizacionesApp.contact.name" for="field_name">Name</label>
+            <input type="text" class="form-control" name="name" id="field_name"
+                [(ngModel)]="contact.name" />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="cotizacionesApp.contact.surname" for="field_surname">Surname</label>
+            <input type="text" class="form-control" name="surname" id="field_surname"
+                [(ngModel)]="contact.surname" />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="cotizacionesApp.contact.position" for="field_position">Position</label>
+            <input type="text" class="form-control" name="position" id="field_position"
+                [(ngModel)]="contact.position" />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="cotizacionesApp.contact.area" for="field_area">Area</label>
+            <input type="text" class="form-control" name="area" id="field_area"
+                [(ngModel)]="contact.area" />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="cotizacionesApp.contact.address" for="field_address">Address</label>
+            <input type="text" class="form-control" name="address" id="field_address"
+                [(ngModel)]="contact.address" />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="cotizacionesApp.contact.cellphone" for="field_cellphone">Cellphone</label>
+            <input type="text" class="form-control" name="cellphone" id="field_cellphone"
+                [(ngModel)]="contact.cellphone" />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="cotizacionesApp.contact.linePhone" for="field_linePhone">Line Phone</label>
+            <input type="text" class="form-control" name="linePhone" id="field_linePhone"
+                [(ngModel)]="contact.linePhone" />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="cotizacionesApp.contact.email" for="field_email">Email</label>
+            <input type="text" class="form-control" name="email" id="field_email"
+                [(ngModel)]="contact.email" />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="cotizacionesApp.contact.comments" for="field_comments">Comments</label>
+            <input type="text" class="form-control" name="comments" id="field_comments"
+                [(ngModel)]="contact.comments" />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="cotizacionesApp.contact.createDate" for="field_createDate">Create Date</label>
+            <div class="d-flex">
+                <input id="field_createDate" type="datetime-local" class="form-control" name="createDate" [(ngModel)]="contact.createDate"
+                />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="cotizacionesApp.contact.active" for="field_active">Active</label>
+            <input type="number" class="form-control" name="active" id="field_active"
+                [(ngModel)]="contact.active" />
+        </div>
+
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="cotizacionesApp.contact.client" for="field_client">Client</label>
+            <select class="form-control" id="field_client" name="client" [(ngModel)]="contact.clientId" >
+                <option [ngValue]="null"></option>
+                <option [ngValue]="clientOption.id" *ngFor="let clientOption of clients; trackBy: trackClientById">{{clientOption.id}}</option>
+            </select>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clear()">
+            <span class="fa fa-ban"></span>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+        <button type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+            <span class="fa fa-save"></span>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+    </div>
+</form>

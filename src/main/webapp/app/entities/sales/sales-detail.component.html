@@ -1,0 +1,58 @@
+
+<div *ngIf="sales">
+    <h2><span jhiTranslate="cotizacionesApp.sales.detail.title">Sales</span> {{sales.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="cotizacionesApp.sales.finalPrice">Final Price</span></dt>
+        <dd>
+            <span>{{sales.finalPrice}}</span>
+        </dd>
+        <dt><span jhiTranslate="cotizacionesApp.sales.createDate">Create Date</span></dt>
+        <dd>
+            <span>{{sales.createDate | date:'medium'}}</span>
+        </dd>
+        <dt><span jhiTranslate="cotizacionesApp.sales.active">Active</span></dt>
+        <dd>
+            <span>{{sales.active}}</span>
+        </dd>
+        <dt><span jhiTranslate="cotizacionesApp.sales.client">Client</span></dt>
+        <dd>
+            <div *ngIf="sales.clientId">
+                <a [routerLink]="['/client', sales.clientId]">{{sales.clientId}}</a>
+            </div>
+        </dd>
+        <dt><span jhiTranslate="cotizacionesApp.sales.contact">Contact</span></dt>
+        <dd>
+            <div *ngIf="sales.contactId">
+                <a [routerLink]="['/contact', sales.contactId]">{{sales.contactId}}</a>
+            </div>
+        </dd>
+        <dt><span jhiTranslate="cotizacionesApp.sales.location">Location</span></dt>
+        <dd>
+            <div *ngIf="sales.locationId">
+                <a [routerLink]="['/location', sales.locationId]">{{sales.locationId}}</a>
+            </div>
+        </dd>
+        <dt><span jhiTranslate="cotizacionesApp.sales.product">Product</span></dt>
+        <dd>
+            <div *ngIf="sales.productId">
+                <a [routerLink]="['/product', sales.productId]">{{sales.productId}}</a>
+            </div>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'sales/'+ sales.id + '/edit'} }]"
+            replaceUrl="true"
+            queryParamsHandling="merge"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>

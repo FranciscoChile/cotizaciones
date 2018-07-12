@@ -1,0 +1,117 @@
+<form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+
+    <div class="modal-header">
+        <h4 class="modal-title" id="myProductLabel" jhiTranslate="cotizacionesApp.product.home.createOrEditLabel">Create or edit a Product</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                (click)="clear()">&times;</button>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="form-group" [hidden]="!product.id">
+            <label for="id" jhiTranslate="global.field.id">ID</label>
+            <input type="text" class="form-control" id="id" name="id"
+                   [(ngModel)]="product.id" readonly />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="cotizacionesApp.product.model" for="field_model">Model</label>
+            <input type="text" class="form-control" name="model" id="field_model"
+                [(ngModel)]="product.model" />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="cotizacionesApp.product.priceList" for="field_priceList">Price List</label>
+            <input type="number" class="form-control" name="priceList" id="field_priceList"
+                [(ngModel)]="product.priceList" min="0"/>
+            <div [hidden]="!(editForm.controls.priceList?.dirty && editForm.controls.priceList?.invalid)">
+                <small class="form-text text-danger"
+                    [hidden]="!editForm.controls.priceList?.errors?.min" jhiTranslate="entity.validation.min" translateValues="{ min: 0 }">
+                    This field should be at least 0.
+                </small>
+                <small class="form-text text-danger"
+                    [hidden]="!editForm.controls.priceList?.errors?.number" jhiTranslate="entity.validation.number">
+                    This field should be a number.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="cotizacionesApp.product.stock" for="field_stock">Stock</label>
+            <input type="number" class="form-control" name="stock" id="field_stock"
+                [(ngModel)]="product.stock" min="0"/>
+            <div [hidden]="!(editForm.controls.stock?.dirty && editForm.controls.stock?.invalid)">
+                <small class="form-text text-danger"
+                    [hidden]="!editForm.controls.stock?.errors?.min" jhiTranslate="entity.validation.min" translateValues="{ min: 0 }">
+                    This field should be at least 0.
+                </small>
+                <small class="form-text text-danger"
+                    [hidden]="!editForm.controls.stock?.errors?.number" jhiTranslate="entity.validation.number">
+                    This field should be a number.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="cotizacionesApp.product.description" for="field_description">Description</label>
+            <textarea class="form-control" name="description" id="field_description" #productDescription
+                [(ngModel)]="product.description" maxlength="2000" rows="6"></textarea>
+                <small class="form-text text-danger">
+                    {{ productDescription.value.length }}
+                </small>
+            <div [hidden]="!(editForm.controls.description?.dirty && editForm.controls.description?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.description?.errors?.maxlength" jhiTranslate="entity.validation.maxlength" translateValues="{ max: 2000 }">
+                   This field cannot be longer than 2000 characters.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="cotizacionesApp.product.imageRef" for="field_imageRef">Image Ref</label>
+            <div>
+                <div *ngIf="product.imageRef" class="form-text text-danger clearfix">
+                    <a class="pull-left" (click)="openFile(product.imageRefContentType, product.imageRef)" jhiTranslate="entity.action.open">open</a><br>
+                    <span class="pull-left">{{product.imageRefContentType}}, {{byteSize(product.imageRef)}}</span>
+                    <button type="button" (click)="product.imageRef=null;product.imageRefContentType=null;"
+                            class="btn btn-secondary btn-xs pull-right">
+                        <span class="fa fa-times"></span>
+                    </button>
+                </div>
+                <input type="file" id="file_imageRef" (change)="setFileData($event, product, 'imageRef', false)" jhiTranslate="entity.action.addblob"/>
+            </div>
+            <input type="hidden" class="form-control" name="imageRef" id="field_imageRef"
+                [(ngModel)]="product.imageRef" />
+            <input type="hidden" class="form-control" name="imageRefContentType" id="field_imageRefContentType"
+                [(ngModel)]="product.imageRefContentType" />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="cotizacionesApp.product.loadDiagram" for="field_loadDiagram">Load Diagram</label>
+            <div>
+                <div *ngIf="product.loadDiagram" class="form-text text-danger clearfix">
+                    <a class="pull-left" (click)="openFile(product.loadDiagramContentType, product.loadDiagram)" jhiTranslate="entity.action.open">open</a><br>
+                    <span class="pull-left">{{product.loadDiagramContentType}}, {{byteSize(product.loadDiagram)}}</span>
+                    <button type="button" (click)="product.loadDiagram=null;product.loadDiagramContentType=null;"
+                            class="btn btn-secondary btn-xs pull-right">
+                        <span class="fa fa-times"></span>
+                    </button>
+                </div>
+                <input type="file" id="file_loadDiagram" (change)="setFileData($event, product, 'loadDiagram', false)" jhiTranslate="entity.action.addblob"/>
+            </div>
+            <input type="hidden" class="form-control" name="loadDiagram" id="field_loadDiagram"
+                [(ngModel)]="product.loadDiagram" />
+            <input type="hidden" class="form-control" name="loadDiagramContentType" id="field_loadDiagramContentType"
+                [(ngModel)]="product.loadDiagramContentType" />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="cotizacionesApp.product.createDate" for="field_createDate">Create Date</label>
+            <div class="d-flex">
+                <input id="field_createDate" type="date" class="form-control" name="createDate" [(ngModel)]="product.createDate"
+                readonly/>
+            </div>
+        </div>
+
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clear()">
+            <span class="fa fa-ban"></span>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+        <button type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+            <span class="fa fa-save"></span>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+    </div>
+</form>

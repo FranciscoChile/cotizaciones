@@ -1,0 +1,72 @@
+
+<div *ngIf="contact">
+    <h2><span jhiTranslate="cotizacionesApp.contact.detail.title">Contact</span> {{contact.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="cotizacionesApp.contact.name">Name</span></dt>
+        <dd>
+            <span>{{contact.name}}</span>
+        </dd>
+        <dt><span jhiTranslate="cotizacionesApp.contact.surname">Surname</span></dt>
+        <dd>
+            <span>{{contact.surname}}</span>
+        </dd>
+        <dt><span jhiTranslate="cotizacionesApp.contact.position">Position</span></dt>
+        <dd>
+            <span>{{contact.position}}</span>
+        </dd>
+        <dt><span jhiTranslate="cotizacionesApp.contact.area">Area</span></dt>
+        <dd>
+            <span>{{contact.area}}</span>
+        </dd>
+        <dt><span jhiTranslate="cotizacionesApp.contact.address">Address</span></dt>
+        <dd>
+            <span>{{contact.address}}</span>
+        </dd>
+        <dt><span jhiTranslate="cotizacionesApp.contact.cellphone">Cellphone</span></dt>
+        <dd>
+            <span>{{contact.cellphone}}</span>
+        </dd>
+        <dt><span jhiTranslate="cotizacionesApp.contact.linePhone">Line Phone</span></dt>
+        <dd>
+            <span>{{contact.linePhone}}</span>
+        </dd>
+        <dt><span jhiTranslate="cotizacionesApp.contact.email">Email</span></dt>
+        <dd>
+            <span>{{contact.email}}</span>
+        </dd>
+        <dt><span jhiTranslate="cotizacionesApp.contact.comments">Comments</span></dt>
+        <dd>
+            <span>{{contact.comments}}</span>
+        </dd>
+        <dt><span jhiTranslate="cotizacionesApp.contact.createDate">Create Date</span></dt>
+        <dd>
+            <span>{{contact.createDate | date:'medium'}}</span>
+        </dd>
+        <dt><span jhiTranslate="cotizacionesApp.contact.active">Active</span></dt>
+        <dd>
+            <span>{{contact.active}}</span>
+        </dd>
+        <dt><span jhiTranslate="cotizacionesApp.contact.client">Client</span></dt>
+        <dd>
+            <div *ngIf="contact.clientId">
+                <a [routerLink]="['/client', contact.clientId]">{{contact.clientId}}</a>
+            </div>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'contact/'+ contact.id + '/edit'} }]"
+            replaceUrl="true"
+            queryParamsHandling="merge"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>

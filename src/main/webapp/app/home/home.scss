@@ -3,6 +3,10 @@
 Main page styles
 ========================================================================== */
 
+body {
+  background: url("../../content/images/hipster.png") no-repeat center top;
+}
+
 .hipster {
     display: inline-block;
     width: 347px;
@@ -23,4 +27,35 @@ only screen and (                min-resolution: 2dppx) {
         background: url("../../content/images/hipster2x.png") no-repeat center top;
         background-size: contain;
     }
+}
+
+.hipster2 {
+    background: url("../../content/images/hiab-hero_1300x845-3.jpg") no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+
+}
+
+img.bg {
+  /* Set rules to fill background */
+  min-height: 100%;
+  min-width: 1024px;
+
+  /* Set up proportionate scaling */
+  width: 100%;
+  height: auto;
+
+  /* Set up positioning */
+  position: fixed;
+  top: 60px;
+  left: 0;
+}
+
+@media screen and (max-width: 1024px) { /* Specific to this particular image */
+  img.bg {
+    left: 50%;
+    margin-left: -512px;   /* 50% */
+  }
 }

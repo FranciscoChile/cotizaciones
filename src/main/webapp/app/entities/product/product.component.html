@@ -1,0 +1,86 @@
+<div>
+    <h2>
+        <span jhiTranslate="cotizacionesApp.product.home.title">Products</span>
+        <button class="btn btn-primary float-right jh-create-entity create-product" [routerLink]="['/', { outlets: { popup: ['product-new'] } }]">
+            <span class="fa fa-plus"></span>
+            <span  jhiTranslate="cotizacionesApp.product.home.createLabel">
+            Create new Product
+            </span>
+        </button>
+    </h2>
+    <jhi-alert></jhi-alert>
+    <div class="row">
+    </div>
+    <br/>
+    <div class="table-responsive" *ngIf="products">
+        <table class="table table-striped">
+            <thead>
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
+            <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="model"><span jhiTranslate="cotizacionesApp.product.model">Model</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="priceList"><span jhiTranslate="cotizacionesApp.product.priceList">Price List</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="stock"><span jhiTranslate="cotizacionesApp.product.stock">Stock</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="description"><span jhiTranslate="cotizacionesApp.product.description">Description</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="imageRef"><span jhiTranslate="cotizacionesApp.product.imageRef">Image Ref</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="loadDiagram"><span jhiTranslate="cotizacionesApp.product.loadDiagram">Load Diagram</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="createDate"><span jhiTranslate="cotizacionesApp.product.createDate">Create Date</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="active"><span jhiTranslate="cotizacionesApp.product.active">Active</span> <span class="fa fa-sort"></span></th>
+            <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let product of products ;trackBy: trackId">
+                <td><a [routerLink]="['../product', product.id ]">{{product.id}}</a></td>
+                <td>{{product.model}}</td>
+                <td>{{product.priceList}}</td>
+                <td>{{product.stock}}</td>
+                <td>{{product.description | slice:0:150}}</td>
+                <td>
+                    <a *ngIf="product.imageRef" (click)="openFile(product.imageRefContentType, product.imageRef)" jhiTranslate="entity.action.open">open</a>
+                    <span *ngIf="product.imageRef">{{product.imageRefContentType}}, {{byteSize(product.imageRef)}}</span>
+                </td>
+                <td>
+                    <a *ngIf="product.loadDiagram" (click)="openFile(product.loadDiagramContentType, product.loadDiagram)" jhiTranslate="entity.action.open">open</a>
+                    <span *ngIf="product.loadDiagram">{{product.loadDiagramContentType}}, {{byteSize(product.loadDiagram)}}</span>
+                </td>
+                <td>{{product.createDate | date:'medium'}}</td>
+                <td>{{product.active}}</td>
+                <td class="text-right">
+                    <div class="btn-group flex-btn-group-container">
+                        <button type="submit"
+                                [routerLink]="['../product', product.id ]"
+                                class="btn btn-info btn-sm">
+                            <span class="fa fa-eye"></span>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'product/'+ product.id + '/edit'} }]"
+                                replaceUrl="true"
+                                queryParamsHandling="merge"
+                                class="btn btn-primary btn-sm">
+                            <span class="fa fa-pencil"></span>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'product/'+ product.id + '/delete'} }]"
+                                replaceUrl="true"
+                                queryParamsHandling="merge"
+                                class="btn btn-danger btn-sm">
+                            <span class="fa fa-remove"></span>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div *ngIf="products && products.length">
+        <div class="row justify-content-center">
+            <jhi-item-count [page]="page" [total]="queryCount" [maxSize]="5" [itemsPerPage]="itemsPerPage"></jhi-item-count>
+        </div>
+        <div class="row justify-content-center">
+            <ngb-pagination [collectionSize]="totalItems" [(page)]="page" [pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage(page)"></ngb-pagination>
+        </div>
+    </div>
+</div>
