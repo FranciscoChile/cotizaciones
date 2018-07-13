@@ -49,6 +49,7 @@ currentAccount: any;
 
     loadAll() {
         this.contactService.query({
+            'active.equals': 1,
             page: this.page - 1,
             size: this.itemsPerPage,
             sort: this.sort()}).subscribe(

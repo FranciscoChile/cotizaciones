@@ -1,22 +1,13 @@
 <div>
-    <div class="row">
-      <div class="col">
-        <h2>
-          <span jhiTranslate="cotizacionesApp.client.home.title">Clients</span>
-        </h2>
-      </div>
-      <div class="col">
-        <p-autoComplete [(ngModel)]="name" [suggestions]="filteredNames" (completeMethod)="filterNames($event)"
-        [size]="30" placeholder="Nombre" [minLength]="1" (onSelect)="captureValue($event)" (onClear)="clearValue($event)" >
-        </p-autoComplete>
+    <h2>
+        <span jhiTranslate="cotizacionesApp.client.home.title">Clients</span>
         <button class="btn btn-primary float-right jh-create-entity create-client" [routerLink]="['/', { outlets: { popup: ['client-new'] } }]">
             <span class="fa fa-plus"></span>
             <span  jhiTranslate="cotizacionesApp.client.home.createLabel">
             Create new Client
             </span>
         </button>
-      </div>
-    </div>
+    </h2>
     <jhi-alert></jhi-alert>
     <div class="row">
     </div>
@@ -41,7 +32,7 @@
                 <td>{{client.numDocument}}</td>
                 <td>{{client.address}}</td>
                 <td>{{client.comments}}</td>
-                <td>{{client.createDate | date:'dd/MM/yyyy'}}</td>
+                <td>{{client.createDate | date:'longDate'}}</td>
                 <td class="text-right">
                     <div class="btn-group flex-btn-group-container">
                         <button type="submit"

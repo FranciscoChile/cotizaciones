@@ -11,6 +11,7 @@ import org.mapstruct.*;
 @Mapper(componentModel = "spring", uses = {ClientMapper.class})
 public interface LocationMapper extends EntityMapper<LocationDTO, Location> {
 
+    @Mapping(source = "client.name", target = "clientName")
     @Mapping(source = "client.id", target = "clientId")
     LocationDTO toDto(Location location);
 

@@ -10,6 +10,11 @@ export class Sales implements BaseEntity {
         public contactId?: number,
         public locationId?: number,
         public productId?: number,
+
+        public clientName?: string,
+        public contactName?: string,
+        public locationName?: string,
+        public productName?: string,
     ) {
     }
 }

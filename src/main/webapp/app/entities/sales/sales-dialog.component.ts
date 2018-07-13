@@ -14,6 +14,8 @@ import { Contact, ContactService } from '../contact';
 import { Location, LocationService } from '../location';
 import { Product, ProductService } from '../product';
 
+import { DatePipe } from '@angular/common';
+
 @Component({
     selector: 'jhi-sales-dialog',
     templateUrl: './sales-dialog.component.html'
@@ -45,6 +47,19 @@ export class SalesDialogComponent implements OnInit {
 
     ngOnInit() {
         this.isSaving = false;
+
+        if (this.sales.id !== undefined) {
+            const pipe = new DatePipe('es-CL');
+            const now = Date.now();
+            const myFormattedDate = pipe.transform(this.sales.createDate, 'yyyy-MM-dd');
+            this.sales.createDate = myFormattedDate;
+        } else {
+            const pipe = new DatePipe('es-CL');
+            const now = Date.now();
+            const myFormattedDate = pipe.transform(now, 'yyyy-MM-dd');
+            this.sales.createDate = myFormattedDate;
+        }
+
         this.clientService.query()
             .subscribe((res: HttpResponse<Client[]>) => { this.clients = res.body; }, (res: HttpErrorResponse) => this.onError(res.message));
         this.contactService.query()
@@ -62,9 +77,17 @@ export class SalesDialogComponent implements OnInit {
     save() {
         this.isSaving = true;
         if (this.sales.id !== undefined) {
+            this.sales.createDate += ' 00:00:00';
             this.subscribeToSaveResponse(
                 this.salesService.update(this.sales));
         } else {
+            this.sales.active = 1;
+
+            const pipe = new DatePipe('es-CL');
+            const now = Date.now();
+            const myFormattedDate = pipe.transform(now, 'yyyy-MM-dd 00:00:00');
+            this.sales.createDate = myFormattedDate;
+
             this.subscribeToSaveResponse(
                 this.salesService.create(this.sales));
         }

@@ -12,14 +12,10 @@
         <dd>
             <span>{{location.createDate | date:'medium'}}</span>
         </dd>
-        <dt><span jhiTranslate="cotizacionesApp.location.active">Active</span></dt>
-        <dd>
-            <span>{{location.active}}</span>
-        </dd>
         <dt><span jhiTranslate="cotizacionesApp.location.client">Client</span></dt>
         <dd>
             <div *ngIf="location.clientId">
-                <a [routerLink]="['/client', location.clientId]">{{location.clientId}}</a>
+                <a [routerLink]="['/client', location.clientId]">{{location.clientName}}</a>
             </div>
         </dd>
     </dl>

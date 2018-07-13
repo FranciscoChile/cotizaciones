@@ -30,6 +30,18 @@ export class ClientDialogComponent implements OnInit {
 
     ngOnInit() {
         this.isSaving = false;
+
+        if (this.client.id !== undefined) {
+            const pipe = new DatePipe('es-CL');
+            const now = Date.now();
+            const myFormattedDate = pipe.transform(this.client.createDate, 'yyyy-MM-dd');
+            this.client.createDate = myFormattedDate;
+        } else {
+            const pipe = new DatePipe('es-CL');
+            const now = Date.now();
+            const myFormattedDate = pipe.transform(now, 'yyyy-MM-dd');
+            this.client.createDate = myFormattedDate;
+        }
     }
 
     clear() {
@@ -39,6 +51,8 @@ export class ClientDialogComponent implements OnInit {
     save() {
         this.isSaving = true;
         if (this.client.id !== undefined) {
+            this.client.createDate += ' 00:00:00';
+
             this.subscribeToSaveResponse(
                 this.clientService.update(this.client));
         } else {
@@ -46,7 +60,7 @@ export class ClientDialogComponent implements OnInit {
 
           const pipe = new DatePipe('es-CL');
           const now = Date.now();
-          const myFormattedDate = pipe.transform(now, 'yyyy-MM-dd hh:mm:ss');
+          const myFormattedDate = pipe.transform(now, 'yyyy-MM-dd 00:00:00');
           this.client.createDate = myFormattedDate;
 
             this.subscribeToSaveResponse(

@@ -42,16 +42,12 @@
         </dd>
         <dt><span jhiTranslate="cotizacionesApp.contact.createDate">Create Date</span></dt>
         <dd>
-            <span>{{contact.createDate | date:'medium'}}</span>
-        </dd>
-        <dt><span jhiTranslate="cotizacionesApp.contact.active">Active</span></dt>
-        <dd>
-            <span>{{contact.active}}</span>
+            <span>{{contact.createDate | date:'longDate'}}</span>
         </dd>
         <dt><span jhiTranslate="cotizacionesApp.contact.client">Client</span></dt>
         <dd>
             <div *ngIf="contact.clientId">
-                <a [routerLink]="['/client', contact.clientId]">{{contact.clientId}}</a>
+                <a [routerLink]="['/client', contact.clientId]">{{contact.clientName}}</a>
             </div>
         </dd>
     </dl>

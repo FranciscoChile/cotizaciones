@@ -15,6 +15,7 @@ export class Contact implements BaseEntity {
         public createDate?: any,
         public active?: number,
         public clientId?: number,
+        public clientName?: string,
         public sales?: BaseEntity[],
     ) {
     }

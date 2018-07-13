@@ -36,12 +36,9 @@
         </dd>
         <dt><span jhiTranslate="cotizacionesApp.product.createDate">Create Date</span></dt>
         <dd>
-            <span>{{product.createDate | date:'medium'}}</span>
+            <span>{{product.createDate | date:'longDate'}}</span>
         </dd>
         <dt><span jhiTranslate="cotizacionesApp.product.active">Active</span></dt>
-        <dd>
-            <span>{{product.active}}</span>
-        </dd>
     </dl>
 
     <button type="submit"

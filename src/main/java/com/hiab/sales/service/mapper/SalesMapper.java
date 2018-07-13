@@ -15,6 +15,10 @@ public interface SalesMapper extends EntityMapper<SalesDTO, Sales> {
     @Mapping(source = "contact.id", target = "contactId")
     @Mapping(source = "location.id", target = "locationId")
     @Mapping(source = "product.id", target = "productId")
+    @Mapping(source = "client.name", target = "clientName")
+    @Mapping(source = "contact.name", target = "contactName")
+    @Mapping(source = "location.description", target = "locationDescription")
+    @Mapping(source = "product.model", target = "productModel")
     SalesDTO toDto(Sales sales);
 
     @Mapping(source = "clientId", target = "client")

@@ -27,14 +27,7 @@
                 </small>
             </div>
         </div>
-        <div class="form-group">
-            <label class="form-control-label" jhiTranslate="cotizacionesApp.sales.createDate" for="field_createDate">Create Date</label>
-            <div class="d-flex">
-                <input id="field_createDate" type="datetime-local" class="form-control" name="createDate" [(ngModel)]="sales.createDate"
-                />
-            </div>
-        </div>
-        <div class="form-group">
+        <div class="form-group" [hidden]="true">
             <label class="form-control-label" jhiTranslate="cotizacionesApp.sales.active" for="field_active">Active</label>
             <input type="number" class="form-control" name="active" id="field_active"
                 [(ngModel)]="sales.active" />
@@ -44,29 +37,36 @@
             <label class="form-control-label" jhiTranslate="cotizacionesApp.sales.client" for="field_client">Client</label>
             <select class="form-control" id="field_client" name="client" [(ngModel)]="sales.clientId" >
                 <option [ngValue]="null"></option>
-                <option [ngValue]="clientOption.id" *ngFor="let clientOption of clients; trackBy: trackClientById">{{clientOption.id}}</option>
+                <option [ngValue]="clientOption.id" *ngFor="let clientOption of clients; trackBy: trackClientById">{{clientOption.name}}</option>
             </select>
         </div>
         <div class="form-group">
             <label class="form-control-label" jhiTranslate="cotizacionesApp.sales.contact" for="field_contact">Contact</label>
             <select class="form-control" id="field_contact" name="contact" [(ngModel)]="sales.contactId" >
                 <option [ngValue]="null"></option>
-                <option [ngValue]="contactOption.id" *ngFor="let contactOption of contacts; trackBy: trackContactById">{{contactOption.id}}</option>
+                <option [ngValue]="contactOption.id" *ngFor="let contactOption of contacts; trackBy: trackContactById">{{contactOption.name}}</option>
             </select>
         </div>
         <div class="form-group">
             <label class="form-control-label" jhiTranslate="cotizacionesApp.sales.location" for="field_location">Location</label>
             <select class="form-control" id="field_location" name="location" [(ngModel)]="sales.locationId" >
                 <option [ngValue]="null"></option>
-                <option [ngValue]="locationOption.id" *ngFor="let locationOption of locations; trackBy: trackLocationById">{{locationOption.id}}</option>
+                <option [ngValue]="locationOption.id" *ngFor="let locationOption of locations; trackBy: trackLocationById">{{locationOption.description}}</option>
             </select>
         </div>
         <div class="form-group">
             <label class="form-control-label" jhiTranslate="cotizacionesApp.sales.product" for="field_product">Product</label>
             <select class="form-control" id="field_product" name="product" [(ngModel)]="sales.productId" >
                 <option [ngValue]="null"></option>
-                <option [ngValue]="productOption.id" *ngFor="let productOption of products; trackBy: trackProductById">{{productOption.id}}</option>
+                <option [ngValue]="productOption.id" *ngFor="let productOption of products; trackBy: trackProductById">{{productOption.model}}</option>
             </select>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="cotizacionesApp.sales.createDate" for="field_createDate">Create Date</label>
+            <div class="d-flex">
+                <input id="field_createDate" type="date" class="form-control" name="createDate" [(ngModel)]="sales.createDate"
+                readonly/>
+            </div>
         </div>
     </div>
     <div class="modal-footer">

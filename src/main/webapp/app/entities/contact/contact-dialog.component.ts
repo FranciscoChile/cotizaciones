@@ -11,6 +11,8 @@ import { ContactPopupService } from './contact-popup.service';
 import { ContactService } from './contact.service';
 import { Client, ClientService } from '../client';
 
+import { DatePipe } from '@angular/common';
+
 @Component({
     selector: 'jhi-contact-dialog',
     templateUrl: './contact-dialog.component.html'
@@ -33,6 +35,19 @@ export class ContactDialogComponent implements OnInit {
 
     ngOnInit() {
         this.isSaving = false;
+
+        if (this.contact.id !== undefined) {
+            const pipe = new DatePipe('es-CL');
+            const now = Date.now();
+            const myFormattedDate = pipe.transform(this.contact.createDate, 'yyyy-MM-dd');
+            this.contact.createDate = myFormattedDate;
+        } else {
+            const pipe = new DatePipe('es-CL');
+            const now = Date.now();
+            const myFormattedDate = pipe.transform(now, 'yyyy-MM-dd');
+            this.contact.createDate = myFormattedDate;
+        }
+
         this.clientService.query()
             .subscribe((res: HttpResponse<Client[]>) => { this.clients = res.body; }, (res: HttpErrorResponse) => this.onError(res.message));
     }
@@ -44,9 +59,18 @@ export class ContactDialogComponent implements OnInit {
     save() {
         this.isSaving = true;
         if (this.contact.id !== undefined) {
+            this.contact.createDate += ' 00:00:00';
+
             this.subscribeToSaveResponse(
                 this.contactService.update(this.contact));
         } else {
+            this.contact.active = 1;
+
+            const pipe = new DatePipe('es-CL');
+            const now = Date.now();
+            const myFormattedDate = pipe.transform(now, 'yyyy-MM-dd 00:00:00');
+            this.contact.createDate = myFormattedDate;
+
             this.subscribeToSaveResponse(
                 this.contactService.create(this.contact));
         }

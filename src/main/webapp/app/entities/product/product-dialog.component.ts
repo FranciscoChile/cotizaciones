@@ -31,10 +31,18 @@ export class ProductDialogComponent implements OnInit {
 
     ngOnInit() {
         this.isSaving = false;
-        const pipe = new DatePipe('es-CL');
-        const now = Date.now();
-        const myFormattedDate = pipe.transform(now, 'yyyy-MM-dd');
-        this.product.createDate = myFormattedDate;
+
+        if (this.product.id !== undefined) {
+            const pipe = new DatePipe('es-CL');
+            const now = Date.now();
+            const myFormattedDate = pipe.transform(this.product.createDate, 'yyyy-MM-dd');
+            this.product.createDate = myFormattedDate;
+        } else {
+            const pipe = new DatePipe('es-CL');
+            const now = Date.now();
+            const myFormattedDate = pipe.transform(now, 'yyyy-MM-dd');
+            this.product.createDate = myFormattedDate;
+        }
     }
 
     byteSize(field) {
@@ -56,6 +64,8 @@ export class ProductDialogComponent implements OnInit {
     save() {
         this.isSaving = true;
         if (this.product.id !== undefined) {
+            this.product.createDate += ' 00:00:00';
+
             this.subscribeToSaveResponse(
                 this.productService.update(this.product));
         } else {
@@ -63,7 +73,7 @@ export class ProductDialogComponent implements OnInit {
 
             const pipe = new DatePipe('es-CL');
             const now = Date.now();
-            const myFormattedDate = pipe.transform(now, 'yyyy-MM-dd hh:mm:ss');
+            const myFormattedDate = pipe.transform(now, 'yyyy-MM-dd 00:00:00');
             this.product.createDate = myFormattedDate;
 
             this.subscribeToSaveResponse(

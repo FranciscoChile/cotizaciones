@@ -11,6 +11,8 @@ import { LocationPopupService } from './location-popup.service';
 import { LocationService } from './location.service';
 import { Client, ClientService } from '../client';
 
+import { DatePipe } from '@angular/common';
+
 @Component({
     selector: 'jhi-location-dialog',
     templateUrl: './location-dialog.component.html'
@@ -33,6 +35,19 @@ export class LocationDialogComponent implements OnInit {
 
     ngOnInit() {
         this.isSaving = false;
+
+        if (this.location.id !== undefined) {
+            const pipe = new DatePipe('es-CL');
+            const now = Date.now();
+            const myFormattedDate = pipe.transform(this.location.createDate, 'yyyy-MM-dd');
+            this.location.createDate = myFormattedDate;
+        } else {
+            const pipe = new DatePipe('es-CL');
+            const now = Date.now();
+            const myFormattedDate = pipe.transform(now, 'yyyy-MM-dd');
+            this.location.createDate = myFormattedDate;
+        }
+
         this.clientService.query()
             .subscribe((res: HttpResponse<Client[]>) => { this.clients = res.body; }, (res: HttpErrorResponse) => this.onError(res.message));
     }
@@ -44,9 +59,17 @@ export class LocationDialogComponent implements OnInit {
     save() {
         this.isSaving = true;
         if (this.location.id !== undefined) {
+            this.location.createDate += ' 00:00:00';
             this.subscribeToSaveResponse(
                 this.locationService.update(this.location));
         } else {
+            this.location.active = 1;
+
+            const pipe = new DatePipe('es-CL');
+            const now = Date.now();
+            const myFormattedDate = pipe.transform(now, 'yyyy-MM-dd 00:00:00');
+            this.location.createDate = myFormattedDate;
+
             this.subscribeToSaveResponse(
                 this.locationService.create(this.location));
         }

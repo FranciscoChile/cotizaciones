@@ -18,12 +18,11 @@
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
             <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="finalPrice"><span jhiTranslate="cotizacionesApp.sales.finalPrice">Final Price</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="createDate"><span jhiTranslate="cotizacionesApp.sales.createDate">Create Date</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="active"><span jhiTranslate="cotizacionesApp.sales.active">Active</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="clientId"><span jhiTranslate="cotizacionesApp.sales.client">Client</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="contactId"><span jhiTranslate="cotizacionesApp.sales.contact">Contact</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="locationId"><span jhiTranslate="cotizacionesApp.sales.location">Location</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="productId"><span jhiTranslate="cotizacionesApp.sales.product">Product</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="createDate"><span jhiTranslate="cotizacionesApp.sales.createDate">Create Date</span> <span class="fa fa-sort"></span></th>
             <th></th>
             </tr>
             </thead>
@@ -31,28 +30,28 @@
             <tr *ngFor="let sales of sales ;trackBy: trackId">
                 <td><a [routerLink]="['../sales', sales.id ]">{{sales.id}}</a></td>
                 <td>{{sales.finalPrice}}</td>
-                <td>{{sales.createDate | date:'medium'}}</td>
-                <td>{{sales.active}}</td>
                 <td>
                     <div *ngIf="sales.clientId">
-                        <a [routerLink]="['../client', sales.clientId  ]" >{{sales.clientId}}</a>
+                        <a [routerLink]="['../client', sales.clientId  ]" >{{sales.clientName}}</a>
                     </div>
                 </td>
                 <td>
                     <div *ngIf="sales.contactId">
-                        <a [routerLink]="['../contact', sales.contactId  ]" >{{sales.contactId}}</a>
+                        <a [routerLink]="['../contact', sales.contactId  ]" >{{sales.contactName}}</a>
                     </div>
                 </td>
                 <td>
                     <div *ngIf="sales.locationId">
-                        <a [routerLink]="['../location', sales.locationId  ]" >{{sales.locationId}}</a>
+                        <a [routerLink]="['../location', sales.locationId  ]" >{{sales.locationDescription}}</a>
                     </div>
                 </td>
                 <td>
                     <div *ngIf="sales.productId">
-                        <a [routerLink]="['../product', sales.productId  ]" >{{sales.productId}}</a>
+                        <a [routerLink]="['../product', sales.productId  ]" >{{sales.productModel}}</a>
                     </div>
                 </td>
+                <td>{{sales.createDate | date:'longDate'}}</td>
+
                 <td class="text-right">
                     <div class="btn-group flex-btn-group-container">
                         <button type="submit"

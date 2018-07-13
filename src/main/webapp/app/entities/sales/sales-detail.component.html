@@ -8,37 +8,33 @@
         <dd>
             <span>{{sales.finalPrice}}</span>
         </dd>
-        <dt><span jhiTranslate="cotizacionesApp.sales.createDate">Create Date</span></dt>
-        <dd>
-            <span>{{sales.createDate | date:'medium'}}</span>
-        </dd>
-        <dt><span jhiTranslate="cotizacionesApp.sales.active">Active</span></dt>
-        <dd>
-            <span>{{sales.active}}</span>
-        </dd>
         <dt><span jhiTranslate="cotizacionesApp.sales.client">Client</span></dt>
         <dd>
             <div *ngIf="sales.clientId">
-                <a [routerLink]="['/client', sales.clientId]">{{sales.clientId}}</a>
+                <a [routerLink]="['/client', sales.clientId]">{{sales.clientName}}</a>
             </div>
         </dd>
         <dt><span jhiTranslate="cotizacionesApp.sales.contact">Contact</span></dt>
         <dd>
             <div *ngIf="sales.contactId">
-                <a [routerLink]="['/contact', sales.contactId]">{{sales.contactId}}</a>
+                <a [routerLink]="['/contact', sales.contactId]">{{sales.contactName}}</a>
             </div>
         </dd>
         <dt><span jhiTranslate="cotizacionesApp.sales.location">Location</span></dt>
         <dd>
             <div *ngIf="sales.locationId">
-                <a [routerLink]="['/location', sales.locationId]">{{sales.locationId}}</a>
+                <a [routerLink]="['/location', sales.locationId]">{{sales.locationDescription}}</a>
             </div>
         </dd>
         <dt><span jhiTranslate="cotizacionesApp.sales.product">Product</span></dt>
         <dd>
             <div *ngIf="sales.productId">
-                <a [routerLink]="['/product', sales.productId]">{{sales.productId}}</a>
+                <a [routerLink]="['/product', sales.productId]">{{sales.productModel}}</a>
             </div>
+        </dd>
+        <dt><span jhiTranslate="cotizacionesApp.sales.createDate">Create Date</span></dt>
+        <dd>
+            <span>{{sales.createDate | date:'longDate'}}</span>
         </dd>
     </dl>
 

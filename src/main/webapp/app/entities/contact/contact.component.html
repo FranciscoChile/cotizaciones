@@ -21,13 +21,9 @@
             <th jhiSortBy="surname"><span jhiTranslate="cotizacionesApp.contact.surname">Surname</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="position"><span jhiTranslate="cotizacionesApp.contact.position">Position</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="area"><span jhiTranslate="cotizacionesApp.contact.area">Area</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="address"><span jhiTranslate="cotizacionesApp.contact.address">Address</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="cellphone"><span jhiTranslate="cotizacionesApp.contact.cellphone">Cellphone</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="linePhone"><span jhiTranslate="cotizacionesApp.contact.linePhone">Line Phone</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="email"><span jhiTranslate="cotizacionesApp.contact.email">Email</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="comments"><span jhiTranslate="cotizacionesApp.contact.comments">Comments</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="createDate"><span jhiTranslate="cotizacionesApp.contact.createDate">Create Date</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="active"><span jhiTranslate="cotizacionesApp.contact.active">Active</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="clientId"><span jhiTranslate="cotizacionesApp.contact.client">Client</span> <span class="fa fa-sort"></span></th>
             <th></th>
             </tr>
@@ -39,16 +35,12 @@
                 <td>{{contact.surname}}</td>
                 <td>{{contact.position}}</td>
                 <td>{{contact.area}}</td>
-                <td>{{contact.address}}</td>
                 <td>{{contact.cellphone}}</td>
                 <td>{{contact.linePhone}}</td>
-                <td>{{contact.email}}</td>
-                <td>{{contact.comments}}</td>
-                <td>{{contact.createDate | date:'medium'}}</td>
-                <td>{{contact.active}}</td>
+                <td>{{contact.createDate | date:'longDate'}}</td>
                 <td>
                     <div *ngIf="contact.clientId">
-                        <a [routerLink]="['../client', contact.clientId  ]" >{{contact.clientId}}</a>
+                        <a [routerLink]="['../client', contact.clientId  ]" >{{contact.clientName}}</a>
                     </div>
                 </td>
                 <td class="text-right">
