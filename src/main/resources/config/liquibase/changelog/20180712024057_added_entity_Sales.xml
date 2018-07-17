@@ -34,6 +34,10 @@
                 <constraints nullable="true" />
             </column>
 
+            <column name="conditions" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
             <column name="client_id" type="bigint">
                 <constraints nullable="true" />
             </column>

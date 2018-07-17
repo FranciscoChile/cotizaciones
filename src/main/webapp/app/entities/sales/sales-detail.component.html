@@ -8,6 +8,10 @@
         <dd>
             <span>{{sales.finalPrice}}</span>
         </dd>
+        <dt><span jhiTranslate="cotizacionesApp.sales.conditions">Conditions</span></dt>
+        <dd>
+            <span>{{sales.conditions | slice:0:50}}</span>
+        </dd>
         <dt><span jhiTranslate="cotizacionesApp.sales.client">Client</span></dt>
         <dd>
             <div *ngIf="sales.clientId">

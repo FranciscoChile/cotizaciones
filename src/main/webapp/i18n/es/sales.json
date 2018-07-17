@@ -19,6 +19,7 @@
             "finalPrice": "Final Price",
             "createDate": "Create Date",
             "active": "Active",
+            "conditions": "Conditions",
             "client": "Client",
             "contact": "Contact",
             "location": "Location",

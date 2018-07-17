@@ -31,6 +31,9 @@ public class Sales implements Serializable {
     @Column(name = "active")
     private Integer active;
 
+    @Column(name = "conditions")
+    private String conditions;
+
     @ManyToOne
     private Client client;
 
@@ -89,6 +92,19 @@ public class Sales implements Serializable {
 
     public void setActive(Integer active) {
         this.active = active;
+    }
+
+    public String getConditions() {
+        return conditions;
+    }
+
+    public Sales conditions(String conditions) {
+        this.conditions = conditions;
+        return this;
+    }
+
+    public void setConditions(String conditions) {
+        this.conditions = conditions;
     }
 
     public Client getClient() {
@@ -171,6 +187,7 @@ public class Sales implements Serializable {
             ", finalPrice=" + getFinalPrice() +
             ", createDate='" + getCreateDate() + "'" +
             ", active=" + getActive() +
+            ", conditions='" + getConditions() + "'" +
             "}";
     }
 }

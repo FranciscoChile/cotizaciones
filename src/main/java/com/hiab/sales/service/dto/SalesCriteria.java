@@ -34,6 +34,8 @@ public class SalesCriteria implements Serializable {
 
     private IntegerFilter active;
 
+    private StringFilter conditions;
+
     private LongFilter clientId;
 
     private LongFilter contactId;
@@ -77,6 +79,14 @@ public class SalesCriteria implements Serializable {
         this.active = active;
     }
 
+    public StringFilter getConditions() {
+        return conditions;
+    }
+
+    public void setConditions(StringFilter conditions) {
+        this.conditions = conditions;
+    }
+
     public LongFilter getClientId() {
         return clientId;
     }
@@ -116,6 +126,7 @@ public class SalesCriteria implements Serializable {
                 (finalPrice != null ? "finalPrice=" + finalPrice + ", " : "") +
                 (createDate != null ? "createDate=" + createDate + ", " : "") +
                 (active != null ? "active=" + active + ", " : "") +
+                (conditions != null ? "conditions=" + conditions + ", " : "") +
                 (clientId != null ? "clientId=" + clientId + ", " : "") +
                 (contactId != null ? "contactId=" + contactId + ", " : "") +
                 (locationId != null ? "locationId=" + locationId + ", " : "") +

@@ -58,6 +58,9 @@ public class SalesResourceIntTest {
     private static final Integer DEFAULT_ACTIVE = 1;
     private static final Integer UPDATED_ACTIVE = 2;
 
+    private static final String DEFAULT_CONDITIONS = "AAAAAAAAAA";
+    private static final String UPDATED_CONDITIONS = "BBBBBBBBBB";
+
     @Autowired
     private SalesRepository salesRepository;
 
@@ -107,7 +110,8 @@ public class SalesResourceIntTest {
         Sales sales = new Sales()
             .finalPrice(DEFAULT_FINAL_PRICE)
             .createDate(DEFAULT_CREATE_DATE)
-            .active(DEFAULT_ACTIVE);
+            .active(DEFAULT_ACTIVE)
+            .conditions(DEFAULT_CONDITIONS);
         return sales;
     }
 
@@ -135,6 +139,7 @@ public class SalesResourceIntTest {
         assertThat(testSales.getFinalPrice()).isEqualTo(DEFAULT_FINAL_PRICE);
         assertThat(testSales.getCreateDate()).isEqualTo(DEFAULT_CREATE_DATE);
         assertThat(testSales.getActive()).isEqualTo(DEFAULT_ACTIVE);
+        assertThat(testSales.getConditions()).isEqualTo(DEFAULT_CONDITIONS);
     }
 
     @Test
@@ -170,7 +175,8 @@ public class SalesResourceIntTest {
             .andExpect(jsonPath("$.[*].id").value(hasItem(sales.getId().intValue())))
             .andExpect(jsonPath("$.[*].finalPrice").value(hasItem(DEFAULT_FINAL_PRICE)))
             .andExpect(jsonPath("$.[*].createDate").value(hasItem(DEFAULT_CREATE_DATE.toString())))
-            .andExpect(jsonPath("$.[*].active").value(hasItem(DEFAULT_ACTIVE)));
+            .andExpect(jsonPath("$.[*].active").value(hasItem(DEFAULT_ACTIVE)))
+            .andExpect(jsonPath("$.[*].conditions").value(hasItem(DEFAULT_CONDITIONS.toString())));
     }
 
     @Test
@@ -186,7 +192,8 @@ public class SalesResourceIntTest {
             .andExpect(jsonPath("$.id").value(sales.getId().intValue()))
             .andExpect(jsonPath("$.finalPrice").value(DEFAULT_FINAL_PRICE))
             .andExpect(jsonPath("$.createDate").value(DEFAULT_CREATE_DATE.toString()))
-            .andExpect(jsonPath("$.active").value(DEFAULT_ACTIVE));
+            .andExpect(jsonPath("$.active").value(DEFAULT_ACTIVE))
+            .andExpect(jsonPath("$.conditions").value(DEFAULT_CONDITIONS.toString()));
     }
 
     @Test
@@ -362,6 +369,45 @@ public class SalesResourceIntTest {
 
     @Test
     @Transactional
+    public void getAllSalesByConditionsIsEqualToSomething() throws Exception {
+        // Initialize the database
+        salesRepository.saveAndFlush(sales);
+
+        // Get all the salesList where conditions equals to DEFAULT_CONDITIONS
+        defaultSalesShouldBeFound("conditions.equals=" + DEFAULT_CONDITIONS);
+
+        // Get all the salesList where conditions equals to UPDATED_CONDITIONS
+        defaultSalesShouldNotBeFound("conditions.equals=" + UPDATED_CONDITIONS);
+    }
+
+    @Test
+    @Transactional
+    public void getAllSalesByConditionsIsInShouldWork() throws Exception {
+        // Initialize the database
+        salesRepository.saveAndFlush(sales);
+
+        // Get all the salesList where conditions in DEFAULT_CONDITIONS or UPDATED_CONDITIONS
+        defaultSalesShouldBeFound("conditions.in=" + DEFAULT_CONDITIONS + "," + UPDATED_CONDITIONS);
+
+        // Get all the salesList where conditions equals to UPDATED_CONDITIONS
+        defaultSalesShouldNotBeFound("conditions.in=" + UPDATED_CONDITIONS);
+    }
+
+    @Test
+    @Transactional
+    public void getAllSalesByConditionsIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        salesRepository.saveAndFlush(sales);
+
+        // Get all the salesList where conditions is not null
+        defaultSalesShouldBeFound("conditions.specified=true");
+
+        // Get all the salesList where conditions is null
+        defaultSalesShouldNotBeFound("conditions.specified=false");
+    }
+
+    @Test
+    @Transactional
     public void getAllSalesByClientIsEqualToSomething() throws Exception {
         // Initialize the database
         Client client = ClientResourceIntTest.createEntity(em);
@@ -445,7 +491,8 @@ public class SalesResourceIntTest {
             .andExpect(jsonPath("$.[*].id").value(hasItem(sales.getId().intValue())))
             .andExpect(jsonPath("$.[*].finalPrice").value(hasItem(DEFAULT_FINAL_PRICE)))
             .andExpect(jsonPath("$.[*].createDate").value(hasItem(DEFAULT_CREATE_DATE.toString())))
-            .andExpect(jsonPath("$.[*].active").value(hasItem(DEFAULT_ACTIVE)));
+            .andExpect(jsonPath("$.[*].active").value(hasItem(DEFAULT_ACTIVE)))
+            .andExpect(jsonPath("$.[*].conditions").value(hasItem(DEFAULT_CONDITIONS.toString())));
     }
 
     /**
@@ -482,7 +529,8 @@ public class SalesResourceIntTest {
         updatedSales
             .finalPrice(UPDATED_FINAL_PRICE)
             .createDate(UPDATED_CREATE_DATE)
-            .active(UPDATED_ACTIVE);
+            .active(UPDATED_ACTIVE)
+            .conditions(UPDATED_CONDITIONS);
         SalesDTO salesDTO = salesMapper.toDto(updatedSales);
 
         restSalesMockMvc.perform(put("/api/sales")
@@ -497,6 +545,7 @@ public class SalesResourceIntTest {
         assertThat(testSales.getFinalPrice()).isEqualTo(UPDATED_FINAL_PRICE);
         assertThat(testSales.getCreateDate()).isEqualTo(UPDATED_CREATE_DATE);
         assertThat(testSales.getActive()).isEqualTo(UPDATED_ACTIVE);
+        assertThat(testSales.getConditions()).isEqualTo(UPDATED_CONDITIONS);
     }
 
     @Test

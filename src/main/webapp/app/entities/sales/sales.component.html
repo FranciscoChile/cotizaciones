@@ -18,6 +18,7 @@
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
             <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="finalPrice"><span jhiTranslate="cotizacionesApp.sales.finalPrice">Final Price</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="conditions"><span jhiTranslate="cotizacionesApp.sales.conditions">Conditions</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="clientId"><span jhiTranslate="cotizacionesApp.sales.client">Client</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="contactId"><span jhiTranslate="cotizacionesApp.sales.contact">Contact</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="locationId"><span jhiTranslate="cotizacionesApp.sales.location">Location</span> <span class="fa fa-sort"></span></th>
@@ -30,6 +31,7 @@
             <tr *ngFor="let sales of sales ;trackBy: trackId">
                 <td><a [routerLink]="['../sales', sales.id ]">{{sales.id}}</a></td>
                 <td>{{sales.finalPrice}}</td>
+                <td>{{sales.conditions | slice:0:50}}</td>
                 <td>
                     <div *ngIf="sales.clientId">
                         <a [routerLink]="['../client', sales.clientId  ]" >{{sales.clientName}}</a>
@@ -54,6 +56,12 @@
 
                 <td class="text-right">
                     <div class="btn-group flex-btn-group-container">
+                        <button type="button"
+                                class="btn btn-secondary"
+                                data-dismiss="modal"
+                                (click)="exportPdf(sales.id)">
+                            <span class="fa fa-file-pdf-o"></span>Pdf
+                        </button>
                         <button type="submit"
                                 [routerLink]="['../sales', sales.id ]"
                                 class="btn btn-info btn-sm">

@@ -52,7 +52,7 @@
             <textarea class="form-control" name="description" id="field_description" #productDescription
                 [(ngModel)]="product.description" maxlength="2000" rows="6"></textarea>
                 <small class="form-text text-danger">
-                    {{ productDescription.value.length }}
+                    {{ productDescription.value.length }}/2000
                 </small>
             <div [hidden]="!(editForm.controls.description?.dirty && editForm.controls.description?.invalid)">
                 <small class="form-text text-danger"

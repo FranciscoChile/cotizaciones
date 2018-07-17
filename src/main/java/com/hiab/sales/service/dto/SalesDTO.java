@@ -22,6 +22,8 @@ public class SalesDTO implements Serializable {
 
     private Integer active;
 
+    private String conditions;
+
     private Long clientId;
 
     private Long contactId;
@@ -29,7 +31,6 @@ public class SalesDTO implements Serializable {
     private Long locationId;
 
     private Long productId;
-
 
     private String clientName;
 
@@ -72,9 +73,7 @@ public class SalesDTO implements Serializable {
 
     public void setProductModel(String productModel) {
         this.productModel = productModel;
-    }
-
-
+}
 
     public Long getId() {
         return id;
@@ -106,6 +105,14 @@ public class SalesDTO implements Serializable {
 
     public void setActive(Integer active) {
         this.active = active;
+    }
+
+    public String getConditions() {
+        return conditions;
+    }
+
+    public void setConditions(String conditions) {
+        this.conditions = conditions;
     }
 
     public Long getClientId() {
@@ -168,6 +175,7 @@ public class SalesDTO implements Serializable {
             ", finalPrice=" + getFinalPrice() +
             ", createDate='" + getCreateDate() + "'" +
             ", active=" + getActive() +
+            ", conditions='" + getConditions() + "'" +
             "}";
     }
 }

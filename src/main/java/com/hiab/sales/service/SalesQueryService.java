@@ -87,6 +87,9 @@ public class SalesQueryService extends QueryService<Sales> {
             if (criteria.getActive() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getActive(), Sales_.active));
             }
+            if (criteria.getConditions() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getConditions(), Sales_.conditions));
+            }
             if (criteria.getClientId() != null) {
                 specification = specification.and(buildReferringEntitySpecification(criteria.getClientId(), Sales_.client, Client_.id));
             }

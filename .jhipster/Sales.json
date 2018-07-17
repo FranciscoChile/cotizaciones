@@ -42,12 +42,17 @@
         {
             "fieldName": "active",
             "fieldType": "Integer"
+        },
+        {
+            "fieldName": "conditions",
+            "fieldType": "String",
+            "fieldValidateRules": []
         }
     ],
     "changelogDate": "20180712024057",
-    "entityTableName": "sales",
     "dto": "mapstruct",
-    "pagination": "pagination",
     "service": "serviceImpl",
-    "jpaMetamodelFiltering": true
+    "entityTableName": "sales",
+    "jpaMetamodelFiltering": true,
+    "pagination": "pagination"
 }
