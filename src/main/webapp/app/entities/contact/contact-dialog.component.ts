@@ -38,7 +38,6 @@ export class ContactDialogComponent implements OnInit {
 
         if (this.contact.id !== undefined) {
             const pipe = new DatePipe('es-CL');
-            const now = Date.now();
             const myFormattedDate = pipe.transform(this.contact.createDate, 'yyyy-MM-dd');
             this.contact.createDate = myFormattedDate;
         } else {

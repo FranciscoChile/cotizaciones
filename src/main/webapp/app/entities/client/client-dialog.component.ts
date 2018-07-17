@@ -33,7 +33,6 @@ export class ClientDialogComponent implements OnInit {
 
         if (this.client.id !== undefined) {
             const pipe = new DatePipe('es-CL');
-            const now = Date.now();
             const myFormattedDate = pipe.transform(this.client.createDate, 'yyyy-MM-dd');
             this.client.createDate = myFormattedDate;
         } else {

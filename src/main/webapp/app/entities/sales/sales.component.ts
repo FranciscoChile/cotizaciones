@@ -16,6 +16,7 @@ const portadaHiab = require('./portada.png');
 
 let encondeWhiteAux;
 let portadaHiabAux;
+let headerHiabAux;
 
 const pdfMake = require('./pdfmake.min.js');
 const pdfFonts = require('./vfs_fonts.js');
@@ -162,6 +163,10 @@ currentAccount: any;
         this.toDataUrl(portadaHiab, function(encodedImage) {
           portadaHiabAux = encodedImage;
         });
+
+        this.toDataUrl(headerHiab, function(encodedImage) {
+          headerHiabAux = encodedImage;
+        });
     }
 
     ngOnDestroy() {
@@ -210,61 +215,60 @@ currentAccount: any;
                     const imageRefAux = productPdf.imageRef === null ? encondeWhiteAux : 'data:image/jpeg;base64,' + productPdf.imageRef;
                     const loadDiagramAux = productPdf.loadDiagram === null ? encondeWhiteAux : 'data:image/jpeg;base64,' + productPdf.loadDiagram;
 
-                    this.toDataUrl(headerHiab, function(encodedImage) {
-
-                      docDefinition = {
-                          content: [
-                            {
-                              image: portadaHiabAux,
-                              width: 500,
-                              margin: [0, 0, 0, 0],
-                              pageBreak: 'after'
-                            },
-                            {
-                              stack: [
-                                {text: 'Santiago, ' + myFormattedDate, style: 'subheader'},
-                                {text: 'Cotización Nº '},
-                              ]
-                            },
-                            {
-                              text: 'Precio final ' + moneyDisplay
-                            },
-                            {
-                                image: imageRefAux,
-                                width: 350,
-                                margin: [0, 0],
-                            },
-                            {
-                                image: loadDiagramAux,
-                                width: 350,
-                                margin: [0, 0],
-                                // pageBreak: 'before'
-                            }
-                          ],
-                          styles: {
-                            header: {
-                              fontSize: 18,
-                              bold: true,
-                              alignment: 'center',
-                              margin: [0, 190, 0, 80]
-                            },
-                            subheader: {
-                              fontSize: 14,
-                              alignment: 'center',
-                              margin: [0, 100, 0, 0]
-                            },
-                            superMargin: {
-                              margin: [20, 0, 40, 0],
-                              fontSize: 15
-                            }
+                    docDefinition = {
+                        pageSize: 'LETTER',
+                        content: [
+                          {
+                            image: portadaHiabAux,
+                            width: 632,
+                            height: 820,
+                            margin: [-50, -50],
+                            pageBreak: 'after'
+                          },
+                          {
+                            stack: [
+                              {text: 'Santiago, ' + myFormattedDate, style: 'subheader'},
+                              {text: 'Cotización Nº '},
+                            ]
+                          },
+                          {
+                            text: 'Precio final ' + moneyDisplay
+                          },
+                          {
+                              image: imageRefAux,
+                              width: 350,
+                              margin: [0, 0],
+                          },
+                          {
+                              image: loadDiagramAux,
+                              width: 350,
+                              margin: [0, 0],
+                              // pageBreak: 'before'
                           }
-                        };
+                        ],
+                        styles: {
+                          header: {
+                            fontSize: 18,
+                            bold: true,
+                            alignment: 'center',
+                            margin: [0, 190, 0, 80]
+                          },
+                          subheader: {
+                            fontSize: 14,
+                            alignment: 'center',
+                            margin: [0, 100, 0, 0]
+                          },
+                          superMargin: {
+                            margin: [20, 0, 40, 0],
+                            fontSize: 15
+                          }
+                        }
+                      };
+
                       pdfMake.createPdf(docDefinition).open();
 
-                    });
               });
             });
-
     }
 
 // convierte una imagen a formato dataurl base 64

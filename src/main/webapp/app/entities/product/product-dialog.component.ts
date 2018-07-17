@@ -34,7 +34,6 @@ export class ProductDialogComponent implements OnInit {
 
         if (this.product.id !== undefined) {
             const pipe = new DatePipe('es-CL');
-            const now = Date.now();
             const myFormattedDate = pipe.transform(this.product.createDate, 'yyyy-MM-dd');
             this.product.createDate = myFormattedDate;
         } else {
