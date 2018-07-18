@@ -66,16 +66,14 @@ currentAccount: any;
         });
     }
 
-    captureValue(event: any) {
-      if (this.rangeDates) {
-        if (this.rangeDates[0] != null && this.rangeDates[1] != null) {
-            this.loadAll();
-        }
-      }
-      if (this.rangeDates === null) {
-          this.loadAll();
-      }
+    clearValue(event: any) {
+        this.loadAll();
+    }
 
+    captureValue(event: any) {
+        if (this.rangeDates[0] != null && this.rangeDates[1] != null) {
+          this.loadAll();
+        }
     }
 
     loadAll() {

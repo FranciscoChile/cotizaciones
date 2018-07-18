@@ -46,7 +46,10 @@
         {
             "fieldName": "conditions",
             "fieldType": "String",
-            "fieldValidateRules": []
+            "fieldValidateRules": [
+                "maxlength"
+            ],
+            "fieldValidateRulesMaxlength": "2000"
         }
     ],
     "changelogDate": "20180712024057",

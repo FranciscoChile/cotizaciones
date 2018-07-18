@@ -8,7 +8,7 @@
       <div class="col">
         <p-calendar [(ngModel)]="rangeDates" selectionMode="range" readonlyInput="true"
         showButtonBar="true" [locale]="es" dateFormat="dd/mm/yy" [showIcon]="true" placeholder="Rango de fechas"
-        (onSelect)="captureValue($event)" (onClearClick)="captureValue($event)"></p-calendar>
+        (onSelect)="captureValue($event)" (onClearClick)="clearValue($event)"></p-calendar>
         <button class="btn btn-primary float-right jh-create-entity create-sales" [routerLink]="['/', { outlets: { popup: ['sales-new'] } }]">
             <span class="fa fa-plus"></span>
             <span  jhiTranslate="cotizacionesApp.sales.home.createLabel">
