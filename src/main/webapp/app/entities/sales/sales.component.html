@@ -1,13 +1,21 @@
 <div>
-    <h2>
-        <span jhiTranslate="cotizacionesApp.sales.home.title">Sales</span>
+    <div class="row">
+      <div class="col">
+        <h2>
+          <span jhiTranslate="cotizacionesApp.sales.home.title">Sales</span>
+        </h2>
+      </div>
+      <div class="col">
+        <p-calendar [(ngModel)]="rangeDates" selectionMode="range" readonlyInput="true"
+        showButtonBar="true" [locale]="es" dateFormat="dd/mm/yy" [showIcon]="true" placeholder="Rango de fechas"
+        (onSelect)="captureValue($event)" (onClearClick)="captureValue($event)"></p-calendar>
         <button class="btn btn-primary float-right jh-create-entity create-sales" [routerLink]="['/', { outlets: { popup: ['sales-new'] } }]">
             <span class="fa fa-plus"></span>
             <span  jhiTranslate="cotizacionesApp.sales.home.createLabel">
             Create new Sales
             </span>
-        </button>
-    </h2>
+        </button>    </div>
+    </div>
     <jhi-alert></jhi-alert>
     <div class="row">
     </div>

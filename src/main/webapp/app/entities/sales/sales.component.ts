@@ -45,8 +45,7 @@ currentAccount: any;
     reverse: any;
 
     es: any;
-    fromDate: Date;
-    toDate: Date;
+    rangeDates: Date[];
 
     constructor(
         private salesService: SalesService,
@@ -68,27 +67,30 @@ currentAccount: any;
     }
 
     captureValue(event: any) {
-        if (this.fromDate !== undefined && this.toDate !== undefined) {
-          if (this.fromDate < this.toDate) {
-              this.loadAll();
-          } else {
-            this.jhiAlertService.error('cotizacionesApp.sales.diffDate', null, null);
-          }
+      if (this.rangeDates) {
+        if (this.rangeDates[0] != null && this.rangeDates[1] != null) {
+            this.loadAll();
         }
+      }
+      if (this.rangeDates === null) {
+          this.loadAll();
+      }
+
     }
 
     loadAll() {
         let formattedToDate;
         let formattedFromDate;
 
-        if (this.fromDate !== undefined && this.toDate !== undefined) {
-          const pipe = new DatePipe('es-CL');
-          const now = Date.now();
-          formattedToDate = pipe.transform(this.toDate, 'yyyy-MM-dd');
-          formattedFromDate = pipe.transform(this.fromDate, 'yyyy-MM-dd');
+        const pipe = new DatePipe('es-CL');
 
-          formattedToDate += 'T00:00:00.000Z';
-          formattedFromDate += 'T00:00:00.000Z';
+        if (this.rangeDates) {
+          formattedFromDate = pipe.transform(this.rangeDates[0], 'yyyy-MM-ddTHH:mm:ss.SSS');
+          formattedFromDate += 'Z';
+        }
+        if (this.rangeDates) {
+          formattedToDate = pipe.transform(this.rangeDates[1], 'yyyy-MM-ddTHH:mm:ss.SSS');
+          formattedToDate += 'Z';
         }
 
         this.principal.identity().then((account) => {
@@ -102,6 +104,7 @@ currentAccount: any;
                 'createDate.greaterOrEqualThan': formattedFromDate ? formattedFromDate : '',
                 'createDate.lessOrEqualThan': formattedToDate ? formattedToDate : '',
                 'userId.equals': userId,
+                'active.equals': 1,
                 page: this.page - 1,
                 size: this.itemsPerPage,
                 sort: this.sort()}).subscribe(

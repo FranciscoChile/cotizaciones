@@ -1,6 +1,7 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { RouterModule } from '@angular/router';
-
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {AutoCompleteModule } from 'primeng/primeng';
 import { CotizacionesSharedModule } from '../../shared';
 import {
     LocationService,
@@ -24,7 +25,9 @@ const ENTITY_STATES = [
 @NgModule({
     imports: [
         CotizacionesSharedModule,
-        RouterModule.forChild(ENTITY_STATES)
+        RouterModule.forChild(ENTITY_STATES),
+        BrowserAnimationsModule,
+        AutoCompleteModule
     ],
     declarations: [
         LocationComponent,

@@ -14,8 +14,9 @@ import { ITEMS_PER_PAGE, Principal } from '../../shared';
 })
 export class LocationComponent implements OnInit, OnDestroy {
 
-currentAccount: any;
+    currentAccount: any;
     locations: Location[];
+    locationsCombo: Location[];
     error: any;
     success: any;
     eventSubscriber: Subscription;
@@ -28,6 +29,9 @@ currentAccount: any;
     predicate: any;
     previousPage: any;
     reverse: any;
+
+    filteredDescription: any[];
+    description: string;
 
     constructor(
         private locationService: LocationService,
@@ -47,8 +51,41 @@ currentAccount: any;
         });
     }
 
+// manejo de buscadores autoComplete
+    filterDescription(event) {
+        this.filteredDescription = [];
+        for (let i = 0; i < this.locationsCombo.length; i++) {
+            const prod = this.locationsCombo[i];
+            if (prod.description.toLowerCase().indexOf(event.query.toLowerCase()) === 0) {
+                this.filteredDescription.push(prod.description);
+            }
+        }
+    }
+
+    captureValue(event: any) {
+        this.description = event;
+        this.loadAll();
+    }
+
+    clearValue(event: any) {
+        this.description = '';
+        this.loadAll();
+    }
+
+    loadAllCombo() {
+      this.locationService.query({
+          'active.equals': 1}).subscribe(
+          (resCombo: HttpResponse<Location[]>) => this.locationsCombo = resCombo.body,
+          (resCombo: HttpErrorResponse) => this.onError(resCombo.message)
+      );
+    }
+
+// ------
+
     loadAll() {
         this.locationService.query({
+            'description.contains': this.description,
+            'active.equals': 1,
             page: this.page - 1,
             size: this.itemsPerPage,
             sort: this.sort()}).subscribe(
@@ -82,6 +119,8 @@ currentAccount: any;
         this.loadAll();
     }
     ngOnInit() {
+        this.description = '';
+        this.loadAllCombo();
         this.loadAll();
         this.principal.identity().then((account) => {
             this.currentAccount = account;

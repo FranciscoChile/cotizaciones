@@ -76,10 +76,11 @@ export class ProductComponent implements OnInit, OnDestroy {
     loadAllCombo() {
       this.productService.query({
           'active.equals': 1}).subscribe(
-          (resCombo: HttpResponse<Product[]>) => this.onSuccess2(resCombo.body, resCombo.headers),
+          (resCombo: HttpResponse<Product[]>) => this.productsCombo = resCombo.body,
           (resCombo: HttpErrorResponse) => this.onError(resCombo.message)
       );
     }
+
 // ------
 
     loadAll() {
@@ -153,14 +154,6 @@ export class ProductComponent implements OnInit, OnDestroy {
             result.push('id');
         }
         return result;
-    }
-
-    private onSuccess2(data, headers) {
-        this.links = this.parseLinks.parse(headers.get('link'));
-        this.totalItems = headers.get('X-Total-Count');
-        this.queryCount = this.totalItems;
-        // this.page = pagingParams.page;
-        this.productsCombo = data;
     }
 
     private onSuccess(data, headers) {

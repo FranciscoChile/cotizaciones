@@ -14,8 +14,9 @@ import { ITEMS_PER_PAGE, Principal } from '../../shared';
 })
 export class ClientComponent implements OnInit, OnDestroy {
 
-currentAccount: any;
+    currentAccount: any;
     clients: Client[];
+    clientsCombo: Client[];
     error: any;
     success: any;
     eventSubscriber: Subscription;
@@ -28,6 +29,9 @@ currentAccount: any;
     predicate: any;
     previousPage: any;
     reverse: any;
+
+    filteredNames: any[];
+    name: string;
 
     constructor(
         private clientService: ClientService,
@@ -47,8 +51,41 @@ currentAccount: any;
         });
     }
 
+// manejo de buscadores autoComplete
+        filterNames(event) {
+            this.filteredNames = [];
+            for (let i = 0; i < this.clientsCombo.length; i++) {
+                const prod = this.clientsCombo[i];
+                if (prod.name.toLowerCase().indexOf(event.query.toLowerCase()) === 0) {
+                    this.filteredNames.push(prod.name);
+                }
+            }
+        }
+
+        captureValue(event: any) {
+            this.name = event;
+            this.loadAll();
+        }
+
+        clearValue(event: any) {
+            this.name = '';
+            this.loadAll();
+        }
+
+        loadAllCombo() {
+          this.clientService.query({
+              'active.equals': 1}).subscribe(
+              (resCombo: HttpResponse<Client[]>) => this.clientsCombo = resCombo.body,
+              (resCombo: HttpErrorResponse) => this.onError(resCombo.message)
+          );
+        }
+
+    // ------
+
+// agregar filtro para busqueda con autoComplete
     loadAll() {
         this.clientService.query({
+            'name.contains': this.name,
             'active.equals': 1,
             page: this.page - 1,
             size: this.itemsPerPage,
@@ -82,7 +119,11 @@ currentAccount: any;
         }]);
         this.loadAll();
     }
+
+// agregar llamada a lista de autoComplete
     ngOnInit() {
+        this.name = '';
+        this.loadAllCombo();
         this.loadAll();
         this.principal.identity().then((account) => {
             this.currentAccount = account;

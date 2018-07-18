@@ -14,8 +14,9 @@ import { ITEMS_PER_PAGE, Principal } from '../../shared';
 })
 export class ContactComponent implements OnInit, OnDestroy {
 
-currentAccount: any;
+    currentAccount: any;
     contacts: Contact[];
+    contactsCombo: Contact[];
     error: any;
     success: any;
     eventSubscriber: Subscription;
@@ -28,6 +29,9 @@ currentAccount: any;
     predicate: any;
     previousPage: any;
     reverse: any;
+
+    filteredNames: any[];
+    name: string;
 
     constructor(
         private contactService: ContactService,
@@ -47,8 +51,40 @@ currentAccount: any;
         });
     }
 
+// manejo de buscadores autoComplete
+    filterNames(event) {
+        this.filteredNames = [];
+        for (let i = 0; i < this.contactsCombo.length; i++) {
+            const prod = this.contactsCombo[i];
+            if (prod.name.toLowerCase().indexOf(event.query.toLowerCase()) === 0) {
+                this.filteredNames.push(prod.name);
+            }
+        }
+    }
+
+    captureValue(event: any) {
+        this.name = event;
+        this.loadAll();
+    }
+
+    clearValue(event: any) {
+        this.name = '';
+        this.loadAll();
+    }
+
+    loadAllCombo() {
+      this.contactService.query({
+          'active.equals': 1}).subscribe(
+          (resCombo: HttpResponse<Contact[]>) => this.contactsCombo = resCombo.body,
+          (resCombo: HttpErrorResponse) => this.onError(resCombo.message)
+      );
+    }
+
+// ------
+
     loadAll() {
         this.contactService.query({
+            'name.contains': this.name,
             'active.equals': 1,
             page: this.page - 1,
             size: this.itemsPerPage,
@@ -82,7 +118,11 @@ currentAccount: any;
         }]);
         this.loadAll();
     }
+
+// agregar llamada a lista de autoComplete
     ngOnInit() {
+        this.name = '';
+        this.loadAllCombo();
         this.loadAll();
         this.principal.identity().then((account) => {
             this.currentAccount = account;

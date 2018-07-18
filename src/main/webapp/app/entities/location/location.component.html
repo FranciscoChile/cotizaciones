@@ -1,13 +1,22 @@
 <div>
-    <h2>
-        <span jhiTranslate="cotizacionesApp.location.home.title">Locations</span>
+    <div class="row">
+      <div class="col">
+        <h2>
+          <span jhiTranslate="cotizacionesApp.location.home.title">Locations</span>
+        </h2>
+      </div>
+      <div class="col">
+        <p-autoComplete [(ngModel)]="description" [suggestions]="filteredDescription" (completeMethod)="filterDescription($event)"
+        [size]="30" placeholder="Descripcion" [minLength]="1" (onSelect)="captureValue($event)" (onClear)="clearValue($event)" >
+        </p-autoComplete>
         <button class="btn btn-primary float-right jh-create-entity create-location" [routerLink]="['/', { outlets: { popup: ['location-new'] } }]">
             <span class="fa fa-plus"></span>
             <span  jhiTranslate="cotizacionesApp.location.home.createLabel">
             Create new Location
             </span>
         </button>
-    </h2>
+      </div>
+    </div>
     <jhi-alert></jhi-alert>
     <div class="row">
     </div>
