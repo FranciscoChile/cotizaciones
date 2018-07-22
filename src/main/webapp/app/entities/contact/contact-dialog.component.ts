@@ -47,7 +47,7 @@ export class ContactDialogComponent implements OnInit {
             this.contact.createDate = myFormattedDate;
         }
 
-        this.clientService.query()
+        this.clientService.query({'active.equals': 1})
             .subscribe((res: HttpResponse<Client[]>) => { this.clients = res.body; }, (res: HttpErrorResponse) => this.onError(res.message));
     }
 

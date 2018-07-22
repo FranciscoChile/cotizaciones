@@ -56,7 +56,7 @@ export class LocationComponent implements OnInit, OnDestroy {
         this.filteredDescription = [];
         for (let i = 0; i < this.locationsCombo.length; i++) {
             const prod = this.locationsCombo[i];
-            if (prod.description.toLowerCase().indexOf(event.query.toLowerCase()) === 0) {
+            if (prod.description.toLowerCase().indexOf(event.query.toLowerCase()) !== -1) {
                 this.filteredDescription.push(prod.description);
             }
         }
@@ -136,7 +136,11 @@ export class LocationComponent implements OnInit, OnDestroy {
         return item.id;
     }
     registerChangeInLocations() {
-        this.eventSubscriber = this.eventManager.subscribe('locationListModification', (response) => this.loadAll());
+        this.eventSubscriber =
+        this.eventManager.subscribe('locationListModification',
+        (response) => {
+          this.loadAll(), this.loadAllCombo();
+        });
     }
 
     sort() {

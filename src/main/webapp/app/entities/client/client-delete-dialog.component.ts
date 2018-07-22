@@ -7,6 +7,8 @@ import { JhiEventManager } from 'ng-jhipster';
 import { Client } from './client.model';
 import { ClientPopupService } from './client-popup.service';
 import { ClientService } from './client.service';
+import { Observable } from 'rxjs/Observable';
+import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 
 @Component({
     selector: 'jhi-client-delete-dialog',
@@ -28,13 +30,22 @@ export class ClientDeleteDialogComponent {
     }
 
     confirmDelete(id: number) {
-        this.clientService.delete(id).subscribe((response) => {
-            this.eventManager.broadcast({
-                name: 'clientListModification',
-                content: 'Deleted an client'
-            });
+
+        this.client.id = id;
+        this.client.active = 0;
+
+        this.clientService.update(this.client).subscribe((response) => {
+            this.eventManager.broadcast({ name: 'clientListModification', content: 'Deleted an client'});
             this.activeModal.dismiss(true);
         });
+
+        // this.clientService.delete(id).subscribe((response) => {
+        //     this.eventManager.broadcast({
+        //         name: 'clientListModification',
+        //         content: 'Deleted an client'
+        //     });
+        //     this.activeModal.dismiss(true);
+        // });
     }
 }
 

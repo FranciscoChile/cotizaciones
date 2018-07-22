@@ -56,7 +56,7 @@ export class ClientComponent implements OnInit, OnDestroy {
             this.filteredNames = [];
             for (let i = 0; i < this.clientsCombo.length; i++) {
                 const prod = this.clientsCombo[i];
-                if (prod.name.toLowerCase().indexOf(event.query.toLowerCase()) === 0) {
+                if (prod.name.toLowerCase().indexOf(event.query.toLowerCase()) !== -1) {
                     this.filteredNames.push(prod.name);
                 }
             }
@@ -139,7 +139,10 @@ export class ClientComponent implements OnInit, OnDestroy {
         return item.id;
     }
     registerChangeInClients() {
-        this.eventSubscriber = this.eventManager.subscribe('clientListModification', (response) => this.loadAll());
+        this.eventSubscriber =
+        this.eventManager.subscribe('clientListModification', (response) => {
+          this.loadAll(), this.loadAllCombo();
+        });
     }
 
     sort() {

@@ -28,14 +28,19 @@ export class SalesDeleteDialogComponent {
     }
 
     confirmDelete(id: number) {
-        this.salesService.delete(id).subscribe((response) => {
-            this.eventManager.broadcast({
-                name: 'salesListModification',
-                content: 'Deleted an sales'
-            });
-            this.activeModal.dismiss(true);
+
+      this.sales.id = id;
+      this.sales.active = 0;
+
+      this.salesService.update(this.sales).subscribe((response) => {
+        this.eventManager.broadcast({
+          name: 'salesListModification',
+          content: 'Deleted an sales'
         });
+        this.activeModal.dismiss(true);
+      });
     }
+
 }
 
 @Component({

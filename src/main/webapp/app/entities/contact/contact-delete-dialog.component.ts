@@ -28,13 +28,18 @@ export class ContactDeleteDialogComponent {
     }
 
     confirmDelete(id: number) {
-        this.contactService.delete(id).subscribe((response) => {
-            this.eventManager.broadcast({
-                name: 'contactListModification',
-                content: 'Deleted an contact'
-            });
-            this.activeModal.dismiss(true);
+
+      this.contact.id = id;
+      this.contact.active = 0;
+
+      this.contactService.update(this.contact).subscribe((response) => {
+        this.eventManager.broadcast({
+          name: 'contactListModification',
+          content: 'Deleted an contact'
         });
+        this.activeModal.dismiss(true);
+      });
+
     }
 }
 

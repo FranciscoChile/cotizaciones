@@ -56,7 +56,7 @@ export class ContactComponent implements OnInit, OnDestroy {
         this.filteredNames = [];
         for (let i = 0; i < this.contactsCombo.length; i++) {
             const prod = this.contactsCombo[i];
-            if (prod.name.toLowerCase().indexOf(event.query.toLowerCase()) === 0) {
+            if (prod.name.toLowerCase().indexOf(event.query.toLowerCase()) !== -1) {
                 this.filteredNames.push(prod.name);
             }
         }
@@ -138,7 +138,10 @@ export class ContactComponent implements OnInit, OnDestroy {
         return item.id;
     }
     registerChangeInContacts() {
-        this.eventSubscriber = this.eventManager.subscribe('contactListModification', (response) => this.loadAll());
+        this.eventSubscriber =
+        this.eventManager.subscribe('contactListModification', (response) => {
+          this.loadAll(), this.loadAllCombo();
+        });
     }
 
     sort() {

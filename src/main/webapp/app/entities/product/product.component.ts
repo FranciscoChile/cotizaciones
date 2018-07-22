@@ -57,7 +57,7 @@ export class ProductComponent implements OnInit, OnDestroy {
         this.filteredModels = [];
         for (let i = 0; i < this.productsCombo.length; i++) {
             const prod = this.productsCombo[i];
-            if (prod.model.toLowerCase().indexOf(event.query.toLowerCase()) === 0) {
+            if (prod.model.toLowerCase().indexOf(event.query.toLowerCase()) !== -1) {
                 this.filteredModels.push(prod.model);
             }
         }

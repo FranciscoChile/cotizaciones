@@ -33,6 +33,9 @@ export class SalesDialogComponent implements OnInit {
 
     products: Product[];
 
+    filteredContacts: any[];
+    filteredLocations: any[];
+
     constructor(
         public activeModal: NgbActiveModal,
         private jhiAlertService: JhiAlertService,
@@ -48,6 +51,25 @@ export class SalesDialogComponent implements OnInit {
     ngOnInit() {
         this.isSaving = false;
 
+        this.clientService.query({'active.equals': 1})
+            .subscribe((res: HttpResponse<Client[]>) => { this.clients = res.body; }, (res: HttpErrorResponse) => this.onError(res.message));
+
+        this.contactService.query({'active.equals': 1})
+            .subscribe(
+              (res: HttpResponse<Contact[]>) => {
+                this.contacts = res.body;
+                this.filterContacts(this.sales.clientId);
+              }, (res: HttpErrorResponse) => this.onError(res.message));
+
+        this.locationService.query({'active.equals': 1})
+            .subscribe((res: HttpResponse<Location[]>) => {
+              this.locations = res.body;
+              this.filterLocations(this.sales.clientId);
+            }, (res: HttpErrorResponse) => this.onError(res.message));
+
+        this.productService.query({'active.equals': 1})
+            .subscribe((res: HttpResponse<Product[]>) => { this.products = res.body; }, (res: HttpErrorResponse) => this.onError(res.message));
+
         if (this.sales.id !== undefined) {
             const pipe = new DatePipe('es-CL');
             const now = Date.now();
@@ -60,14 +82,6 @@ export class SalesDialogComponent implements OnInit {
             this.sales.createDate = myFormattedDate;
         }
 
-        this.clientService.query()
-            .subscribe((res: HttpResponse<Client[]>) => { this.clients = res.body; }, (res: HttpErrorResponse) => this.onError(res.message));
-        this.contactService.query()
-            .subscribe((res: HttpResponse<Contact[]>) => { this.contacts = res.body; }, (res: HttpErrorResponse) => this.onError(res.message));
-        this.locationService.query()
-            .subscribe((res: HttpResponse<Location[]>) => { this.locations = res.body; }, (res: HttpErrorResponse) => this.onError(res.message));
-        this.productService.query()
-            .subscribe((res: HttpResponse<Product[]>) => { this.products = res.body; }, (res: HttpErrorResponse) => this.onError(res.message));
     }
 
     clear() {
@@ -76,8 +90,10 @@ export class SalesDialogComponent implements OnInit {
 
     save() {
         this.isSaving = true;
+
         if (this.sales.id !== undefined) {
             this.sales.createDate += ' 00:00:00';
+
             this.subscribeToSaveResponse(
                 this.salesService.update(this.sales));
         } else {
@@ -127,6 +143,34 @@ export class SalesDialogComponent implements OnInit {
     trackProductById(index: number, item: Product) {
         return item.id;
     }
+
+    captureValueClient(event: any) {
+      this.sales.contactId = undefined;
+      this.sales.locationId = undefined;
+      this.filterContacts(this.sales.clientId);
+      this.filterLocations(this.sales.clientId);
+    }
+
+    filterContacts(value) {
+        this.filteredContacts = [];
+        for (let i = 0; i < this.contacts.length; i++) {
+            const prod = this.contacts[i];
+            if (prod.clientId === value) {
+                this.filteredContacts.push(prod);
+            }
+        }
+    }
+
+    filterLocations(value) {
+        this.filteredLocations = [];
+        for (let i = 0; i < this.locations.length; i++) {
+            const prod = this.locations[i];
+            if (prod.clientId === value) {
+                this.filteredLocations.push(prod);
+            }
+        }
+    }
+
 }
 
 @Component({

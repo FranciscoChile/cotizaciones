@@ -28,14 +28,19 @@ export class LocationDeleteDialogComponent {
     }
 
     confirmDelete(id: number) {
-        this.locationService.delete(id).subscribe((response) => {
-            this.eventManager.broadcast({
-                name: 'locationListModification',
-                content: 'Deleted an location'
-            });
-            this.activeModal.dismiss(true);
+
+      this.location.id = id;
+      this.location.active = 0;
+
+      this.locationService.update(this.location).subscribe((response) => {
+        this.eventManager.broadcast({
+          name: 'locationListModification',
+          content: 'Deleted an location'
         });
+        this.activeModal.dismiss(true);
+      });
     }
+
 }
 
 @Component({
