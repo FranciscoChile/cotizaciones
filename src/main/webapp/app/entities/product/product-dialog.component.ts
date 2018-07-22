@@ -4,11 +4,12 @@ import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 
 import { Observable } from 'rxjs/Observable';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { JhiEventManager, JhiDataUtils } from 'ng-jhipster';
+import { JhiEventManager, JhiAlertService, JhiDataUtils } from 'ng-jhipster';
 
 import { Product } from './product.model';
 import { ProductPopupService } from './product-popup.service';
 import { ProductService } from './product.service';
+import { Sales, SalesService } from '../sales';
 
 import { DatePipe } from '@angular/common';
 
@@ -21,16 +22,22 @@ export class ProductDialogComponent implements OnInit {
     product: Product;
     isSaving: boolean;
 
+    sales: Sales[];
+
     constructor(
         public activeModal: NgbActiveModal,
         private dataUtils: JhiDataUtils,
+        private jhiAlertService: JhiAlertService,
         private productService: ProductService,
+        private salesService: SalesService,
         private eventManager: JhiEventManager
     ) {
     }
 
     ngOnInit() {
         this.isSaving = false;
+        this.salesService.query()
+            .subscribe((res: HttpResponse<Sales[]>) => { this.sales = res.body; }, (res: HttpErrorResponse) => this.onError(res.message));
 
         if (this.product.id !== undefined) {
             const pipe = new DatePipe('es-CL');
@@ -42,6 +49,7 @@ export class ProductDialogComponent implements OnInit {
             const myFormattedDate = pipe.transform(now, 'yyyy-MM-dd');
             this.product.createDate = myFormattedDate;
         }
+
     }
 
     byteSize(field) {
@@ -69,7 +77,6 @@ export class ProductDialogComponent implements OnInit {
                 this.productService.update(this.product));
         } else {
             this.product.active = 1;
-
             const pipe = new DatePipe('es-CL');
             const now = Date.now();
             const myFormattedDate = pipe.transform(now, 'yyyy-MM-dd 00:00:00');
@@ -93,6 +100,25 @@ export class ProductDialogComponent implements OnInit {
 
     private onSaveError() {
         this.isSaving = false;
+    }
+
+    private onError(error: any) {
+        this.jhiAlertService.error(error.message, null, null);
+    }
+
+    trackSalesById(index: number, item: Sales) {
+        return item.id;
+    }
+
+    getSelected(selectedVals: Array<any>, option: any) {
+        if (selectedVals) {
+            for (let i = 0; i < selectedVals.length; i++) {
+                if (option.id === selectedVals[i].id) {
+                    return selectedVals[i];
+                }
+            }
+        }
+        return option;
     }
 }
 

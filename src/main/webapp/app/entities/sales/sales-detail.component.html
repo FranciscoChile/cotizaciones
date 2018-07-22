@@ -10,7 +10,7 @@
         </dd>
         <dt><span jhiTranslate="cotizacionesApp.sales.conditions">Conditions</span></dt>
         <dd>
-            <span>{{sales.conditions | slice:0:50}}</span>
+            <span>{{sales.conditions}}</span>
         </dd>
         <dt><span jhiTranslate="cotizacionesApp.sales.client">Client</span></dt>
         <dd>
@@ -32,9 +32,9 @@
         </dd>
         <dt><span jhiTranslate="cotizacionesApp.sales.product">Product</span></dt>
         <dd>
-            <div *ngIf="sales.productId">
-                <a [routerLink]="['/product', sales.productId]">{{sales.productModel}}</a>
-            </div>
+            <span *ngFor="let product of sales.products; let last = last">
+                <a [routerLink]="['/product', product?.id ]">{{product.model}}</a>{{last ? '' : ', '}}
+            </span>
         </dd>
         <dt><span jhiTranslate="cotizacionesApp.sales.createDate">Create Date</span></dt>
         <dd>

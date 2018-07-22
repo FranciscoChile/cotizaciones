@@ -9,6 +9,7 @@ import { CotizacionesTestModule } from '../../../test.module';
 import { ProductDialogComponent } from '../../../../../../main/webapp/app/entities/product/product-dialog.component';
 import { ProductService } from '../../../../../../main/webapp/app/entities/product/product.service';
 import { Product } from '../../../../../../main/webapp/app/entities/product/product.model';
+import { SalesService } from '../../../../../../main/webapp/app/entities/sales';
 
 describe('Component Tests', () => {
 
@@ -24,6 +25,7 @@ describe('Component Tests', () => {
                 imports: [CotizacionesTestModule],
                 declarations: [ProductDialogComponent],
                 providers: [
+                    SalesService,
                     ProductService
                 ]
             })

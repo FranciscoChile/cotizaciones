@@ -7,8 +7,8 @@ import { JhiEventManager, JhiParseLinks, JhiAlertService } from 'ng-jhipster';
 import { Sales } from './sales.model';
 import { SalesService } from './sales.service';
 import { ITEMS_PER_PAGE, Principal } from '../../shared';
+
 import { CurrencyPipe, DatePipe } from '@angular/common';
-import { Product, ProductService } from '../product';
 
 const headerHiab = require('./hiab_head_image.png');
 const blankImage = require('./white.jpg');
@@ -54,8 +54,7 @@ currentAccount: any;
         private principal: Principal,
         private activatedRoute: ActivatedRoute,
         private router: Router,
-        private eventManager: JhiEventManager,
-        private productService: ProductService,
+        private eventManager: JhiEventManager
     ) {
         this.itemsPerPage = ITEMS_PER_PAGE;
         this.routeData = this.activatedRoute.data.subscribe((data) => {
@@ -66,17 +65,8 @@ currentAccount: any;
         });
     }
 
-    clearValue(event: any) {
-        this.loadAll();
-    }
-
-    captureValue(event: any) {
-        if (this.rangeDates[0] != null && this.rangeDates[1] != null) {
-          this.loadAll();
-        }
-    }
-
     loadAll() {
+
         let formattedToDate;
         let formattedFromDate;
 
@@ -111,8 +101,8 @@ currentAccount: any;
             );
 
         });
-    }
 
+    }
     loadPage(page: number) {
         if (page !== this.previousPage) {
             this.previousPage = page;
@@ -138,17 +128,17 @@ currentAccount: any;
         }]);
         this.loadAll();
     }
-
     ngOnInit() {
+
         this.es = {
-            firstDayOfWeek: 1,
-            dayNames: [ 'domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado' ],
-            dayNamesShort: [ 'dom', 'lun', 'mar', 'mié', 'jue', 'vie', 'sáb' ],
-            dayNamesMin: [ 'D', 'L', 'M', 'X', 'J', 'V', 'S' ],
-            monthNames: [ 'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre' ],
-            monthNamesShort: [ 'ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic' ],
-            today: 'Hoy',
-            clear: 'Borrar'
+          firstDayOfWeek: 1,
+          dayNames: [ 'domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado' ],
+          dayNamesShort: [ 'dom', 'lun', 'mar', 'mié', 'jue', 'vie', 'sáb' ],
+          dayNamesMin: [ 'D', 'L', 'M', 'X', 'J', 'V', 'S' ],
+          monthNames: [ 'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre' ],
+          monthNamesShort: [ 'ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic' ],
+          today: 'Hoy',
+          clear: 'Borrar'
         };
 
         this.principal.identity().then((account) => {
@@ -168,6 +158,7 @@ currentAccount: any;
         this.toDataUrl(headerHiab, function(encodedImage) {
           headerHiabAux = encodedImage;
         });
+
     }
 
     ngOnDestroy() {
@@ -189,105 +180,6 @@ currentAccount: any;
         return result;
     }
 
-    exportPdf(idSale) {
-
-      let docDefinition;
-      let salesPdf: Sales;
-      let productPdf: Product;
-
-      const pipe = new DatePipe('es-CL'); // Use your own locale
-      const now = Date.now();
-      const myFormattedDate = pipe.transform(now, 'longDate');
-
-      const currencyPipe = new CurrencyPipe('es-CL');
-
-      this.salesService.find(idSale)
-          .subscribe((salesResponse: HttpResponse<Sales>) => {
-              salesPdf = salesResponse.body;
-
-              let moneyDisplay = currencyPipe.transform( salesPdf.finalPrice, 'CLP', 'symbol-narrow', '1.0' );
-              moneyDisplay = moneyDisplay.replace('$', '');
-              moneyDisplay = '$ ' + moneyDisplay;
-
-              this.productService.find(salesPdf.productId)
-                .subscribe((productResponse: HttpResponse<Product>) => {
-                    productPdf = productResponse.body;
-
-                    const imageRefAux = productPdf.imageRef === null ? encondeWhiteAux : 'data:image/jpeg;base64,' + productPdf.imageRef;
-                    const loadDiagramAux = productPdf.loadDiagram === null ? encondeWhiteAux : 'data:image/jpeg;base64,' + productPdf.loadDiagram;
-
-                    docDefinition = {
-                        pageSize: 'LETTER',
-                        content: [
-                          {
-                            image: portadaHiabAux,
-                            width: 632,
-                            height: 820,
-                            margin: [-50, -50],
-                            pageBreak: 'after'
-                          },
-                          {
-                            stack: [
-                              {text: 'Santiago, ' + myFormattedDate, style: 'subheader'},
-                              {text: 'Cotización Nº '},
-                            ]
-                          },
-                          {
-                            text: 'Precio final ' + moneyDisplay
-                          },
-                          {
-                              image: imageRefAux,
-                              width: 350,
-                              margin: [0, 0],
-                          },
-                          {
-                              image: loadDiagramAux,
-                              width: 350,
-                              margin: [0, 0],
-                              // pageBreak: 'before'
-                          }
-                        ],
-                        styles: {
-                          header: {
-                            fontSize: 18,
-                            bold: true,
-                            alignment: 'center',
-                            margin: [0, 190, 0, 80]
-                          },
-                          subheader: {
-                            fontSize: 14,
-                            alignment: 'center',
-                            margin: [0, 100, 0, 0]
-                          },
-                          superMargin: {
-                            margin: [20, 0, 40, 0],
-                            fontSize: 15
-                          }
-                        }
-                      };
-
-                      pdfMake.createPdf(docDefinition).open();
-
-              });
-            });
-    }
-
-// convierte una imagen a formato dataurl base 64
-    toDataUrl(file, callback) {
-      const xhr = new XMLHttpRequest();
-      xhr.responseType = 'blob';
-
-      xhr.onload = function() {
-        const reader = new FileReader();
-        reader.onloadend = function() {
-          callback(reader.result);
-        };
-        reader.readAsDataURL(xhr.response);
-      };
-      xhr.open('GET', file);
-      xhr.send();
-    }
-
     private onSuccess(data, headers) {
         this.links = this.parseLinks.parse(headers.get('link'));
         this.totalItems = headers.get('X-Total-Count');
@@ -298,4 +190,137 @@ currentAccount: any;
     private onError(error) {
         this.jhiAlertService.error(error.message, null, null);
     }
+
+    clearValue(event: any) {
+        this.loadAll();
+    }
+
+    captureValue(event: any) {
+        if (this.rangeDates[0] != null && this.rangeDates[1] != null) {
+          this.loadAll();
+        }
+    }
+
+    exportPdf(idSale) {
+
+      let docDefinition;
+      let salesPdf: Sales;
+      let productsList;
+      const productsListPdf = [];
+
+      const pipe = new DatePipe('es-CL'); // Use your own locale
+      const now = Date.now();
+      const myFormattedDate = pipe.transform(now, 'longDate');
+
+      const currencyPipe = new CurrencyPipe('es-CL');
+
+      this.salesService.find(idSale)
+          .subscribe((salesResponse: HttpResponse<Sales>) => {
+              salesPdf = salesResponse.body;
+              productsList = salesPdf.products;
+
+              let moneyDisplay = currencyPipe.transform( salesPdf.finalPrice, 'CLP', 'symbol-narrow', '1.0' );
+              moneyDisplay = moneyDisplay.replace('$', '');
+              moneyDisplay = '$ ' + moneyDisplay;
+
+              docDefinition = {
+                  pageSize: 'LETTER',
+                  header: function(currentPage, pageCount) {
+                    if (currentPage > 1) {
+                      return {text: 'COTIZACION Nº ' + salesPdf.id, italics: true, fontSize: 30, color: 'red'};
+                    }
+                  },
+                  content: [
+                    {
+                      image: portadaHiabAux,
+                      width: 632,
+                      height: 820,
+                      margin: [-50, -50],
+                      pageBreak: 'after'
+                    },
+                    {
+                      margin: [0, 50, 0, 0],
+                      table: {
+                        widths: [80, 200, 50, '*'],
+                        body: [
+                           ['Cliente: ', salesPdf.clientName, 'Rut: ', salesPdf.clientNumDocument],
+                           ['Dirección: ', salesPdf.clientAddress, '', ''],
+                           ['Contacto: ', salesPdf.contactName + ' ' + salesPdf.contactSurname, '', ''],
+                           ['Celular: ', salesPdf.contactCellPhone, '', '']
+                        ]
+                      },
+                      layout: 'noBorders'
+                    },
+                    {
+                      margin: [0, 50, 0, 0],
+                      text: 'Precio final ' + moneyDisplay,
+                      pageBreak: 'after'
+                    }
+                ],
+                styles: {
+                  header: {
+                    fontSize: 18,
+                    bold: true,
+
+                    alignment: 'center',
+                    margin: [0, 190, 0, 80]
+                  },
+                  subheader: {
+                    fontSize: 14,
+                    alignment: 'center',
+                    margin: [0, 100, 0, 0]
+                  },
+                  superMargin: {
+                    margin: [20, 0, 40, 0],
+                    fontSize: 15
+                  }
+                }
+              };
+
+                // se agregan los equipos al PDF
+                for (let i = 0; i < productsList.length; i++) {
+                    const prod = productsList[i];
+
+                    const imageRefAux = prod.imageRef === null ? encondeWhiteAux : 'data:image/jpeg;base64,' + prod.imageRef;
+                    const loadDiagramAux = prod.loadDiagram === null ? encondeWhiteAux : 'data:image/jpeg;base64,' + prod.loadDiagram;
+
+                    productsListPdf.push({text: 'Precio: ' + prod.priceList});
+
+                    productsListPdf.push(
+                       {
+                         image: imageRefAux,
+                         width: 350,
+                         margin: [0, 0],
+                       },
+                       {
+                         image: loadDiagramAux,
+                         width: 350,
+                         margin: [0, 0],
+                         pageBreak: 'after'
+                       }
+                    );
+
+                }
+
+                docDefinition.content.push(productsListPdf);
+                pdfMake.createPdf(docDefinition).open();
+        });
+    }
+
+    // convierte una imagen a formato dataurl base 64
+        toDataUrl(file, callback) {
+          const xhr = new XMLHttpRequest();
+          xhr.responseType = 'blob';
+
+          xhr.onload = function() {
+            const reader = new FileReader();
+            reader.onloadend = function() {
+              callback(reader.result);
+            };
+            reader.readAsDataURL(xhr.response);
+          };
+          xhr.open('GET', file);
+          xhr.send();
+    }
+
 }

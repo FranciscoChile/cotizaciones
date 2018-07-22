@@ -6,6 +6,8 @@ import javax.validation.constraints.*;
 
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.Objects;
 
 /**
@@ -31,7 +33,8 @@ public class Sales implements Serializable {
     @Column(name = "active")
     private Integer active;
 
-    @Column(name = "conditions")
+    @Size(max = 2000)
+    @Column(name = "conditions", length = 2000)
     private String conditions;
 
     @ManyToOne
@@ -43,8 +46,11 @@ public class Sales implements Serializable {
     @ManyToOne
     private Location location;
 
-    @ManyToOne
-    private Product product;
+    @ManyToMany
+    @JoinTable(name = "sales_product",
+               joinColumns = @JoinColumn(name="sales_id", referencedColumnName="id"),
+               inverseJoinColumns = @JoinColumn(name="products_id", referencedColumnName="id"))
+    private Set<Product> products = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -146,17 +152,29 @@ public class Sales implements Serializable {
         this.location = location;
     }
 
-    public Product getProduct() {
-        return product;
+    public Set<Product> getProducts() {
+        return products;
     }
 
-    public Sales product(Product product) {
-        this.product = product;
+    public Sales products(Set<Product> products) {
+        this.products = products;
         return this;
     }
 
-    public void setProduct(Product product) {
-        this.product = product;
+    public Sales addProduct(Product product) {
+        this.products.add(product);
+        product.getSales().add(this);
+        return this;
+    }
+
+    public Sales removeProduct(Product product) {
+        this.products.remove(product);
+        product.getSales().remove(this);
+        return this;
+    }
+
+    public void setProducts(Set<Product> products) {
+        this.products = products;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 

@@ -28,19 +28,14 @@ export class ProductDeleteDialogComponent {
     }
 
     confirmDelete(id: number) {
-
-      this.product.id = id;
-      this.product.active = 0;
-
-      this.productService.update(this.product).subscribe((response) => {
-        this.eventManager.broadcast({
-          name: 'productListModification',
-          content: 'Deleted an product'
+        this.productService.delete(id).subscribe((response) => {
+            this.eventManager.broadcast({
+                name: 'productListModification',
+                content: 'Deleted an product'
+            });
+            this.activeModal.dismiss(true);
         });
-        this.activeModal.dismiss(true);
-      });
     }
-
 }
 
 @Component({

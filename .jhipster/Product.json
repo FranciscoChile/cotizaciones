@@ -2,9 +2,10 @@
     "fluentMethods": true,
     "relationships": [
         {
-            "relationshipType": "one-to-many",
+            "relationshipType": "many-to-many",
             "relationshipName": "sales",
             "otherEntityName": "sales",
+            "ownerSide": false,
             "otherEntityRelationshipName": "product"
         }
     ],
@@ -19,7 +20,7 @@
             "fieldValidateRules": [
                 "min"
             ],
-            "fieldValidateRulesMin": "0"
+            "fieldValidateRulesMin": 0
         },
         {
             "fieldName": "stock",
@@ -27,7 +28,7 @@
             "fieldValidateRules": [
                 "min"
             ],
-            "fieldValidateRulesMin": "0"
+            "fieldValidateRulesMin": 0
         },
         {
             "fieldName": "description",
@@ -35,7 +36,7 @@
             "fieldValidateRules": [
                 "maxlength"
             ],
-            "fieldValidateRulesMaxlength": "2000"
+            "fieldValidateRulesMaxlength": 2000
         },
         {
             "fieldName": "imageRef",

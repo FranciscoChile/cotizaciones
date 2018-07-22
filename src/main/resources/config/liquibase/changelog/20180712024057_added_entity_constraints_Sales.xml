@@ -26,11 +26,16 @@
                                  referencedColumnNames="id"
                                  referencedTableName="location"/>
 
-        <addForeignKeyConstraint baseColumnNames="product_id"
-                                 baseTableName="sales"
-                                 constraintName="fk_sales_product_id"
+        <addForeignKeyConstraint baseColumnNames="sales_id"
+                                 baseTableName="sales_product"
+                                 constraintName="fk_sales_product_sales_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="sales"/>
+        <addForeignKeyConstraint baseColumnNames="products_id"
+                                 baseTableName="sales_product"
+                                 constraintName="fk_sales_product_products_id"
                                  referencedColumnNames="id"
                                  referencedTableName="product"/>
-
+        
     </changeSet>
 </databaseChangeLog>

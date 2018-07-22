@@ -50,14 +50,21 @@
                 <constraints nullable="true" />
             </column>
 
-            <column name="product_id" type="bigint">
-                <constraints nullable="true" />
-            </column>
-
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
         </createTable>
         <dropDefaultValue tableName="sales" columnName="create_date" columnDataType="datetime"/>
+        
+        <createTable tableName="sales_product">
+            <column name="products_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sales_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
 
+        <addPrimaryKey columnNames="sales_id, products_id" tableName="sales_product"/>
+        
     </changeSet>
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here, do not remove-->
 </databaseChangeLog>

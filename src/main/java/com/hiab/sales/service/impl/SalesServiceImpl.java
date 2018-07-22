@@ -69,7 +69,7 @@ public class SalesServiceImpl implements SalesService {
     @Transactional(readOnly = true)
     public SalesDTO findOne(Long id) {
         log.debug("Request to get Sales : {}", id);
-        Sales sales = salesRepository.findOne(id);
+        Sales sales = salesRepository.findOneWithEagerRelationships(id);
         return salesMapper.toDto(sales);
     }
 

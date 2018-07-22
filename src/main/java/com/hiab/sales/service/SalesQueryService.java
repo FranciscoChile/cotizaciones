@@ -100,7 +100,7 @@ public class SalesQueryService extends QueryService<Sales> {
                 specification = specification.and(buildReferringEntitySpecification(criteria.getLocationId(), Sales_.location, Location_.id));
             }
             if (criteria.getProductId() != null) {
-                specification = specification.and(buildReferringEntitySpecification(criteria.getProductId(), Sales_.product, Product_.id));
+                specification = specification.and(buildReferringEntitySpecification(criteria.getProductId(), Sales_.products, Product_.id));
             }
         }
         return specification;

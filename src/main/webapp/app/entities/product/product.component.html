@@ -42,7 +42,7 @@
                 <td>{{product.model}}</td>
                 <td>{{product.priceList}}</td>
                 <td>{{product.stock}}</td>
-                <td>{{product.description | slice:0:100}}...</td>
+                <td>{{product.description | slice:0:100}}</td>
                 <td>
                     <a *ngIf="product.imageRef" (click)="openFile(product.imageRefContentType, product.imageRef)" jhiTranslate="entity.action.open">open</a>
                     <span *ngIf="product.imageRef">{{product.imageRefContentType}}, {{byteSize(product.imageRef)}}</span>

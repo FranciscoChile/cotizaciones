@@ -50,7 +50,6 @@ export class SalesDialogComponent implements OnInit {
 
     ngOnInit() {
         this.isSaving = false;
-
         this.clientService.query({'active.equals': 1})
             .subscribe((res: HttpResponse<Client[]>) => { this.clients = res.body; }, (res: HttpErrorResponse) => this.onError(res.message));
 
@@ -81,7 +80,6 @@ export class SalesDialogComponent implements OnInit {
             const myFormattedDate = pipe.transform(now, 'yyyy-MM-dd');
             this.sales.createDate = myFormattedDate;
         }
-
     }
 
     clear() {
@@ -90,7 +88,6 @@ export class SalesDialogComponent implements OnInit {
 
     save() {
         this.isSaving = true;
-
         if (this.sales.id !== undefined) {
             this.sales.createDate += ' 00:00:00';
 
@@ -142,6 +139,17 @@ export class SalesDialogComponent implements OnInit {
 
     trackProductById(index: number, item: Product) {
         return item.id;
+    }
+
+    getSelected(selectedVals: Array<any>, option: any) {
+        if (selectedVals) {
+            for (let i = 0; i < selectedVals.length; i++) {
+                if (option.id === selectedVals[i].id) {
+                    return selectedVals[i];
+                }
+            }
+        }
+        return option;
     }
 
     captureValueClient(event: any) {

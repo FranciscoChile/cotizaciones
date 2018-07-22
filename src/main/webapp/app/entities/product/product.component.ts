@@ -14,9 +14,8 @@ import { ITEMS_PER_PAGE, Principal } from '../../shared';
 })
 export class ProductComponent implements OnInit, OnDestroy {
 
-    currentAccount: any;
+currentAccount: any;
     products: Product[];
-    productsCombo: Product[];
     error: any;
     success: any;
     eventSubscriber: Subscription;
@@ -30,6 +29,7 @@ export class ProductComponent implements OnInit, OnDestroy {
     previousPage: any;
     reverse: any;
 
+    productsCombo: Product[];
     filteredModels: any[];
     model: string;
 
@@ -52,36 +52,36 @@ export class ProductComponent implements OnInit, OnDestroy {
         });
     }
 
-// manejo de buscadores autoComplete
-    filterModels(event) {
-        this.filteredModels = [];
-        for (let i = 0; i < this.productsCombo.length; i++) {
-            const prod = this.productsCombo[i];
-            if (prod.model.toLowerCase().indexOf(event.query.toLowerCase()) !== -1) {
-                this.filteredModels.push(prod.model);
+    // manejo de buscadores autoComplete
+        filterModels(event) {
+            this.filteredModels = [];
+            for (let i = 0; i < this.productsCombo.length; i++) {
+                const prod = this.productsCombo[i];
+                if (prod.model.toLowerCase().indexOf(event.query.toLowerCase()) !== -1) {
+                    this.filteredModels.push(prod.model);
+                }
             }
         }
-    }
 
-    captureValue(event: any) {
-        this.model = event;
-        this.loadAll();
-    }
+        captureValue(event: any) {
+            this.model = event;
+            this.loadAll();
+        }
 
-    clearValue(event: any) {
-        this.model = '';
-        this.loadAll();
-    }
+        clearValue(event: any) {
+            this.model = '';
+            this.loadAll();
+        }
 
-    loadAllCombo() {
-      this.productService.query({
-          'active.equals': 1}).subscribe(
-          (resCombo: HttpResponse<Product[]>) => this.productsCombo = resCombo.body,
-          (resCombo: HttpErrorResponse) => this.onError(resCombo.message)
-      );
-    }
+        loadAllCombo() {
+          this.productService.query({
+              'active.equals': 1}).subscribe(
+              (resCombo: HttpResponse<Product[]>) => this.productsCombo = resCombo.body,
+              (resCombo: HttpErrorResponse) => this.onError(resCombo.message)
+          );
+        }
 
-// ------
+    // ------
 
     loadAll() {
         this.productService.query({
@@ -145,7 +145,9 @@ export class ProductComponent implements OnInit, OnDestroy {
         return this.dataUtils.openFile(contentType, field);
     }
     registerChangeInProducts() {
-        this.eventSubscriber = this.eventManager.subscribe('productListModification', (response) => this.loadAll());
+        this.eventSubscriber = this.eventManager.subscribe('productListModification', (response) => {
+          this.loadAll(), this.loadAllCombo();
+        });
     }
 
     sort() {

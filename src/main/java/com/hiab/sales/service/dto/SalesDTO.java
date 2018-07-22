@@ -22,6 +22,7 @@ public class SalesDTO implements Serializable {
 
     private Integer active;
 
+    @Size(max = 2000)
     private String conditions;
 
     private Long clientId;
@@ -30,15 +31,47 @@ public class SalesDTO implements Serializable {
 
     private Long locationId;
 
-    private Long productId;
+    private Set<ProductDTO> products = new HashSet<>();
 
     private String clientName;
 
     private String contactName;
 
+    private String contactSurname;
+
     private String locationDescription;
 
-    private String productModel;
+    private String clientAddress;
+
+    private String clientNumDocument;
+
+    private String contactCellphone;
+
+
+
+    public String getContactCellPhone() {
+        return contactCellphone;
+    }
+
+    public void setContactCellPhone(String contactCellphone) {
+        this.contactCellphone = contactCellphone;
+    }
+
+    public String getClientNumDocument() {
+        return clientNumDocument;
+    }
+
+    public void setClientNumDocument(String clientNumDocument) {
+        this.clientNumDocument = clientNumDocument;
+    }
+
+    public String getClientAddress() {
+        return clientAddress;
+    }
+
+    public void setClientAddress(String clientAddress) {
+        this.clientAddress = clientAddress;
+    }
 
     public String getClientName() {
         return clientName;
@@ -57,6 +90,13 @@ public class SalesDTO implements Serializable {
         this.contactName = contactName;
     }
 
+    public String getContactSurname() {
+        return contactSurname;
+    }
+
+    public void setContactSurname(String contactSurname) {
+        this.contactSurname = contactSurname;
+    }
 
     public String getLocationDescription() {
         return locationDescription;
@@ -65,15 +105,6 @@ public class SalesDTO implements Serializable {
     public void setLocationDescription(String locationDescription) {
         this.locationDescription = locationDescription;
     }
-
-
-    public String getProductModel() {
-        return productModel;
-    }
-
-    public void setProductModel(String productModel) {
-        this.productModel = productModel;
-}
 
     public Long getId() {
         return id;
@@ -139,12 +170,12 @@ public class SalesDTO implements Serializable {
         this.locationId = locationId;
     }
 
-    public Long getProductId() {
-        return productId;
+    public Set<ProductDTO> getProducts() {
+        return products;
     }
 
-    public void setProductId(Long productId) {
-        this.productId = productId;
+    public void setProducts(Set<ProductDTO> products) {
+        this.products = products;
     }
 
     @Override

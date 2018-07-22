@@ -30,7 +30,6 @@
             <th jhiSortBy="clientId"><span jhiTranslate="cotizacionesApp.sales.client">Client</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="contactId"><span jhiTranslate="cotizacionesApp.sales.contact">Contact</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="locationId"><span jhiTranslate="cotizacionesApp.sales.location">Location</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="productId"><span jhiTranslate="cotizacionesApp.sales.product">Product</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="createDate"><span jhiTranslate="cotizacionesApp.sales.createDate">Create Date</span> <span class="fa fa-sort"></span></th>
             <th></th>
             </tr>
@@ -39,7 +38,7 @@
             <tr *ngFor="let sales of sales ;trackBy: trackId">
                 <td><a [routerLink]="['../sales', sales.id ]">{{sales.id}}</a></td>
                 <td>{{sales.finalPrice}}</td>
-                <td>{{sales.conditions | slice:0:50}}</td>
+                <td>{{sales.conditions}}</td>
                 <td>
                     <div *ngIf="sales.clientId">
                         <a [routerLink]="['../client', sales.clientId  ]" >{{sales.clientName}}</a>
@@ -55,20 +54,14 @@
                         <a [routerLink]="['../location', sales.locationId  ]" >{{sales.locationDescription}}</a>
                     </div>
                 </td>
-                <td>
-                    <div *ngIf="sales.productId">
-                        <a [routerLink]="['../product', sales.productId  ]" >{{sales.productModel}}</a>
-                    </div>
-                </td>
                 <td>{{sales.createDate | date:'longDate'}}</td>
-
                 <td class="text-right">
                     <div class="btn-group flex-btn-group-container">
                         <button type="button"
-                                class="btn btn-secondary"
-                                data-dismiss="modal"
-                                (click)="exportPdf(sales.id)">
-                            <span class="fa fa-file-pdf-o"></span>Pdf
+                              class="btn btn-secondary"
+                              data-dismiss="modal"
+                              (click)="exportPdf(sales.id)">
+                          <span class="fa fa-file-pdf-o"></span>Pdf
                         </button>
                         <button type="submit"
                                 [routerLink]="['../sales', sales.id ]"

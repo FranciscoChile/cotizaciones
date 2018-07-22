@@ -59,7 +59,7 @@ public class Product implements Serializable {
     @Column(name = "active")
     private Integer active;
 
-    @OneToMany(mappedBy = "product")
+    @ManyToMany(mappedBy = "products")
     @JsonIgnore
     private Set<Sales> sales = new HashSet<>();
 
@@ -213,13 +213,13 @@ public class Product implements Serializable {
 
     public Product addSales(Sales sales) {
         this.sales.add(sales);
-        sales.setProduct(this);
+        sales.getProducts().add(this);
         return this;
     }
 
     public Product removeSales(Sales sales) {
         this.sales.remove(sales);
-        sales.setProduct(null);
+        sales.getProducts().remove(this);
         return this;
     }
 

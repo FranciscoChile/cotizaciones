@@ -470,7 +470,7 @@ public class SalesResourceIntTest {
         Product product = ProductResourceIntTest.createEntity(em);
         em.persist(product);
         em.flush();
-        sales.setProduct(product);
+        sales.addProduct(product);
         salesRepository.saveAndFlush(sales);
         Long productId = product.getId();
 
