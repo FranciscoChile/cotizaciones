@@ -16,7 +16,8 @@ export class Sales implements BaseEntity {
         public clientNumDocument?: string,
         public contactName?: string,
         public contactSurname?: string,
-        public contactCellPhone?: string
+        public contactCellPhone?: string,
+        public contactEmail?: string
     ) {
     }
 }

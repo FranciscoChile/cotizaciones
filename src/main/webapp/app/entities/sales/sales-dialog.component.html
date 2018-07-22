@@ -15,7 +15,7 @@
         <div class="form-group">
             <label class="form-control-label" jhiTranslate="cotizacionesApp.sales.finalPrice" for="field_finalPrice">Final Price</label>
             <input type="number" class="form-control" name="finalPrice" id="field_finalPrice"
-                [(ngModel)]="sales.finalPrice" min="0"/>
+                [(ngModel)]="sales.finalPrice" min="0" (keypress)="numberOnly($event)" />
             <div [hidden]="!(editForm.controls.finalPrice?.dirty && editForm.controls.finalPrice?.invalid)">
                 <small class="form-text text-danger"
                     [hidden]="!editForm.controls.finalPrice?.errors?.min" jhiTranslate="entity.validation.min" translateValues="{ min: 0 }">

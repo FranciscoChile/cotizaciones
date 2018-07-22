@@ -47,6 +47,16 @@ public class SalesDTO implements Serializable {
 
     private String contactCellphone;
 
+    private String contactEmail;
+
+
+    public String getContactEmail() {
+        return contactEmail;
+    }
+
+    public void setContactEmail(String contactEmail) {
+        this.contactEmail = contactEmail;
+    }
 
 
     public String getContactCellPhone() {

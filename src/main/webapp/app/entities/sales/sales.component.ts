@@ -207,6 +207,7 @@ currentAccount: any;
       let salesPdf: Sales;
       let productsList;
       const productsListPdf = [];
+      const priceConditions = [];
 
       const pipe = new DatePipe('es-CL'); // Use your own locale
       const now = Date.now();
@@ -241,27 +242,22 @@ currentAccount: any;
                     {
                       margin: [0, 50, 0, 0],
                       table: {
-                        widths: [80, 200, 50, '*'],
+                        widths: [80, 180, 50, '*'],
                         body: [
                            ['Cliente: ', salesPdf.clientName, 'Rut: ', salesPdf.clientNumDocument],
                            ['Dirección: ', salesPdf.clientAddress, '', ''],
-                           ['Contacto: ', salesPdf.contactName + ' ' + salesPdf.contactSurname, '', ''],
+                           ['Contacto: ', salesPdf.contactName + ' ' + salesPdf.contactSurname, 'Email: ', salesPdf.contactEmail],
                            ['Celular: ', salesPdf.contactCellPhone, '', '']
                         ]
                       },
                       layout: 'noBorders'
                     },
-                    {
-                      margin: [0, 50, 0, 0],
-                      text: 'Precio final ' + moneyDisplay,
-                      pageBreak: 'after'
-                    }
+                    {text: '', pageBreak: 'after'}
                 ],
                 styles: {
                   header: {
                     fontSize: 18,
                     bold: true,
-
                     alignment: 'center',
                     margin: [0, 190, 0, 80]
                   },
@@ -284,25 +280,37 @@ currentAccount: any;
                     const imageRefAux = prod.imageRef === null ? encondeWhiteAux : 'data:image/jpeg;base64,' + prod.imageRef;
                     const loadDiagramAux = prod.loadDiagram === null ? encondeWhiteAux : 'data:image/jpeg;base64,' + prod.loadDiagram;
 
-                    productsListPdf.push({text: 'Precio: ' + prod.priceList});
-
+                    // productsListPdf.push({text: 'Precio: ' + prod.priceList});
                     productsListPdf.push(
-                       {
-                         image: imageRefAux,
-                         width: 350,
-                         margin: [0, 0],
-                       },
-                       {
-                         image: loadDiagramAux,
-                         width: 350,
-                         margin: [0, 0],
-                         pageBreak: 'after'
-                       }
+                      {
+                        table: {
+                          widths: [250, '*'],
+                          heights: [180, 'auto', 'auto'],
+                          body: [
+                            [prod.description, {image: imageRefAux, width: 200, alignment: 'right'}],
+                            [{text: 'Características Técnicas', colSpan: 2, alignment: 'center'}],
+                            [{colSpan: 2, image: loadDiagramAux, width: 250, alignment: 'center'}]
+                          ]
+                        }, layout: 'noBorders'
+                      },
+                      {text: 'Se adjunta folleto técnico del modelo', italics: true, pageBreak: 'after'}
                     );
 
                 }
 
+                priceConditions.push(
+                  {text: 'Precio y Condiciones Generales de Venta', bold: true, margin: [0, 0, 0, 20]},
+                  {text: 'Precio final ' + moneyDisplay + ' + IVA', alignment: 'center', margin: [0, 0, 0, 20]},
+                  {text: salesPdf.conditions, margin: [0, 0, 0, 100] },
+                  {text: 'Rodolfo Castro Guerra || Asistente Gerencia Comercial', alignment: 'right'},
+                  {text: 'Tel. +56 2 2738 6993 ||Cel.+56 (9) 8551 0778', alignment: 'right'},
+                  {text: 'rodolfo.castro@hiab.com || Hiab Chile S.A', alignment: 'right'},
+                  {text: 'El Juncal 071-B || Quilicura||www.latinamerica.hiab.com', alignment: 'right'}
+
+                );
+
                 docDefinition.content.push(productsListPdf);
+                docDefinition.content.push(priceConditions);
                 pdfMake.createPdf(docDefinition).open();
         });
     }

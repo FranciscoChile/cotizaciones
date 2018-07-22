@@ -21,6 +21,7 @@ public interface SalesMapper extends EntityMapper<SalesDTO, Sales> {
     @Mapping(source = "client.address", target = "clientAddress")
     @Mapping(source = "client.numDocument", target = "clientNumDocument")
     @Mapping(source = "contact.cellphone", target = "contactCellPhone")
+    @Mapping(source = "contact.email", target = "contactEmail")
     SalesDTO toDto(Sales sales);
 
     @Mapping(source = "clientId", target = "client")

@@ -38,7 +38,7 @@
             <tr *ngFor="let sales of sales ;trackBy: trackId">
                 <td><a [routerLink]="['../sales', sales.id ]">{{sales.id}}</a></td>
                 <td>{{sales.finalPrice}}</td>
-                <td>{{sales.conditions}}</td>
+                <td>{{sales.conditions | slice:0:100}}</td>
                 <td>
                     <div *ngIf="sales.clientId">
                         <a [routerLink]="['../client', sales.clientId  ]" >{{sales.clientName}}</a>

@@ -90,7 +90,6 @@ export class SalesDialogComponent implements OnInit {
         this.isSaving = true;
         if (this.sales.id !== undefined) {
             this.sales.createDate += ' 00:00:00';
-
             this.subscribeToSaveResponse(
                 this.salesService.update(this.sales));
         } else {
@@ -177,6 +176,15 @@ export class SalesDialogComponent implements OnInit {
                 this.filteredLocations.push(prod);
             }
         }
+    }
+
+    numberOnly(event): boolean {
+      const charCode = (event.which) ? event.which : event.keyCode;
+      if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+        return false;
+      }
+      return true;
+
     }
 
 }
