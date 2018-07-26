@@ -3,28 +3,28 @@
     "cotizacionesApp": {
         "client" : {
             "home": {
-                "title": "Clients",
-                "createLabel": "Crear nuevo Client",
-                "createOrEditLabel": "Crear o editar Client"
+                "title": "Clientes",
+                "createLabel": "Crear nuevo Cliente",
+                "createOrEditLabel": "Crear o editar Cliente"
             },
-            "created": "Un nuevo Client ha sido creado con el identificador {{ param }}",
-            "updated": "Un Client ha sido actualizado con el identificador {{ param }}",
-            "deleted": "Un Client ha sido eliminado con el identificador {{ param }}",
+            "created": "Un nuevo Cliente ha sido creado con el identificador {{ param }}",
+            "updated": "Un Cliente ha sido actualizado con el identificador {{ param }}",
+            "deleted": "Un Cliente ha sido eliminado con el identificador {{ param }}",
             "delete": {
-                "question": "¿Seguro que quiere eliminar Client {{ id }}?"
+                "question": "¿Seguro que quiere eliminar Cliente {{ id }}?"
             },
             "detail": {
-                "title": "Client"
+                "title": "Cliente"
             },
-            "name": "Name",
-            "numDocument": "Num Document",
-            "address": "Address",
-            "comments": "Comments",
-            "createDate": "Create Date",
+            "name": "Nombre",
+            "numDocument": "Rut",
+            "address": "Dirección",
+            "comments": "Comentarios",
+            "createDate": "Fecha creación",
             "active": "Active",
-            "contact": "Contact",
-            "location": "Location",
-            "sales": "Sales"
+            "contact": "Contacto",
+            "location": "Ubicación",
+            "sales": "Cotización"
         }
     }
 }

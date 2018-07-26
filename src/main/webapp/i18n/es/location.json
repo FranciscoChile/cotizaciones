@@ -3,24 +3,24 @@
     "cotizacionesApp": {
         "location" : {
             "home": {
-                "title": "Locations",
-                "createLabel": "Crear nuevo Location",
-                "createOrEditLabel": "Crear o editar Location"
+                "title": "Ubicaciones",
+                "createLabel": "Crear nueva Ubicación",
+                "createOrEditLabel": "Crear o editar Ubicación"
             },
-            "created": "Un nuevo Location ha sido creado con el identificador {{ param }}",
-            "updated": "Un Location ha sido actualizado con el identificador {{ param }}",
-            "deleted": "Un Location ha sido eliminado con el identificador {{ param }}",
+            "created": "Una nueva Ubicación ha sido creado con el identificador {{ param }}",
+            "updated": "Una Ubicación ha sido actualizada con el identificador {{ param }}",
+            "deleted": "Una Ubicación ha sido eliminada con el identificador {{ param }}",
             "delete": {
-                "question": "¿Seguro que quiere eliminar Location {{ id }}?"
+                "question": "¿Seguro que quiere eliminar Ubicación {{ id }}?"
             },
             "detail": {
-                "title": "Location"
+                "title": "Ubicación"
             },
-            "description": "Description",
-            "createDate": "Create Date",
+            "description": "Descripción",
+            "createDate": "Fecha creación",
             "active": "Active",
-            "client": "Client",
-            "sales": "Sales"
+            "client": "Cliente",
+            "sales": "Cotización"
         }
     }
 }

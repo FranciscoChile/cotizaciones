@@ -3,28 +3,28 @@
     "cotizacionesApp": {
         "product" : {
             "home": {
-                "title": "Products",
-                "createLabel": "Crear nuevo Product",
-                "createOrEditLabel": "Crear o editar Product"
+                "title": "Productos",
+                "createLabel": "Crear nuevo Producto",
+                "createOrEditLabel": "Crear o editar Producto"
             },
-            "created": "Un nuevo Product ha sido creado con el identificador {{ param }}",
-            "updated": "Un Product ha sido actualizado con el identificador {{ param }}",
-            "deleted": "Un Product ha sido eliminado con el identificador {{ param }}",
+            "created": "Un nuevo Producto ha sido creado con el identificador {{ param }}",
+            "updated": "Un Producto ha sido actualizado con el identificador {{ param }}",
+            "deleted": "Un Producto ha sido eliminado con el identificador {{ param }}",
             "delete": {
-                "question": "¿Seguro que quiere eliminar Product {{ id }}?"
+                "question": "¿Seguro que quiere eliminar Producto {{ id }}?"
             },
             "detail": {
-                "title": "Product"
+                "title": "Producto"
             },
-            "model": "Model",
-            "priceList": "Price List",
+            "model": "Modelo",
+            "priceList": "Precio lista",
             "stock": "Stock",
-            "description": "Description",
-            "imageRef": "Image Ref",
-            "loadDiagram": "Load Diagram",
-            "createDate": "Create Date",
+            "description": "Descripción",
+            "imageRef": "Imagen referencial",
+            "loadDiagram": "Diagrama de carga",
+            "createDate": "Fecha creación",
             "active": "Active",
-            "sales": "Sales"
+            "sales": "Cotización"
         }
     }
 }

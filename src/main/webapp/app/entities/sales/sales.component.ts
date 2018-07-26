@@ -13,10 +13,13 @@ import { CurrencyPipe, DatePipe } from '@angular/common';
 const headerHiab = require('./hiab_head_image.png');
 const blankImage = require('./white.jpg');
 const portadaHiab = require('./portada.png');
+const logoHiab = require('./logoHiabSmall.jpeg');
 
 let encondeWhiteAux;
 let portadaHiabAux;
 let headerHiabAux;
+let logoHiabAux;
+let currentAccountAux;
 
 const pdfMake = require('./pdfmake.min.js');
 const pdfFonts = require('./vfs_fonts.js');
@@ -143,6 +146,7 @@ currentAccount: any;
 
         this.principal.identity().then((account) => {
             this.currentAccount = account;
+            currentAccountAux = account;
         });
         this.registerChangeInSales();
         this.loadAll();
@@ -157,6 +161,10 @@ currentAccount: any;
 
         this.toDataUrl(headerHiab, function(encodedImage) {
           headerHiabAux = encodedImage;
+        });
+
+        this.toDataUrl(logoHiab, function(encodedImage) {
+          logoHiabAux = encodedImage;
         });
 
     }
@@ -228,7 +236,30 @@ currentAccount: any;
                   pageSize: 'LETTER',
                   header: function(currentPage, pageCount) {
                     if (currentPage > 1) {
-                      return {text: 'COTIZACION Nº ' + salesPdf.id, italics: true, fontSize: 30, color: 'red'};
+                      // return {text: 'COTIZACION Nº ' + salesPdf.id, italics: true, fontSize: 30, color: 'red'};
+                      return {image: headerHiabAux, width: 300, alignment: 'right'};
+                    }
+                  },
+                  footer: function(currentPage, pageCount) {
+                    if (currentPage === pageCount) {
+                      return {
+                        // alignment: 'left',
+                        margin: [10, -100, 0, 0],
+                        table: {
+                          widths: ['*'],
+                          body: [
+                             [{text: currentAccountAux.firstName + ' ' + currentAccountAux.lastName,
+                             fontSize: 10, bold: true}],
+                             [{text: 'Asistente comercial', fontSize: 10}],
+                             [''],
+                             [{text: 'Tel. +56 2 2738 6993 ', fontSize: 10}],
+                             [{text: 'Cel.+56 (9) 8551 0778 ', fontSize: 10}],
+                             [''],
+                             [{image: logoHiabAux, width: 100}]
+                          ]
+                        },
+                        layout: 'noBorders'
+                      };
                     }
                   },
                   content: [
@@ -240,37 +271,30 @@ currentAccount: any;
                       pageBreak: 'after'
                     },
                     {
-                      margin: [0, 50, 0, 0],
+                      margin: [0, 100, 0, 0],
+                      alignment: 'center',
+                      text: 'Santiago, ' + myFormattedDate,
+                    },
+                    {
+                      margin: [0, 0, 0, 20],
+                      alignment: 'center',
+                      text: 'Cotización Nº ' + salesPdf.id,
+                      bold: true
+                    },
+                    {
                       table: {
                         widths: [80, 180, 50, '*'],
                         body: [
-                           ['Cliente: ', salesPdf.clientName, 'Rut: ', salesPdf.clientNumDocument],
-                           ['Dirección: ', salesPdf.clientAddress, '', ''],
-                           ['Contacto: ', salesPdf.contactName + ' ' + salesPdf.contactSurname, 'Email: ', salesPdf.contactEmail],
-                           ['Celular: ', salesPdf.contactCellPhone, '', '']
+                           [{text: 'Cliente: ', bold: true}, salesPdf.clientName, {text: 'Rut: ', bold: true}, salesPdf.clientNumDocument],
+                           [{text: 'Dirección: ', bold: true}, salesPdf.clientAddress, '', ''],
+                           [{text: 'Contacto: ', bold: true}, salesPdf.contactName + ' ' + salesPdf.contactSurname, {text: 'Email: ', bold: true}, salesPdf.contactEmail],
+                           [{text: 'Celular: ', bold: true}, salesPdf.contactCellPhone, '', '']
                         ]
                       },
                       layout: 'noBorders'
                     },
                     {text: '', pageBreak: 'after'}
-                ],
-                styles: {
-                  header: {
-                    fontSize: 18,
-                    bold: true,
-                    alignment: 'center',
-                    margin: [0, 190, 0, 80]
-                  },
-                  subheader: {
-                    fontSize: 14,
-                    alignment: 'center',
-                    margin: [0, 100, 0, 0]
-                  },
-                  superMargin: {
-                    margin: [20, 0, 40, 0],
-                    fontSize: 15
-                  }
-                }
+                ]
               };
 
                 // se agregan los equipos al PDF
@@ -283,30 +307,29 @@ currentAccount: any;
                     // productsListPdf.push({text: 'Precio: ' + prod.priceList});
                     productsListPdf.push(
                       {
+                        margin: [0, 80, 0, 10],
+                        text: prod.model
+                      },
+                      {
                         table: {
                           widths: [250, '*'],
-                          heights: [180, 'auto', 'auto'],
+                          heights: [160, 'auto', 'auto'],
                           body: [
                             [prod.description, {image: imageRefAux, width: 200, alignment: 'right'}],
                             [{text: 'Características Técnicas', colSpan: 2, alignment: 'center'}],
-                            [{colSpan: 2, image: loadDiagramAux, width: 250, alignment: 'center'}]
+                            [{colSpan: 2, image: loadDiagramAux, fit: [450, 400], alignment: 'center'}]
                           ]
                         }, layout: 'noBorders'
                       },
-                      {text: 'Se adjunta folleto técnico del modelo', italics: true, pageBreak: 'after'}
+                      {text: 'Se adjunta folleto técnico del modelo',
+                        fontSize: 10, italics: true, pageBreak: 'after'}
                     );
-
                 }
 
                 priceConditions.push(
-                  {text: 'Precio y Condiciones Generales de Venta', bold: true, margin: [0, 0, 0, 20]},
+                  {text: 'Precio y Condiciones Generales de Venta', bold: true, margin: [0, 80, 0, 20]},
                   {text: 'Precio final ' + moneyDisplay + ' + IVA', alignment: 'center', margin: [0, 0, 0, 20]},
-                  {text: salesPdf.conditions, margin: [0, 0, 0, 100] },
-                  {text: 'Rodolfo Castro Guerra || Asistente Gerencia Comercial', alignment: 'right'},
-                  {text: 'Tel. +56 2 2738 6993 ||Cel.+56 (9) 8551 0778', alignment: 'right'},
-                  {text: 'rodolfo.castro@hiab.com || Hiab Chile S.A', alignment: 'right'},
-                  {text: 'El Juncal 071-B || Quilicura||www.latinamerica.hiab.com', alignment: 'right'}
-
+                  {text: salesPdf.conditions ? salesPdf.conditions : '' }
                 );
 
                 docDefinition.content.push(productsListPdf);
@@ -316,7 +339,7 @@ currentAccount: any;
     }
 
     // convierte una imagen a formato dataurl base 64
-        toDataUrl(file, callback) {
+    toDataUrl(file, callback) {
           const xhr = new XMLHttpRequest();
           xhr.responseType = 'blob';
 
