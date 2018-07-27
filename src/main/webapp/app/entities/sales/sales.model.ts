@@ -6,6 +6,7 @@ export class Sales implements BaseEntity {
         public finalPrice?: number,
         public createDate?: any,
         public active?: number,
+        public userId?: number,
         public conditions?: string,
         public clientId?: number,
         public clientName?: string,

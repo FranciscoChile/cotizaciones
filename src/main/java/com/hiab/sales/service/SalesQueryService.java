@@ -87,6 +87,9 @@ public class SalesQueryService extends QueryService<Sales> {
             if (criteria.getActive() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getActive(), Sales_.active));
             }
+            if (criteria.getUserId() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getUserId(), Sales_.userId));
+            }            
             if (criteria.getConditions() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getConditions(), Sales_.conditions));
             }

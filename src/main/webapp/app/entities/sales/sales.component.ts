@@ -10,7 +10,7 @@ import { ITEMS_PER_PAGE, Principal } from '../../shared';
 
 import { CurrencyPipe, DatePipe } from '@angular/common';
 
-const headerHiab = require('./hiab_head_image.png');
+const headerHiab = require('./header_wide.png');
 const blankImage = require('./white.jpg');
 const portadaHiab = require('./portada.png');
 const logoHiab = require('./logoHiabSmall.jpeg');
@@ -237,7 +237,7 @@ currentAccount: any;
                   header: function(currentPage, pageCount) {
                     if (currentPage > 1) {
                       // return {text: 'COTIZACION Nº ' + salesPdf.id, italics: true, fontSize: 30, color: 'red'};
-                      return {image: headerHiabAux, width: 300, alignment: 'right'};
+                      return {image: headerHiabAux, width: 632, alignment: 'right'};
                     }
                   },
                   footer: function(currentPage, pageCount) {
@@ -252,9 +252,8 @@ currentAccount: any;
                              fontSize: 10, bold: true}],
                              [{text: 'Asistente comercial', fontSize: 10}],
                              [''],
-                             [{text: 'Tel. +56 2 2738 6993 ', fontSize: 10}],
-                             [{text: 'Cel.+56 (9) 8551 0778 ', fontSize: 10}],
-                             [''],
+                             [{text: 'Tel. ', fontSize: 10}],
+                             [{text: currentAccountAux.email,  fontSize: 10}],
                              [{image: logoHiabAux, width: 100}]
                           ]
                         },

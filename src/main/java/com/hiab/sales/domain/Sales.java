@@ -33,6 +33,9 @@ public class Sales implements Serializable {
     @Column(name = "active")
     private Integer active;
 
+    @Column(name = "user_id")
+    private Integer userId;
+
     @Size(max = 2000)
     @Column(name = "conditions", length = 2000)
     private String conditions;
@@ -53,6 +56,19 @@ public class Sales implements Serializable {
     private Set<Product> products = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public Sales userId(Integer userId) {
+        this.userId = userId;
+        return this;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
+
     public Long getId() {
         return id;
     }
@@ -205,6 +221,7 @@ public class Sales implements Serializable {
             ", finalPrice=" + getFinalPrice() +
             ", createDate='" + getCreateDate() + "'" +
             ", active=" + getActive() +
+            ", userId=" + getUserId()  +
             ", conditions='" + getConditions() + "'" +
             "}";
     }

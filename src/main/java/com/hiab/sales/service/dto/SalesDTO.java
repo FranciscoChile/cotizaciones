@@ -22,6 +22,8 @@ public class SalesDTO implements Serializable {
 
     private Integer active;
 
+    private Integer userId;
+
     @Size(max = 2000)
     private String conditions;
 
@@ -49,6 +51,14 @@ public class SalesDTO implements Serializable {
 
     private String contactEmail;
 
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
 
     public String getContactEmail() {
         return contactEmail;
@@ -216,6 +226,7 @@ public class SalesDTO implements Serializable {
             ", finalPrice=" + getFinalPrice() +
             ", createDate='" + getCreateDate() + "'" +
             ", active=" + getActive() +
+            ", userId=" + getUserId()  +
             ", conditions='" + getConditions() + "'" +
             "}";
     }

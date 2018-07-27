@@ -52,7 +52,11 @@
                 "maxlength"
             ],
             "fieldValidateRulesMaxlength": 2000
-        }
+        },
+        {
+            "fieldName": "userId",
+            "fieldType": "Integer"
+        },
     ],
     "changelogDate": "20180712024057",
     "entityTableName": "sales",

@@ -15,6 +15,7 @@ import { Location, LocationService } from '../location';
 import { Product, ProductService } from '../product';
 
 import { DatePipe } from '@angular/common';
+import { Principal } from '../../shared';
 
 @Component({
     selector: 'jhi-sales-dialog',
@@ -35,6 +36,7 @@ export class SalesDialogComponent implements OnInit {
 
     filteredContacts: any[];
     filteredLocations: any[];
+    currentAccount: any;
 
     constructor(
         public activeModal: NgbActiveModal,
@@ -44,11 +46,16 @@ export class SalesDialogComponent implements OnInit {
         private contactService: ContactService,
         private locationService: LocationService,
         private productService: ProductService,
-        private eventManager: JhiEventManager
+        private eventManager: JhiEventManager,
+        private principal: Principal
     ) {
     }
 
     ngOnInit() {
+      this.principal.identity().then((account) => {
+        this.currentAccount = account;
+      });
+
         this.isSaving = false;
         this.clientService.query({'active.equals': 1})
             .subscribe((res: HttpResponse<Client[]>) => { this.clients = res.body; }, (res: HttpErrorResponse) => this.onError(res.message));
@@ -94,6 +101,7 @@ export class SalesDialogComponent implements OnInit {
                 this.salesService.update(this.sales));
         } else {
             this.sales.active = 1;
+            this.sales.userId = this.currentAccount.id;
 
             const pipe = new DatePipe('es-CL');
             const now = Date.now();
