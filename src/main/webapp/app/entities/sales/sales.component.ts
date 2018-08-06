@@ -223,6 +223,18 @@ currentAccount: any;
 
       const currencyPipe = new CurrencyPipe('es-CL');
 
+      const fullName = currentAccountAux.firstName + ' ' + currentAccountAux.lastName;
+      let initials = fullName.charAt(0);
+
+      for (let i = 0; i < fullName.length; i++) {
+        const c = fullName.charAt(i);
+        if (c === ' ') {
+          initials = initials + fullName.charAt(i + 1);
+        }
+      }
+
+      initials = initials.toUpperCase();
+
       this.salesService.find(idSale)
           .subscribe((salesResponse: HttpResponse<Sales>) => {
               salesPdf = salesResponse.body;
@@ -232,14 +244,10 @@ currentAccount: any;
               moneyDisplay = moneyDisplay.replace('$', '');
               moneyDisplay = '$ ' + moneyDisplay;
 
+              const prodModel = productsList[0].model;
+
               docDefinition = {
                   pageSize: 'LETTER',
-                  header: function(currentPage, pageCount) {
-                    if (currentPage > 1) {
-                      // return {text: 'COTIZACION Nº ' + salesPdf.id, italics: true, fontSize: 30, color: 'red'};
-                      return {image: headerHiabAux, width: 632, alignment: 'right'};
-                    }
-                  },
                   footer: function(currentPage, pageCount) {
                     if (currentPage === pageCount) {
                       return {
@@ -248,11 +256,11 @@ currentAccount: any;
                         table: {
                           widths: ['*'],
                           body: [
-                             [{text: currentAccountAux.firstName + ' ' + currentAccountAux.lastName,
+                             [{text: fullName,
                              fontSize: 10, bold: true}],
                              [{text: 'Asistente comercial', fontSize: 10}],
                              [''],
-                             [{text: 'Tel. ', fontSize: 10}],
+                             [{text: 'Tel. ' + currentAccountAux.telephone, fontSize: 10}],
                              [{text: currentAccountAux.email,  fontSize: 10}],
                              [{image: logoHiabAux, width: 100}]
                           ]
@@ -263,6 +271,7 @@ currentAccount: any;
                   },
                   content: [
                     {
+                      // portada, pagina 1
                       image: portadaHiabAux,
                       width: 632,
                       height: 820,
@@ -270,15 +279,22 @@ currentAccount: any;
                       pageBreak: 'after'
                     },
                     {
-                      margin: [0, 100, 0, 0],
-                      alignment: 'center',
-                      text: 'Santiago, ' + myFormattedDate,
+                      // encabezado
+                      image: headerHiabAux,
+                      absolutePosition: {x: 0, y: 0},
+                      width: 632
                     },
                     {
-                      margin: [0, 0, 0, 20],
-                      alignment: 'center',
-                      text: 'Cotización Nº ' + salesPdf.id,
-                      bold: true
+                      margin: [0, -35, 0, 0],
+                      text: 'COTIZACION ' + initials + ' ' + salesPdf.id + '\n' + prodModel,
+                      fontSize: 30,
+                      bold: true,
+                      color: 'red'
+                    },
+                    {
+                      margin: [0, 0, 0, 50],
+                      text: 'Fecha: ' + myFormattedDate,
+                      color: 'red'
                     },
                     {
                       table: {
@@ -291,8 +307,7 @@ currentAccount: any;
                         ]
                       },
                       layout: 'noBorders'
-                    },
-                    {text: '', pageBreak: 'after'}
+                    }
                 ]
               };
 
@@ -303,20 +318,51 @@ currentAccount: any;
                     const imageRefAux = prod.imageRef === null ? encondeWhiteAux : 'data:image/jpeg;base64,' + prod.imageRef;
                     const loadDiagramAux = prod.loadDiagram === null ? encondeWhiteAux : 'data:image/jpeg;base64,' + prod.loadDiagram;
 
-                    // productsListPdf.push({text: 'Precio: ' + prod.priceList});
+                    if (i > 0) {
+                        productsListPdf.push(
+                        {
+                          // encabezado
+                          image: headerHiabAux,
+                          absolutePosition: {x: 0, y: 0},
+                          width: 632
+                        },
+                        {
+                          margin: [0, -35, 0, 0],
+                          text: 'COTIZACION ' + initials + ' ' + salesPdf.id + '\n' + prodModel,
+                          fontSize: 30,
+                          bold: true,
+                          color: 'red'
+                        },
+                        {
+                          text: 'Fecha: ' + myFormattedDate,
+                          color: 'red'
+                        });
+                    }
+
                     productsListPdf.push(
-                      {
-                        margin: [0, 80, 0, 10],
-                        text: prod.model
-                      },
+                    {
+                      margin: [0, 40, 0, 0],
+                      text: prod.model
+                    });
+
+                    if (prod.priceList !== null && prod.priceList > 0 ) {
+                      let monProd = currencyPipe.transform( prod.priceList, 'CLP', 'symbol-narrow', '1.0' );
+                      monProd = monProd.replace('$', '');
+                      monProd = '$ ' + monProd;
+                      productsListPdf.push({text: 'Precio: ' + monProd + '\n\n'});
+                    } else {
+                      productsListPdf.push({text: '\n'});
+                    }
+
+                    productsListPdf.push(
                       {
                         table: {
                           widths: [250, '*'],
-                          heights: [160, 'auto', 'auto'],
+                          heights: [150, 'auto', 'auto'],
                           body: [
                             [prod.description, {image: imageRefAux, width: 200, alignment: 'right'}],
                             [{text: 'Características Técnicas', colSpan: 2, alignment: 'center'}],
-                            [{colSpan: 2, image: loadDiagramAux, fit: [450, 400], alignment: 'center'}]
+                            [{colSpan: 2, image: loadDiagramAux, fit: [450, 390], alignment: 'center'}]
                           ]
                         }, layout: 'noBorders'
                       },
@@ -326,7 +372,24 @@ currentAccount: any;
                 }
 
                 priceConditions.push(
-                  {text: 'Precio y Condiciones Generales de Venta', bold: true, margin: [0, 80, 0, 20]},
+                  {
+                    // encabezado
+                    image: headerHiabAux,
+                    absolutePosition: {x: 0, y: 0},
+                    width: 632
+                  },
+                  {
+                    margin: [0, -35, 0, 0],
+                    text: 'COTIZACION ' + initials + ' ' + salesPdf.id + '\n' + prodModel,
+                    fontSize: 30,
+                    bold: true,
+                    color: 'red'
+                  },
+                  {
+                    text: 'Fecha: ' + myFormattedDate,
+                    color: 'red'
+                  },
+                  {text: 'Precio y Condiciones Generales de Venta', bold: true, margin: [0, 60, 0, 20]},
                   {text: 'Precio final ' + moneyDisplay + ' + IVA', alignment: 'center', margin: [0, 0, 0, 20]},
                   {text: salesPdf.conditions ? salesPdf.conditions : '' }
                 );
