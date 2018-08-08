@@ -27,7 +27,7 @@ spring:
             enabled: false
     datasource:
         type: com.zaxxer.hikari.HikariDataSource
-        url: jdbc:mysql://saleshiab.ckzr1iypsqrw.us-east-1.rds.amazonaws.com:3306/cotizacionesv2?useUnicode=true&characterEncoding=utf8&useSSL=false
+        url: jdbc:mysql://saleshiab.ckzr1iypsqrw.us-east-1.rds.amazonaws.com:3306/cotizaciones?useUnicode=true&characterEncoding=utf8&useSSL=false
         username: pancho
         password: Fran.lopez123
         hikari:
@@ -83,7 +83,6 @@ liquibase:
 # ===================================================================
 server:
     port: 8080
-    contextPath: /cotizaciones
     compression:
         enabled: true
         mime-types: text/html,text/xml,text/plain,text/css, application/javascript, application/json

@@ -301,12 +301,11 @@ currentAccount: any;
                         widths: [80, 180, 50, '*'],
                         body: [
                            [{text: 'Cliente: ', bold: true}, salesPdf.clientName, {text: 'Rut: ', bold: true}, salesPdf.clientNumDocument],
-                           [{text: 'Dirección: ', bold: true}, salesPdf.clientAddress, '', ''],
+                           [{text: 'Dirección: ', bold: true}, {colSpan: 3, text: salesPdf.clientAddress}],
                            [{text: 'Contacto: ', bold: true}, salesPdf.contactName + ' ' + salesPdf.contactSurname, {text: 'Email: ', bold: true}, salesPdf.contactEmail],
                            [{text: 'Celular: ', bold: true}, salesPdf.contactCellPhone, '', '']
                         ]
-                      },
-                      layout: 'noBorders'
+                      }, layout: 'noBorders', fillColor: '#eeeeee'
                     }
                 ]
               };
@@ -364,7 +363,7 @@ currentAccount: any;
                             [{text: 'Características Técnicas', colSpan: 2, alignment: 'center'}],
                             [{colSpan: 2, image: loadDiagramAux, fit: [450, 390], alignment: 'center'}]
                           ]
-                        }, layout: 'noBorders'
+                        }, layout: 'noBorders', fillColor: '#eeeeee'
                       },
                       {text: 'Se adjunta folleto técnico del modelo',
                         fontSize: 10, italics: true, pageBreak: 'after'}
@@ -391,7 +390,13 @@ currentAccount: any;
                   },
                   {text: 'Precio y Condiciones Generales de Venta', bold: true, margin: [0, 60, 0, 20]},
                   {text: 'Precio final ' + moneyDisplay + ' + IVA', alignment: 'center', margin: [0, 0, 0, 20]},
-                  {text: salesPdf.conditions ? salesPdf.conditions : '' }
+                  {
+                    table: {
+                      body: [
+                        [salesPdf.conditions ? salesPdf.conditions : ''],
+                      ]
+                    }, layout: 'noBorders', fillColor: '#eeeeee'
+                  }
                 );
 
                 docDefinition.content.push(productsListPdf);
