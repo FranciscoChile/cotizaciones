@@ -214,12 +214,15 @@ currentAccount: any;
       let docDefinition;
       let salesPdf: Sales;
       let productsList;
+      let conditionsList;
+
       const productsListPdf = [];
       const priceConditions = [];
 
       const pipe = new DatePipe('es-CL'); // Use your own locale
       const now = Date.now();
       const myFormattedDate = pipe.transform(now, 'longDate');
+      const shortDateCount = pipe.transform(now, 'yyMMdd');
 
       const currencyPipe = new CurrencyPipe('es-CL');
 
@@ -239,6 +242,27 @@ currentAccount: any;
           .subscribe((salesResponse: HttpResponse<Sales>) => {
               salesPdf = salesResponse.body;
               productsList = salesPdf.products;
+
+// se construye seccion condiciones de venta
+
+              conditionsList = salesPdf.saleConditions;
+              const bodyData = [];
+
+              for (let i = 0; i < conditionsList.length; i++) {
+                const prod = conditionsList[i];
+                const dataRow = [];
+                dataRow.push(
+                  {
+                    text: prod.key,
+                    bold: true
+                  }, {
+                    text: ':'
+                  }, {
+                    text: prod.value
+                  }
+                );
+                bodyData.push(dataRow);
+              }
 
               let moneyDisplay = currencyPipe.transform( salesPdf.finalPrice, 'CLP', 'symbol-narrow', '1.0' );
               moneyDisplay = moneyDisplay.replace('$', '');
@@ -286,24 +310,32 @@ currentAccount: any;
                     },
                     {
                       margin: [0, -35, 0, 0],
-                      text: 'COTIZACION ' + initials + ' ' + salesPdf.id + '\n' + prodModel,
-                      fontSize: 30,
+                      text: 'COTIZACION ' + initials + ' ' + shortDateCount,
+                      fontSize: 20,
+                      bold: true,
+                      color: 'white'
+                    },
+                    {
+                      text: prodModel,
+                      fontSize: 20,
                       bold: true,
                       color: 'red'
                     },
                     {
                       margin: [0, 0, 0, 50],
                       text: 'Fecha: ' + myFormattedDate,
-                      color: 'red'
+                      color: 'white'
                     },
                     {
                       table: {
                         widths: [80, 180, 50, '*'],
                         body: [
-                           [{text: 'Cliente: ', bold: true}, salesPdf.clientName, {text: 'Rut: ', bold: true}, salesPdf.clientNumDocument],
-                           [{text: 'Dirección: ', bold: true}, {colSpan: 3, text: salesPdf.clientAddress}],
-                           [{text: 'Contacto: ', bold: true}, salesPdf.contactName + ' ' + salesPdf.contactSurname, {text: 'Email: ', bold: true}, salesPdf.contactEmail],
-                           [{text: 'Celular: ', bold: true}, salesPdf.contactCellPhone, '', '']
+                           [{text: 'Cliente: ', bold: true}, salesPdf.clientName.trim(), {text: 'Rut: ', bold: true}, salesPdf.clientNumDocument.trim()],
+                           [{text: 'Dirección: ', bold: true}, {colSpan: 3, text: salesPdf.clientAddress.trim()}],
+                           [
+                             {text: 'Contacto: ', bold: true}, salesPdf.contactName.trim() + ' ' + salesPdf.contactSurname.trim(),
+                             {text: 'Email: ', bold: true}, salesPdf.contactEmail.trim()],
+                           [{text: 'Celular: ', bold: true}, salesPdf.contactCellPhone.trim(), '', '']
                         ]
                       }, layout: 'noBorders', fillColor: '#eeeeee'
                     }
@@ -327,23 +359,31 @@ currentAccount: any;
                         },
                         {
                           margin: [0, -35, 0, 0],
-                          text: 'COTIZACION ' + initials + ' ' + salesPdf.id + '\n' + prodModel,
-                          fontSize: 30,
+                          text: 'COTIZACION ' + initials + ' ' + shortDateCount,
+                          fontSize: 20,
+                          bold: true,
+                          color: 'white'
+                        },
+                        {
+                          text: prodModel,
+                          fontSize: 20,
                           bold: true,
                           color: 'red'
                         },
                         {
+                          margin: [0, 0, 0, 50],
                           text: 'Fecha: ' + myFormattedDate,
-                          color: 'red'
-                        });
+                          color: 'white'
+                        }
+                      );
                     }
 
+/*
                     productsListPdf.push(
                     {
                       margin: [0, 40, 0, 0],
                       text: prod.model
                     });
-
                     if (prod.priceList !== null && prod.priceList > 0 ) {
                       let monProd = currencyPipe.transform( prod.priceList, 'CLP', 'symbol-narrow', '1.0' );
                       monProd = monProd.replace('$', '');
@@ -352,21 +392,36 @@ currentAccount: any;
                     } else {
                       productsListPdf.push({text: '\n'});
                     }
-
+*/
                     productsListPdf.push(
+                      {
+                        margin: [0, 30, 0, 0],
+                        text: ''
+                      },
                       {
                         table: {
                           widths: [250, '*'],
                           heights: [150, 'auto', 'auto'],
                           body: [
-                            [prod.description, {image: imageRefAux, width: 200, alignment: 'right'}],
-                            [{text: 'Características Técnicas', colSpan: 2, alignment: 'center'}],
-                            [{colSpan: 2, image: loadDiagramAux, fit: [450, 390], alignment: 'center'}]
+                            [prod.description, {image: imageRefAux, width: 200, alignment: 'right'}]
                           ]
-                        }, layout: 'noBorders', fillColor: '#eeeeee'
+                        }     , layout: 'noBorders', fillColor: '#eeeeee'
                       },
-                      {text: 'Se adjunta folleto técnico del modelo',
-                        fontSize: 10, italics: true, pageBreak: 'after'}
+                      {
+                        margin: [0, 30, 0, 0],
+                        text: ''
+                      },
+                      {
+                        table: {
+                          widths: [250, '*'],
+                          heights: ['auto', 30, 'auto'],
+                          body: [
+                            [{text: 'Características Técnicas', colSpan: 2}],
+                            [{text: '(*) Se adjunta folleto técnico del modelo', colSpan: 2, fontSize: 10, italics: true}],
+                            [{colSpan: 2, image: loadDiagramAux, fit: [450, 390], alignment: 'center', pageBreak: 'after'}]
+                          ]
+                        }     , layout: 'noBorders'
+                      }
                     );
                 }
 
@@ -389,13 +444,12 @@ currentAccount: any;
                     color: 'red'
                   },
                   {text: 'Precio y Condiciones Generales de Venta', bold: true, margin: [0, 60, 0, 20]},
-                  {text: 'Precio final ' + moneyDisplay + ' + IVA', alignment: 'center', margin: [0, 0, 0, 20]},
+                  {text: prodModel + '          ' + moneyDisplay + ' + IVA', alignment: 'center', margin: [0, 0, 0, 20]},
                   {
                     table: {
-                      body: [
-                        [salesPdf.conditions ? salesPdf.conditions : ''],
-                      ]
-                    }, layout: 'noBorders', fillColor: '#eeeeee'
+                      widths: [150, 10, '*'],
+                      body: bodyData
+                    }, layout: 'noBorders'
                   }
                 );
 

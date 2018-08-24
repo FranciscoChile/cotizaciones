@@ -8,10 +8,6 @@
         <dd>
             <span>{{sales.finalPrice}}</span>
         </dd>
-        <dt><span jhiTranslate="cotizacionesApp.sales.conditions">Conditions</span></dt>
-        <dd>
-            <span>{{sales.conditions}}</span>
-        </dd>
         <dt><span jhiTranslate="cotizacionesApp.sales.client">Client</span></dt>
         <dd>
             <div *ngIf="sales.clientId">
@@ -22,12 +18,6 @@
         <dd>
             <div *ngIf="sales.contactId">
                 <a [routerLink]="['/contact', sales.contactId]">{{sales.contactName}}</a>
-            </div>
-        </dd>
-        <dt><span jhiTranslate="cotizacionesApp.sales.location">Location</span></dt>
-        <dd>
-            <div *ngIf="sales.locationId">
-                <a [routerLink]="['/location', sales.locationId]">{{sales.locationDescription}}</a>
             </div>
         </dd>
         <dt><span jhiTranslate="cotizacionesApp.sales.product">Product</span></dt>

@@ -5,6 +5,7 @@ import { CotizacionesContactModule } from './contact/contact.module';
 import { CotizacionesLocationModule } from './location/location.module';
 import { CotizacionesSalesModule } from './sales/sales.module';
 import { CotizacionesProductModule } from './product/product.module';
+import { CotizacionesSaleConditionModule } from './sale-condition/sale-condition.module';
 /* jhipster-needle-add-entity-module-import - JHipster will add entity modules imports here */
 
 @NgModule({
@@ -14,6 +15,7 @@ import { CotizacionesProductModule } from './product/product.module';
         CotizacionesLocationModule,
         CotizacionesSalesModule,
         CotizacionesProductModule,
+        CotizacionesSaleConditionModule,
         /* jhipster-needle-add-entity-module - JHipster will add entity modules here */
     ],
     declarations: [],

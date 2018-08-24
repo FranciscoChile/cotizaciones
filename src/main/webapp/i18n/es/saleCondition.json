@@ -1,0 +1,24 @@
+
+{
+    "cotizacionesApp": {
+        "saleCondition" : {
+            "home": {
+                "title": "Condiciones de venta",
+                "createLabel": "Crear nueva",
+                "createOrEditLabel": "Crear o editar"
+            },
+            "created": "Nuevo registro ha sido creado con el identificador {{ param }}",
+            "updated": "Nuevo registro ha sido actualizado con el identificador {{ param }}",
+            "deleted": "Nuevo registro ha sido eliminado con el identificador {{ param }}",
+            "delete": {
+                "question": "¿Seguro que quiere eliminar {{ id }}?"
+            },
+            "detail": {
+                "title": "Condiciones de venta"
+            },
+            "key": "Titulo",
+            "value": "Detalle",
+            "sales": "Cotización asociada"
+        }
+    }
+}

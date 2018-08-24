@@ -1,5 +1,6 @@
 package com.hiab.sales.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
@@ -33,12 +34,12 @@ public class Sales implements Serializable {
     @Column(name = "active")
     private Integer active;
 
-    @Column(name = "user_id")
-    private Integer userId;
-
     @Size(max = 2000)
     @Column(name = "conditions", length = 2000)
     private String conditions;
+
+    @Column(name = "user_id")
+    private Integer userId;
 
     @ManyToOne
     private Client client;
@@ -49,6 +50,9 @@ public class Sales implements Serializable {
     @ManyToOne
     private Location location;
 
+    @OneToMany(mappedBy = "sales")
+    private Set<SaleCondition> saleConditions = new HashSet<>();
+
     @ManyToMany
     @JoinTable(name = "sales_product",
                joinColumns = @JoinColumn(name="sales_id", referencedColumnName="id"),
@@ -56,19 +60,6 @@ public class Sales implements Serializable {
     private Set<Product> products = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public Sales userId(Integer userId) {
-        this.userId = userId;
-        return this;
-    }
-
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
-
     public Long getId() {
         return id;
     }
@@ -129,6 +120,19 @@ public class Sales implements Serializable {
         this.conditions = conditions;
     }
 
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public Sales userId(Integer userId) {
+        this.userId = userId;
+        return this;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
+
     public Client getClient() {
         return client;
     }
@@ -166,6 +170,31 @@ public class Sales implements Serializable {
 
     public void setLocation(Location location) {
         this.location = location;
+    }
+
+    public Set<SaleCondition> getSaleConditions() {
+        return saleConditions;
+    }
+
+    public Sales saleConditions(Set<SaleCondition> saleConditions) {
+        this.saleConditions = saleConditions;
+        return this;
+    }
+
+    public Sales addSaleCondition(SaleCondition saleCondition) {
+        this.saleConditions.add(saleCondition);
+        saleCondition.setSales(this);
+        return this;
+    }
+
+    public Sales removeSaleCondition(SaleCondition saleCondition) {
+        this.saleConditions.remove(saleCondition);
+        saleCondition.setSales(null);
+        return this;
+    }
+
+    public void setSaleConditions(Set<SaleCondition> saleConditions) {
+        this.saleConditions = saleConditions;
     }
 
     public Set<Product> getProducts() {
@@ -221,8 +250,8 @@ public class Sales implements Serializable {
             ", finalPrice=" + getFinalPrice() +
             ", createDate='" + getCreateDate() + "'" +
             ", active=" + getActive() +
-            ", userId=" + getUserId()  +
             ", conditions='" + getConditions() + "'" +
+            ", userId=" + getUserId() +
             "}";
     }
 }

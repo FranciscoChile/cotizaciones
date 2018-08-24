@@ -60,10 +60,10 @@
             "fieldType": "Integer"
         }
     ],
-    "changelogDate": "20180712024054",
+    "changelogDate": "20180822020917",
     "entityTableName": "contact",
     "dto": "mapstruct",
     "pagination": "pagination",
     "service": "serviceImpl",
-    "jpaMetamodelFiltering": true
+    "jpaMetamodelFiltering": false
 }

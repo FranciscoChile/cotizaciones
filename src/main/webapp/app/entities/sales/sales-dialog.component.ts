@@ -52,6 +52,7 @@ export class SalesDialogComponent implements OnInit {
     }
 
     ngOnInit() {
+
       this.principal.identity().then((account) => {
         this.currentAccount = account;
       });

@@ -1,7 +1,8 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {AutoCompleteModule, ButtonModule, CalendarModule } from 'primeng/primeng';
+import {AutoCompleteModule, CalendarModule } from 'primeng/primeng';
+
 import { CotizacionesSharedModule } from '../../shared';
 import {
     SalesService,

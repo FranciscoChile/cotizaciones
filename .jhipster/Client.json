@@ -49,10 +49,10 @@
             "fieldType": "Integer"
         }
     ],
-    "changelogDate": "20180712024053",
+    "changelogDate": "20180822020916",
     "entityTableName": "client",
     "dto": "mapstruct",
     "pagination": "pagination",
     "service": "serviceImpl",
-    "jpaMetamodelFiltering": true
+    "jpaMetamodelFiltering": false
 }

@@ -8,7 +8,7 @@ import org.mapstruct.*;
 /**
  * Mapper for the entity Sales and its DTO SalesDTO.
  */
-@Mapper(componentModel = "spring", uses = {ClientMapper.class, ContactMapper.class, LocationMapper.class, ProductMapper.class})
+@Mapper(componentModel = "spring", uses = {SaleConditionMapper.class, ClientMapper.class, ContactMapper.class, LocationMapper.class, ProductMapper.class})
 public interface SalesMapper extends EntityMapper<SalesDTO, Sales> {
 
     @Mapping(source = "client.id", target = "clientId")
@@ -27,6 +27,7 @@ public interface SalesMapper extends EntityMapper<SalesDTO, Sales> {
     @Mapping(source = "clientId", target = "client")
     @Mapping(source = "contactId", target = "contact")
     @Mapping(source = "locationId", target = "location")
+    @Mapping(target = "saleConditions", ignore = true)
     Sales toEntity(SalesDTO salesDTO);
 
     default Sales fromId(Long id) {

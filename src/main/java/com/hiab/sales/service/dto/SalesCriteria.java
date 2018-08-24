@@ -34,15 +34,17 @@ public class SalesCriteria implements Serializable {
 
     private IntegerFilter active;
 
-    private IntegerFilter userId;
-
     private StringFilter conditions;
+
+    private IntegerFilter userId;
 
     private LongFilter clientId;
 
     private LongFilter contactId;
 
     private LongFilter locationId;
+
+    private LongFilter saleConditionId;
 
     private LongFilter productId;
 
@@ -81,20 +83,20 @@ public class SalesCriteria implements Serializable {
         this.active = active;
     }
 
-    public IntegerFilter getUserId() {
-        return userId;
-    }
-
-    public void setUserId(IntegerFilter userId) {
-        this.userId = userId;
-    }
-
     public StringFilter getConditions() {
         return conditions;
     }
 
     public void setConditions(StringFilter conditions) {
         this.conditions = conditions;
+    }
+
+    public IntegerFilter getUserId() {
+        return userId;
+    }
+
+    public void setUserId(IntegerFilter userId) {
+        this.userId = userId;
     }
 
     public LongFilter getClientId() {
@@ -121,6 +123,14 @@ public class SalesCriteria implements Serializable {
         this.locationId = locationId;
     }
 
+    public LongFilter getSaleConditionId() {
+        return saleConditionId;
+    }
+
+    public void setSaleConditionId(LongFilter saleConditionId) {
+        this.saleConditionId = saleConditionId;
+    }
+
     public LongFilter getProductId() {
         return productId;
     }
@@ -137,11 +147,12 @@ public class SalesCriteria implements Serializable {
                 (createDate != null ? "createDate=" + createDate + ", " : "") +
                 (active != null ? "active=" + active + ", " : "") +
                 (conditions != null ? "conditions=" + conditions + ", " : "") +
+                (userId != null ? "userId=" + userId + ", " : "") +
                 (clientId != null ? "clientId=" + clientId + ", " : "") +
                 (contactId != null ? "contactId=" + contactId + ", " : "") +
                 (locationId != null ? "locationId=" + locationId + ", " : "") +
+                (saleConditionId != null ? "saleConditionId=" + saleConditionId + ", " : "") +
                 (productId != null ? "productId=" + productId + ", " : "") +
-                (userId != null ? "userId=" + userId + ", " : "") +
             "}";
     }
 

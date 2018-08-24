@@ -6,6 +6,7 @@ import com.hiab.sales.domain.Sales;
 import com.hiab.sales.domain.Client;
 import com.hiab.sales.domain.Contact;
 import com.hiab.sales.domain.Location;
+import com.hiab.sales.domain.SaleCondition;
 import com.hiab.sales.domain.Product;
 import com.hiab.sales.repository.SalesRepository;
 import com.hiab.sales.service.SalesService;
@@ -61,6 +62,9 @@ public class SalesResourceIntTest {
     private static final String DEFAULT_CONDITIONS = "AAAAAAAAAA";
     private static final String UPDATED_CONDITIONS = "BBBBBBBBBB";
 
+    private static final Integer DEFAULT_USER_ID = 1;
+    private static final Integer UPDATED_USER_ID = 2;
+
     @Autowired
     private SalesRepository salesRepository;
 
@@ -111,7 +115,8 @@ public class SalesResourceIntTest {
             .finalPrice(DEFAULT_FINAL_PRICE)
             .createDate(DEFAULT_CREATE_DATE)
             .active(DEFAULT_ACTIVE)
-            .conditions(DEFAULT_CONDITIONS);
+            .conditions(DEFAULT_CONDITIONS)
+            .userId(DEFAULT_USER_ID);
         return sales;
     }
 
@@ -140,6 +145,7 @@ public class SalesResourceIntTest {
         assertThat(testSales.getCreateDate()).isEqualTo(DEFAULT_CREATE_DATE);
         assertThat(testSales.getActive()).isEqualTo(DEFAULT_ACTIVE);
         assertThat(testSales.getConditions()).isEqualTo(DEFAULT_CONDITIONS);
+        assertThat(testSales.getUserId()).isEqualTo(DEFAULT_USER_ID);
     }
 
     @Test
@@ -176,7 +182,8 @@ public class SalesResourceIntTest {
             .andExpect(jsonPath("$.[*].finalPrice").value(hasItem(DEFAULT_FINAL_PRICE)))
             .andExpect(jsonPath("$.[*].createDate").value(hasItem(DEFAULT_CREATE_DATE.toString())))
             .andExpect(jsonPath("$.[*].active").value(hasItem(DEFAULT_ACTIVE)))
-            .andExpect(jsonPath("$.[*].conditions").value(hasItem(DEFAULT_CONDITIONS.toString())));
+            .andExpect(jsonPath("$.[*].conditions").value(hasItem(DEFAULT_CONDITIONS.toString())))
+            .andExpect(jsonPath("$.[*].userId").value(hasItem(DEFAULT_USER_ID)));
     }
 
     @Test
@@ -193,7 +200,8 @@ public class SalesResourceIntTest {
             .andExpect(jsonPath("$.finalPrice").value(DEFAULT_FINAL_PRICE))
             .andExpect(jsonPath("$.createDate").value(DEFAULT_CREATE_DATE.toString()))
             .andExpect(jsonPath("$.active").value(DEFAULT_ACTIVE))
-            .andExpect(jsonPath("$.conditions").value(DEFAULT_CONDITIONS.toString()));
+            .andExpect(jsonPath("$.conditions").value(DEFAULT_CONDITIONS.toString()))
+            .andExpect(jsonPath("$.userId").value(DEFAULT_USER_ID));
     }
 
     @Test
@@ -408,6 +416,72 @@ public class SalesResourceIntTest {
 
     @Test
     @Transactional
+    public void getAllSalesByUserIdIsEqualToSomething() throws Exception {
+        // Initialize the database
+        salesRepository.saveAndFlush(sales);
+
+        // Get all the salesList where userId equals to DEFAULT_USER_ID
+        defaultSalesShouldBeFound("userId.equals=" + DEFAULT_USER_ID);
+
+        // Get all the salesList where userId equals to UPDATED_USER_ID
+        defaultSalesShouldNotBeFound("userId.equals=" + UPDATED_USER_ID);
+    }
+
+    @Test
+    @Transactional
+    public void getAllSalesByUserIdIsInShouldWork() throws Exception {
+        // Initialize the database
+        salesRepository.saveAndFlush(sales);
+
+        // Get all the salesList where userId in DEFAULT_USER_ID or UPDATED_USER_ID
+        defaultSalesShouldBeFound("userId.in=" + DEFAULT_USER_ID + "," + UPDATED_USER_ID);
+
+        // Get all the salesList where userId equals to UPDATED_USER_ID
+        defaultSalesShouldNotBeFound("userId.in=" + UPDATED_USER_ID);
+    }
+
+    @Test
+    @Transactional
+    public void getAllSalesByUserIdIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        salesRepository.saveAndFlush(sales);
+
+        // Get all the salesList where userId is not null
+        defaultSalesShouldBeFound("userId.specified=true");
+
+        // Get all the salesList where userId is null
+        defaultSalesShouldNotBeFound("userId.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllSalesByUserIdIsGreaterThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        salesRepository.saveAndFlush(sales);
+
+        // Get all the salesList where userId greater than or equals to DEFAULT_USER_ID
+        defaultSalesShouldBeFound("userId.greaterOrEqualThan=" + DEFAULT_USER_ID);
+
+        // Get all the salesList where userId greater than or equals to UPDATED_USER_ID
+        defaultSalesShouldNotBeFound("userId.greaterOrEqualThan=" + UPDATED_USER_ID);
+    }
+
+    @Test
+    @Transactional
+    public void getAllSalesByUserIdIsLessThanSomething() throws Exception {
+        // Initialize the database
+        salesRepository.saveAndFlush(sales);
+
+        // Get all the salesList where userId less than or equals to DEFAULT_USER_ID
+        defaultSalesShouldNotBeFound("userId.lessThan=" + DEFAULT_USER_ID);
+
+        // Get all the salesList where userId less than or equals to UPDATED_USER_ID
+        defaultSalesShouldBeFound("userId.lessThan=" + UPDATED_USER_ID);
+    }
+
+
+    @Test
+    @Transactional
     public void getAllSalesByClientIsEqualToSomething() throws Exception {
         // Initialize the database
         Client client = ClientResourceIntTest.createEntity(em);
@@ -465,6 +539,25 @@ public class SalesResourceIntTest {
 
     @Test
     @Transactional
+    public void getAllSalesBySaleConditionIsEqualToSomething() throws Exception {
+        // Initialize the database
+        SaleCondition saleCondition = SaleConditionResourceIntTest.createEntity(em);
+        em.persist(saleCondition);
+        em.flush();
+        sales.addSaleCondition(saleCondition);
+        salesRepository.saveAndFlush(sales);
+        Long saleConditionId = saleCondition.getId();
+
+        // Get all the salesList where saleCondition equals to saleConditionId
+        defaultSalesShouldBeFound("saleConditionId.equals=" + saleConditionId);
+
+        // Get all the salesList where saleCondition equals to saleConditionId + 1
+        defaultSalesShouldNotBeFound("saleConditionId.equals=" + (saleConditionId + 1));
+    }
+
+
+    @Test
+    @Transactional
     public void getAllSalesByProductIsEqualToSomething() throws Exception {
         // Initialize the database
         Product product = ProductResourceIntTest.createEntity(em);
@@ -492,7 +585,8 @@ public class SalesResourceIntTest {
             .andExpect(jsonPath("$.[*].finalPrice").value(hasItem(DEFAULT_FINAL_PRICE)))
             .andExpect(jsonPath("$.[*].createDate").value(hasItem(DEFAULT_CREATE_DATE.toString())))
             .andExpect(jsonPath("$.[*].active").value(hasItem(DEFAULT_ACTIVE)))
-            .andExpect(jsonPath("$.[*].conditions").value(hasItem(DEFAULT_CONDITIONS.toString())));
+            .andExpect(jsonPath("$.[*].conditions").value(hasItem(DEFAULT_CONDITIONS.toString())))
+            .andExpect(jsonPath("$.[*].userId").value(hasItem(DEFAULT_USER_ID)));
     }
 
     /**
@@ -530,7 +624,8 @@ public class SalesResourceIntTest {
             .finalPrice(UPDATED_FINAL_PRICE)
             .createDate(UPDATED_CREATE_DATE)
             .active(UPDATED_ACTIVE)
-            .conditions(UPDATED_CONDITIONS);
+            .conditions(UPDATED_CONDITIONS)
+            .userId(UPDATED_USER_ID);
         SalesDTO salesDTO = salesMapper.toDto(updatedSales);
 
         restSalesMockMvc.perform(put("/api/sales")
@@ -546,6 +641,7 @@ public class SalesResourceIntTest {
         assertThat(testSales.getCreateDate()).isEqualTo(UPDATED_CREATE_DATE);
         assertThat(testSales.getActive()).isEqualTo(UPDATED_ACTIVE);
         assertThat(testSales.getConditions()).isEqualTo(UPDATED_CONDITIONS);
+        assertThat(testSales.getUserId()).isEqualTo(UPDATED_USER_ID);
     }
 
     @Test

@@ -13,6 +13,7 @@ export class Sales implements BaseEntity {
         public contactId?: number,
         public locationId?: number,
         public products?: BaseEntity[],
+        public saleConditions?: BaseEntity[],
         public clientAddress?: string,
         public clientNumDocument?: string,
         public contactName?: string,

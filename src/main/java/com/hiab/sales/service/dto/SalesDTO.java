@@ -35,6 +35,8 @@ public class SalesDTO implements Serializable {
 
     private Set<ProductDTO> products = new HashSet<>();
 
+    private Set<SaleConditionDTO> saleConditions = new HashSet<>();
+
     private String clientName;
 
     private String contactName;
@@ -197,6 +199,16 @@ public class SalesDTO implements Serializable {
     public void setProducts(Set<ProductDTO> products) {
         this.products = products;
     }
+
+
+    public Set<SaleConditionDTO> getSaleConditions() {
+        return saleConditions;
+    }
+
+    public void setSaleConditions(Set<SaleConditionDTO> saleConditions) {
+        this.saleConditions = saleConditions;
+    }
+
 
     @Override
     public boolean equals(Object o) {

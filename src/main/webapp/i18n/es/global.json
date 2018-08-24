@@ -12,6 +12,7 @@
                 "location": "Ubicaciones",
                 "sales": "Cotizaciones",
                 "product": "Productos",
+                "saleCondition": "Condiciones de Venta",
                 "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {
