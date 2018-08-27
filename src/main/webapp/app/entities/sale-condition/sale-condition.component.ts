@@ -34,7 +34,7 @@ saleConditions: SaleCondition[];
         this.filteredSales = [];
         for (let i = 0; i < this.salesCombo.length; i++) {
             const prod = this.salesCombo[i];
-            if (String(prod.id).toLowerCase().indexOf(event.query.toLowerCase()) == 0) {              
+            if (String(prod.id).toLowerCase().indexOf(event.query.toLowerCase()) === 0) {
                 this.filteredSales.push(prod.id);
             }
         }

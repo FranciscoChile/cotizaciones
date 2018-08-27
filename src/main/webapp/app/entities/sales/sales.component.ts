@@ -268,7 +268,15 @@ currentAccount: any;
               moneyDisplay = moneyDisplay.replace('$', '');
               moneyDisplay = '$ ' + moneyDisplay;
 
-              const prodModel = productsList[0].model;
+              let prodModel = [];
+
+              if (productsList.length === 0) {
+                this.jhiAlertService.error('cotizacionesApp.pdf.messages.errorProduct', null, null);
+                console.log('debe seleccionar producto');
+                return;
+              }
+
+              prodModel = productsList[0].model;
 
               docDefinition = {
                   pageSize: 'LETTER',

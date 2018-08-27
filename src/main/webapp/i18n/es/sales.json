@@ -24,6 +24,11 @@
             "contact": "Contacto",
             "location": "Ubicación",
             "product": "Producto"
+        },
+        "pdf": {
+          "messages": {
+              "errorProduct": "La cotización no tiene productos asignados, debe incluir al menos uno"
+          }
         }
     }
 }
