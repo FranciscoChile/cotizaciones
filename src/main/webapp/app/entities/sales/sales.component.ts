@@ -338,12 +338,13 @@ currentAccount: any;
                       table: {
                         widths: [80, 180, 50, '*'],
                         body: [
-                           [{text: 'Cliente: ', bold: true}, salesPdf.clientName.trim(), {text: 'Rut: ', bold: true}, salesPdf.clientNumDocument.trim()],
-                           [{text: 'Dirección: ', bold: true}, {colSpan: 3, text: salesPdf.clientAddress.trim()}],
-                           [
-                             {text: 'Contacto: ', bold: true}, salesPdf.contactName.trim() + ' ' + salesPdf.contactSurname.trim(),
-                             {text: 'Email: ', bold: true}, salesPdf.contactEmail.trim()],
-                           [{text: 'Celular: ', bold: true}, salesPdf.contactCellPhone.trim(), '', '']
+                           [{text: 'Cliente: ', bold: true}, this.validateLenTrim(salesPdf.clientName),
+                            {text: 'Celular: ', bold: true}, this.validateLenTrim(salesPdf.contactCellPhone)],
+                           [{text: 'Rut: ', bold: true}, this.validateLenTrim(salesPdf.clientNumDocument),
+                            {text: 'Email: ', bold: true}, this.validateLenTrim(salesPdf.contactEmail)],
+                           [{text: 'Contacto: ', bold: true},
+                            this.validateLenTrim(salesPdf.contactName) + ' ' + this.validateLenTrim(salesPdf.contactSurname), '', ''],
+                           [{text: 'Dirección: ', bold: true}, {colSpan: 3, text: this.validateLenTrim(salesPdf.clientAddress)}]
                         ]
                       }, layout: 'noBorders', fillColor: '#eeeeee'
                     }
@@ -411,7 +412,9 @@ currentAccount: any;
                           widths: [250, '*'],
                           heights: [150, 'auto', 'auto'],
                           body: [
-                            [prod.description, {image: imageRefAux, width: 200, alignment: 'right'}]
+                            [ {text: prod.description, alignment: 'justified'},
+                              {image: imageRefAux, width: 250, alignment: 'right'}
+                            ]
                           ]
                         }     , layout: 'noBorders', fillColor: '#eeeeee'
                       },
@@ -421,12 +424,12 @@ currentAccount: any;
                       },
                       {
                         table: {
-                          widths: [250, '*'],
+                          widths: ['*'],
                           heights: ['auto', 30, 'auto'],
                           body: [
-                            [{text: 'Características Técnicas', colSpan: 2}],
-                            [{text: '(*) Se adjunta folleto técnico del modelo', colSpan: 2, fontSize: 10, italics: true}],
-                            [{colSpan: 2, image: loadDiagramAux, fit: [450, 390], alignment: 'center', pageBreak: 'after'}]
+                            [{text: 'Características Técnicas'}],
+                            [{text: '(*) Se adjunta folleto técnico del modelo', fontSize: 10, italics: true}],
+                            [{image: loadDiagramAux, fit: [550, 250], alignment: 'center', pageBreak: 'after'}]
                           ]
                         }     , layout: 'noBorders'
                       }
@@ -442,14 +445,20 @@ currentAccount: any;
                   },
                   {
                     margin: [0, -35, 0, 0],
-                    text: 'COTIZACION ' + initials + ' ' + salesPdf.id + '\n' + prodModel,
-                    fontSize: 30,
+                    text: 'COTIZACION ' + initials + ' ' + shortDateCount,
+                    fontSize: 20,
+                    bold: true,
+                    color: 'white'
+                  },
+                  {
+                    text: prodModel,
+                    fontSize: 20,
                     bold: true,
                     color: 'red'
                   },
                   {
                     text: 'Fecha: ' + myFormattedDate,
-                    color: 'red'
+                    color: 'white'
                   },
                   {text: 'Precio y Condiciones Generales de Venta', bold: true, margin: [0, 60, 0, 20]},
                   {text: prodModel + '          ' + moneyDisplay + ' + IVA', alignment: 'center', margin: [0, 0, 0, 20]},
@@ -483,4 +492,13 @@ currentAccount: any;
           xhr.send();
     }
 
+    validateLenTrim(text: any) {
+
+      if (text.length > 0) {
+        return text.trim();
+      } else {
+        return text;
+      }
+
+    }
 }
