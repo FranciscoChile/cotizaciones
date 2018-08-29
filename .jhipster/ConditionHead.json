@@ -1,0 +1,29 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "sales",
+            "otherEntityName": "sales",
+            "otherEntityRelationshipName": "conditionHead"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "conditionBody",
+            "otherEntityName": "conditionBody",
+            "otherEntityRelationshipName": "conditionHead"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "name",
+            "fieldType": "String"
+        }
+    ],
+    "changelogDate": "20180829024729",
+    "entityTableName": "condition_head",
+    "dto": "mapstruct",
+    "pagination": "no",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": false
+}

@@ -20,18 +20,18 @@
             "otherEntityField": "id"
         },
         {
-            "relationshipType": "one-to-many",
-            "relationshipName": "saleCondition",
-            "otherEntityName": "saleCondition",
-            "otherEntityRelationshipName": "sales"
-        },
-        {
             "relationshipType": "many-to-many",
             "otherEntityRelationshipName": "sales",
             "relationshipName": "product",
             "otherEntityName": "product",
             "otherEntityField": "id",
             "ownerSide": true
+        },
+        {
+            "relationshipName": "conditionHead",
+            "otherEntityName": "conditionHead",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "id"
         }
     ],
     "fields": [

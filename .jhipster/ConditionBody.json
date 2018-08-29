@@ -1,6 +1,13 @@
 {
     "fluentMethods": true,
-    "relationships": [],
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "relationshipName": "conditionHead",
+            "otherEntityName": "conditionHead",
+            "otherEntityField": "id"
+        }
+    ],
     "fields": [
         {
             "fieldName": "key",
@@ -11,8 +18,8 @@
             "fieldType": "String"
         }
     ],
-    "changelogDate": "20180822020950",
-    "entityTableName": "sale_condition",
+    "changelogDate": "20180829024730",
+    "entityTableName": "condition_body",
     "dto": "mapstruct",
     "pagination": "no",
     "service": "serviceImpl",
