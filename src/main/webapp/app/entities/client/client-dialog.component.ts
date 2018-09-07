@@ -20,6 +20,7 @@ export class ClientDialogComponent implements OnInit {
 
     client: Client;
     isSaving: boolean;
+    currentDate: any;
 
     constructor(
         public activeModal: NgbActiveModal,
@@ -29,6 +30,11 @@ export class ClientDialogComponent implements OnInit {
     }
 
     ngOnInit() {
+
+        let pipe = new DatePipe('es-CL');
+        let now = Date.now();
+        this.currentDate = pipe.transform(now, 'longDate');
+
         this.isSaving = false;
 
         if (this.client.id !== undefined) {

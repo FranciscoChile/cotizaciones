@@ -5,9 +5,8 @@ import com.hiab.sales.CotizacionesApp;
 import com.hiab.sales.domain.Sales;
 import com.hiab.sales.domain.Client;
 import com.hiab.sales.domain.Contact;
-import com.hiab.sales.domain.Location;
-import com.hiab.sales.domain.SaleCondition;
 import com.hiab.sales.domain.Product;
+import com.hiab.sales.domain.SaleConditions;
 import com.hiab.sales.repository.SalesRepository;
 import com.hiab.sales.service.SalesService;
 import com.hiab.sales.service.dto.SalesDTO;
@@ -55,12 +54,6 @@ public class SalesResourceIntTest {
 
     private static final Instant DEFAULT_CREATE_DATE = Instant.ofEpochMilli(0L);
     private static final Instant UPDATED_CREATE_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
-
-    private static final Integer DEFAULT_ACTIVE = 1;
-    private static final Integer UPDATED_ACTIVE = 2;
-
-    private static final String DEFAULT_CONDITIONS = "AAAAAAAAAA";
-    private static final String UPDATED_CONDITIONS = "BBBBBBBBBB";
 
     private static final Integer DEFAULT_USER_ID = 1;
     private static final Integer UPDATED_USER_ID = 2;
@@ -114,8 +107,6 @@ public class SalesResourceIntTest {
         Sales sales = new Sales()
             .finalPrice(DEFAULT_FINAL_PRICE)
             .createDate(DEFAULT_CREATE_DATE)
-            .active(DEFAULT_ACTIVE)
-            .conditions(DEFAULT_CONDITIONS)
             .userId(DEFAULT_USER_ID);
         return sales;
     }
@@ -143,8 +134,6 @@ public class SalesResourceIntTest {
         Sales testSales = salesList.get(salesList.size() - 1);
         assertThat(testSales.getFinalPrice()).isEqualTo(DEFAULT_FINAL_PRICE);
         assertThat(testSales.getCreateDate()).isEqualTo(DEFAULT_CREATE_DATE);
-        assertThat(testSales.getActive()).isEqualTo(DEFAULT_ACTIVE);
-        assertThat(testSales.getConditions()).isEqualTo(DEFAULT_CONDITIONS);
         assertThat(testSales.getUserId()).isEqualTo(DEFAULT_USER_ID);
     }
 
@@ -181,8 +170,6 @@ public class SalesResourceIntTest {
             .andExpect(jsonPath("$.[*].id").value(hasItem(sales.getId().intValue())))
             .andExpect(jsonPath("$.[*].finalPrice").value(hasItem(DEFAULT_FINAL_PRICE)))
             .andExpect(jsonPath("$.[*].createDate").value(hasItem(DEFAULT_CREATE_DATE.toString())))
-            .andExpect(jsonPath("$.[*].active").value(hasItem(DEFAULT_ACTIVE)))
-            .andExpect(jsonPath("$.[*].conditions").value(hasItem(DEFAULT_CONDITIONS.toString())))
             .andExpect(jsonPath("$.[*].userId").value(hasItem(DEFAULT_USER_ID)));
     }
 
@@ -199,8 +186,6 @@ public class SalesResourceIntTest {
             .andExpect(jsonPath("$.id").value(sales.getId().intValue()))
             .andExpect(jsonPath("$.finalPrice").value(DEFAULT_FINAL_PRICE))
             .andExpect(jsonPath("$.createDate").value(DEFAULT_CREATE_DATE.toString()))
-            .andExpect(jsonPath("$.active").value(DEFAULT_ACTIVE))
-            .andExpect(jsonPath("$.conditions").value(DEFAULT_CONDITIONS.toString()))
             .andExpect(jsonPath("$.userId").value(DEFAULT_USER_ID));
     }
 
@@ -311,111 +296,6 @@ public class SalesResourceIntTest {
 
     @Test
     @Transactional
-    public void getAllSalesByActiveIsEqualToSomething() throws Exception {
-        // Initialize the database
-        salesRepository.saveAndFlush(sales);
-
-        // Get all the salesList where active equals to DEFAULT_ACTIVE
-        defaultSalesShouldBeFound("active.equals=" + DEFAULT_ACTIVE);
-
-        // Get all the salesList where active equals to UPDATED_ACTIVE
-        defaultSalesShouldNotBeFound("active.equals=" + UPDATED_ACTIVE);
-    }
-
-    @Test
-    @Transactional
-    public void getAllSalesByActiveIsInShouldWork() throws Exception {
-        // Initialize the database
-        salesRepository.saveAndFlush(sales);
-
-        // Get all the salesList where active in DEFAULT_ACTIVE or UPDATED_ACTIVE
-        defaultSalesShouldBeFound("active.in=" + DEFAULT_ACTIVE + "," + UPDATED_ACTIVE);
-
-        // Get all the salesList where active equals to UPDATED_ACTIVE
-        defaultSalesShouldNotBeFound("active.in=" + UPDATED_ACTIVE);
-    }
-
-    @Test
-    @Transactional
-    public void getAllSalesByActiveIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        salesRepository.saveAndFlush(sales);
-
-        // Get all the salesList where active is not null
-        defaultSalesShouldBeFound("active.specified=true");
-
-        // Get all the salesList where active is null
-        defaultSalesShouldNotBeFound("active.specified=false");
-    }
-
-    @Test
-    @Transactional
-    public void getAllSalesByActiveIsGreaterThanOrEqualToSomething() throws Exception {
-        // Initialize the database
-        salesRepository.saveAndFlush(sales);
-
-        // Get all the salesList where active greater than or equals to DEFAULT_ACTIVE
-        defaultSalesShouldBeFound("active.greaterOrEqualThan=" + DEFAULT_ACTIVE);
-
-        // Get all the salesList where active greater than or equals to UPDATED_ACTIVE
-        defaultSalesShouldNotBeFound("active.greaterOrEqualThan=" + UPDATED_ACTIVE);
-    }
-
-    @Test
-    @Transactional
-    public void getAllSalesByActiveIsLessThanSomething() throws Exception {
-        // Initialize the database
-        salesRepository.saveAndFlush(sales);
-
-        // Get all the salesList where active less than or equals to DEFAULT_ACTIVE
-        defaultSalesShouldNotBeFound("active.lessThan=" + DEFAULT_ACTIVE);
-
-        // Get all the salesList where active less than or equals to UPDATED_ACTIVE
-        defaultSalesShouldBeFound("active.lessThan=" + UPDATED_ACTIVE);
-    }
-
-
-    @Test
-    @Transactional
-    public void getAllSalesByConditionsIsEqualToSomething() throws Exception {
-        // Initialize the database
-        salesRepository.saveAndFlush(sales);
-
-        // Get all the salesList where conditions equals to DEFAULT_CONDITIONS
-        defaultSalesShouldBeFound("conditions.equals=" + DEFAULT_CONDITIONS);
-
-        // Get all the salesList where conditions equals to UPDATED_CONDITIONS
-        defaultSalesShouldNotBeFound("conditions.equals=" + UPDATED_CONDITIONS);
-    }
-
-    @Test
-    @Transactional
-    public void getAllSalesByConditionsIsInShouldWork() throws Exception {
-        // Initialize the database
-        salesRepository.saveAndFlush(sales);
-
-        // Get all the salesList where conditions in DEFAULT_CONDITIONS or UPDATED_CONDITIONS
-        defaultSalesShouldBeFound("conditions.in=" + DEFAULT_CONDITIONS + "," + UPDATED_CONDITIONS);
-
-        // Get all the salesList where conditions equals to UPDATED_CONDITIONS
-        defaultSalesShouldNotBeFound("conditions.in=" + UPDATED_CONDITIONS);
-    }
-
-    @Test
-    @Transactional
-    public void getAllSalesByConditionsIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        salesRepository.saveAndFlush(sales);
-
-        // Get all the salesList where conditions is not null
-        defaultSalesShouldBeFound("conditions.specified=true");
-
-        // Get all the salesList where conditions is null
-        defaultSalesShouldNotBeFound("conditions.specified=false");
-    }
-
-    @Test
-    @Transactional
     public void getAllSalesByUserIdIsEqualToSomething() throws Exception {
         // Initialize the database
         salesRepository.saveAndFlush(sales);
@@ -520,44 +400,6 @@ public class SalesResourceIntTest {
 
     @Test
     @Transactional
-    public void getAllSalesByLocationIsEqualToSomething() throws Exception {
-        // Initialize the database
-        Location location = LocationResourceIntTest.createEntity(em);
-        em.persist(location);
-        em.flush();
-        sales.setLocation(location);
-        salesRepository.saveAndFlush(sales);
-        Long locationId = location.getId();
-
-        // Get all the salesList where location equals to locationId
-        defaultSalesShouldBeFound("locationId.equals=" + locationId);
-
-        // Get all the salesList where location equals to locationId + 1
-        defaultSalesShouldNotBeFound("locationId.equals=" + (locationId + 1));
-    }
-
-
-    @Test
-    @Transactional
-    public void getAllSalesBySaleConditionIsEqualToSomething() throws Exception {
-        // Initialize the database
-        SaleCondition saleCondition = SaleConditionResourceIntTest.createEntity(em);
-        em.persist(saleCondition);
-        em.flush();
-        sales.addSaleCondition(saleCondition);
-        salesRepository.saveAndFlush(sales);
-        Long saleConditionId = saleCondition.getId();
-
-        // Get all the salesList where saleCondition equals to saleConditionId
-        defaultSalesShouldBeFound("saleConditionId.equals=" + saleConditionId);
-
-        // Get all the salesList where saleCondition equals to saleConditionId + 1
-        defaultSalesShouldNotBeFound("saleConditionId.equals=" + (saleConditionId + 1));
-    }
-
-
-    @Test
-    @Transactional
     public void getAllSalesByProductIsEqualToSomething() throws Exception {
         // Initialize the database
         Product product = ProductResourceIntTest.createEntity(em);
@@ -574,6 +416,25 @@ public class SalesResourceIntTest {
         defaultSalesShouldNotBeFound("productId.equals=" + (productId + 1));
     }
 
+
+    @Test
+    @Transactional
+    public void getAllSalesBySaleConditionsIsEqualToSomething() throws Exception {
+        // Initialize the database
+        SaleConditions saleConditions = SaleConditionsResourceIntTest.createEntity(em);
+        em.persist(saleConditions);
+        em.flush();
+        sales.addSaleConditions(saleConditions);
+        salesRepository.saveAndFlush(sales);
+        Long saleConditionsId = saleConditions.getId();
+
+        // Get all the salesList where saleConditions equals to saleConditionsId
+        defaultSalesShouldBeFound("saleConditionsId.equals=" + saleConditionsId);
+
+        // Get all the salesList where saleConditions equals to saleConditionsId + 1
+        defaultSalesShouldNotBeFound("saleConditionsId.equals=" + (saleConditionsId + 1));
+    }
+
     /**
      * Executes the search, and checks that the default entity is returned
      */
@@ -584,8 +445,6 @@ public class SalesResourceIntTest {
             .andExpect(jsonPath("$.[*].id").value(hasItem(sales.getId().intValue())))
             .andExpect(jsonPath("$.[*].finalPrice").value(hasItem(DEFAULT_FINAL_PRICE)))
             .andExpect(jsonPath("$.[*].createDate").value(hasItem(DEFAULT_CREATE_DATE.toString())))
-            .andExpect(jsonPath("$.[*].active").value(hasItem(DEFAULT_ACTIVE)))
-            .andExpect(jsonPath("$.[*].conditions").value(hasItem(DEFAULT_CONDITIONS.toString())))
             .andExpect(jsonPath("$.[*].userId").value(hasItem(DEFAULT_USER_ID)));
     }
 
@@ -623,8 +482,6 @@ public class SalesResourceIntTest {
         updatedSales
             .finalPrice(UPDATED_FINAL_PRICE)
             .createDate(UPDATED_CREATE_DATE)
-            .active(UPDATED_ACTIVE)
-            .conditions(UPDATED_CONDITIONS)
             .userId(UPDATED_USER_ID);
         SalesDTO salesDTO = salesMapper.toDto(updatedSales);
 
@@ -639,8 +496,6 @@ public class SalesResourceIntTest {
         Sales testSales = salesList.get(salesList.size() - 1);
         assertThat(testSales.getFinalPrice()).isEqualTo(UPDATED_FINAL_PRICE);
         assertThat(testSales.getCreateDate()).isEqualTo(UPDATED_CREATE_DATE);
-        assertThat(testSales.getActive()).isEqualTo(UPDATED_ACTIVE);
-        assertThat(testSales.getConditions()).isEqualTo(UPDATED_CONDITIONS);
         assertThat(testSales.getUserId()).isEqualTo(UPDATED_USER_ID);
     }
 

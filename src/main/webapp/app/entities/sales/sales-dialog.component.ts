@@ -11,8 +11,8 @@ import { SalesPopupService } from './sales-popup.service';
 import { SalesService } from './sales.service';
 import { Client, ClientService } from '../client';
 import { Contact, ContactService } from '../contact';
-import { Location, LocationService } from '../location';
 import { Product, ProductService } from '../product';
+import { SaleConditions, SaleConditionsService } from '../sale-conditions';
 
 import { DatePipe } from '@angular/common';
 import { Principal } from '../../shared';
@@ -30,13 +30,15 @@ export class SalesDialogComponent implements OnInit {
 
     contacts: Contact[];
 
-    locations: Location[];
-
     products: Product[];
+
+    saleconditions: SaleConditions[];
 
     filteredContacts: any[];
     filteredLocations: any[];
     currentAccount: any;
+
+    currentDate: any;
 
     constructor(
         public activeModal: NgbActiveModal,
@@ -44,8 +46,8 @@ export class SalesDialogComponent implements OnInit {
         private salesService: SalesService,
         private clientService: ClientService,
         private contactService: ContactService,
-        private locationService: LocationService,
         private productService: ProductService,
+        private saleConditionsService: SaleConditionsService,
         private eventManager: JhiEventManager,
         private principal: Principal
     ) {
@@ -53,41 +55,39 @@ export class SalesDialogComponent implements OnInit {
 
     ngOnInit() {
 
+      let pipe = new DatePipe('es-CL');
+      let now = Date.now();
+      this.currentDate = pipe.transform(now, 'longDate');
+
       this.principal.identity().then((account) => {
         this.currentAccount = account;
       });
 
         this.isSaving = false;
-        this.clientService.query({'active.equals': 1})
+        this.clientService.query()
             .subscribe((res: HttpResponse<Client[]>) => { this.clients = res.body; }, (res: HttpErrorResponse) => this.onError(res.message));
-
-        this.contactService.query({'active.equals': 1})
-            .subscribe(
-              (res: HttpResponse<Contact[]>) => {
-                this.contacts = res.body;
-                this.filterContacts(this.sales.clientId);
-              }, (res: HttpErrorResponse) => this.onError(res.message));
-
-        this.locationService.query({'active.equals': 1})
-            .subscribe((res: HttpResponse<Location[]>) => {
-              this.locations = res.body;
-              this.filterLocations(this.sales.clientId);
+        this.contactService.query()
+            .subscribe((res: HttpResponse<Contact[]>) => {
+              this.contacts = res.body;
+              this.filterContacts(this.sales.clientId);
             }, (res: HttpErrorResponse) => this.onError(res.message));
-
-        this.productService.query({'active.equals': 1})
+        this.productService.query()
             .subscribe((res: HttpResponse<Product[]>) => { this.products = res.body; }, (res: HttpErrorResponse) => this.onError(res.message));
+        this.saleConditionsService.query()
+            .subscribe((res: HttpResponse<SaleConditions[]>) => { this.saleconditions = res.body; }, (res: HttpErrorResponse) => this.onError(res.message));
 
         if (this.sales.id !== undefined) {
-            const pipe = new DatePipe('es-CL');
-            const now = Date.now();
-            const myFormattedDate = pipe.transform(this.sales.createDate, 'yyyy-MM-dd');
-            this.sales.createDate = myFormattedDate;
+          pipe = new DatePipe('es-CL');
+          now = Date.now();
+          const myFormattedDate = pipe.transform(this.sales.createDate, 'yyyy-MM-dd');
+          this.sales.createDate = myFormattedDate;
         } else {
-            const pipe = new DatePipe('es-CL');
-            const now = Date.now();
-            const myFormattedDate = pipe.transform(now, 'yyyy-MM-dd');
-            this.sales.createDate = myFormattedDate;
+          pipe = new DatePipe('es-CL');
+          now = Date.now();
+          const myFormattedDate = pipe.transform(now, 'yyyy-MM-dd');
+          this.sales.createDate = myFormattedDate;
         }
+
     }
 
     clear() {
@@ -101,7 +101,6 @@ export class SalesDialogComponent implements OnInit {
             this.subscribeToSaveResponse(
                 this.salesService.update(this.sales));
         } else {
-            this.sales.active = 1;
             this.sales.userId = this.currentAccount.id;
 
             const pipe = new DatePipe('es-CL');
@@ -141,11 +140,11 @@ export class SalesDialogComponent implements OnInit {
         return item.id;
     }
 
-    trackLocationById(index: number, item: Location) {
+    trackProductById(index: number, item: Product) {
         return item.id;
     }
 
-    trackProductById(index: number, item: Product) {
+    trackSaleConditionsById(index: number, item: SaleConditions) {
         return item.id;
     }
 
@@ -162,28 +161,16 @@ export class SalesDialogComponent implements OnInit {
 
     captureValueClient(event: any) {
       this.sales.contactId = undefined;
-      this.sales.locationId = undefined;
       this.filterContacts(this.sales.clientId);
-      this.filterLocations(this.sales.clientId);
     }
 
     filterContacts(value) {
-        this.filteredContacts = [];
+      this.filteredContacts = [];
         for (let i = 0; i < this.contacts.length; i++) {
-            const prod = this.contacts[i];
-            if (prod.clientId === value) {
-                this.filteredContacts.push(prod);
-            }
-        }
-    }
-
-    filterLocations(value) {
-        this.filteredLocations = [];
-        for (let i = 0; i < this.locations.length; i++) {
-            const prod = this.locations[i];
-            if (prod.clientId === value) {
-                this.filteredLocations.push(prod);
-            }
+          const prod = this.contacts[i];
+          if (prod.clientId === value) {
+              this.filteredContacts.push(prod);
+          }
         }
     }
 
@@ -193,9 +180,7 @@ export class SalesDialogComponent implements OnInit {
         return false;
       }
       return true;
-
     }
-
 }
 
 @Component({

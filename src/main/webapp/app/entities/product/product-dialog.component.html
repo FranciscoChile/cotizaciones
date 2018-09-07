@@ -7,11 +7,19 @@
     </div>
     <div class="modal-body">
         <jhi-alert-error></jhi-alert-error>
-        <div class="form-group" [hidden]="!product.id">
-            <label for="id" jhiTranslate="global.field.id">ID</label>
-            <input type="text" class="form-control" id="id" name="id"
-                   [(ngModel)]="product.id" readonly />
+        <div [hidden]="!product.id">
+            <label for="id" jhiTranslate="global.field.id" style="display: inline-block;">ID</label>
+            <p style="display: inline-block;" class="lead">{{product.id}}</p>
         </div>
+        <div [hidden]="product.id">
+            <label style="display: inline-block;" class="form-control-label" jhiTranslate="cotizacionesApp.product.createDate" for="field_createDate">Create Date</label>
+            <p style="display: inline-block;" ><strong>{{currentDate}}</strong></p>
+        </div>
+        <div [hidden]="!product.id">
+            <label style="display: inline-block;" class="form-control-label" jhiTranslate="cotizacionesApp.product.createDate" for="field_createDate">Create Date</label>
+            <p style="display: inline-block;"><strong>{{product.createDate | date:'longDate'}}</strong></p>
+        </div>
+
         <div class="form-group">
             <label class="form-control-label" jhiTranslate="cotizacionesApp.product.model" for="field_model">Model</label>
             <input type="text" class="form-control" name="model" id="field_model"
@@ -32,7 +40,7 @@
                 </small>
             </div>
         </div>
-        <div class="form-group">
+        <div class="form-group" [hidden]="true">
             <label class="form-control-label" jhiTranslate="cotizacionesApp.product.stock" for="field_stock">Stock</label>
             <input type="number" class="form-control" name="stock" id="field_stock"
                 [(ngModel)]="product.stock" min="0"/>
@@ -97,13 +105,7 @@
             <input type="hidden" class="form-control" name="loadDiagramContentType" id="field_loadDiagramContentType"
                 [(ngModel)]="product.loadDiagramContentType" />
         </div>
-        <div class="form-group">
-            <label class="form-control-label" jhiTranslate="cotizacionesApp.product.createDate" for="field_createDate">Create Date</label>
-            <div class="d-flex">
-                <input id="field_createDate" type="date" class="form-control" name="createDate" [(ngModel)]="product.createDate"
-                readonly/>
-            </div>
-        </div>
+
         <div class="form-group" [hidden]="true">
             <label class="form-control-label" jhiTranslate="cotizacionesApp.product.active" for="field_active">Active</label>
             <input type="number" class="form-control" name="active" id="field_active"

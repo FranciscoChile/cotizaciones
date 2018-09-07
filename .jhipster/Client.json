@@ -9,12 +9,6 @@
         },
         {
             "relationshipType": "one-to-many",
-            "relationshipName": "location",
-            "otherEntityName": "location",
-            "otherEntityRelationshipName": "client"
-        },
-        {
-            "relationshipType": "one-to-many",
             "relationshipName": "sales",
             "otherEntityName": "sales",
             "otherEntityRelationshipName": "client"
@@ -54,5 +48,5 @@
     "dto": "mapstruct",
     "pagination": "pagination",
     "service": "serviceImpl",
-    "jpaMetamodelFiltering": false
+    "jpaMetamodelFiltering": true
 }

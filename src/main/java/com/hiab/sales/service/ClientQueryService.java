@@ -99,9 +99,6 @@ public class ClientQueryService extends QueryService<Client> {
             if (criteria.getContactId() != null) {
                 specification = specification.and(buildReferringEntitySpecification(criteria.getContactId(), Client_.contacts, Contact_.id));
             }
-            if (criteria.getLocationId() != null) {
-                specification = specification.and(buildReferringEntitySpecification(criteria.getLocationId(), Client_.locations, Location_.id));
-            }
             if (criteria.getSalesId() != null) {
                 specification = specification.and(buildReferringEntitySpecification(criteria.getSalesId(), Client_.sales, Sales_.id));
             }

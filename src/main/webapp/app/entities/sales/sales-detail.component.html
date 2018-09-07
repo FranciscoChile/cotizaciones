@@ -8,6 +8,10 @@
         <dd>
             <span>{{sales.finalPrice}}</span>
         </dd>
+        <dt><span jhiTranslate="cotizacionesApp.sales.createDate">Create Date</span></dt>
+        <dd>
+            <span>{{sales.createDate | date:'longDate'}}</span>
+        </dd>
         <dt><span jhiTranslate="cotizacionesApp.sales.client">Client</span></dt>
         <dd>
             <div *ngIf="sales.clientId">
@@ -17,7 +21,7 @@
         <dt><span jhiTranslate="cotizacionesApp.sales.contact">Contact</span></dt>
         <dd>
             <div *ngIf="sales.contactId">
-                <a [routerLink]="['/contact', sales.contactId]">{{sales.contactName}}</a>
+                <a [routerLink]="['/contact', sales.contactId]">{{sales.contactName}} {{sales.contactSurname}}</a>
             </div>
         </dd>
         <dt><span jhiTranslate="cotizacionesApp.sales.product">Product</span></dt>
@@ -26,9 +30,11 @@
                 <a [routerLink]="['/product', product?.id ]">{{product.model}}</a>{{last ? '' : ', '}}
             </span>
         </dd>
-        <dt><span jhiTranslate="cotizacionesApp.sales.createDate">Create Date</span></dt>
+        <dt><span jhiTranslate="cotizacionesApp.sales.saleConditions">Sale Conditions</span></dt>
         <dd>
-            <span>{{sales.createDate | date:'longDate'}}</span>
+            <span *ngFor="let saleConditions of sales.saleConditions; let last = last">
+                <a [routerLink]="['/sale-conditions', saleConditions?.id ]">{{saleConditions.key}} - {{saleConditions.value}}</a>{{last ? '' : ', '}}
+            </span>
         </dd>
     </dl>
 

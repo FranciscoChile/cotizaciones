@@ -11,8 +11,8 @@ import { SalesService } from '../../../../../../main/webapp/app/entities/sales/s
 import { Sales } from '../../../../../../main/webapp/app/entities/sales/sales.model';
 import { ClientService } from '../../../../../../main/webapp/app/entities/client';
 import { ContactService } from '../../../../../../main/webapp/app/entities/contact';
-import { LocationService } from '../../../../../../main/webapp/app/entities/location';
 import { ProductService } from '../../../../../../main/webapp/app/entities/product';
+import { SaleConditionsService } from '../../../../../../main/webapp/app/entities/sale-conditions';
 
 describe('Component Tests', () => {
 
@@ -30,8 +30,8 @@ describe('Component Tests', () => {
                 providers: [
                     ClientService,
                     ContactService,
-                    LocationService,
                     ProductService,
+                    SaleConditionsService,
                     SalesService
                 ]
             })

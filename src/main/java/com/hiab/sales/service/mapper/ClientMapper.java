@@ -13,7 +13,6 @@ public interface ClientMapper extends EntityMapper<ClientDTO, Client> {
 
 
     @Mapping(target = "contacts", ignore = true)
-    @Mapping(target = "locations", ignore = true)
     @Mapping(target = "sales", ignore = true)
     Client toEntity(ClientDTO clientDTO);
 

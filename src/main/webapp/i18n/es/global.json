@@ -12,7 +12,8 @@
                 "location": "Ubicaciones",
                 "sales": "Cotizaciones",
                 "product": "Productos",
-                "saleCondition": "Condiciones de Venta",
+                "sales": "Fichas",
+                "saleConditions": "Condiciones de venta",
                 "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {
@@ -85,7 +86,7 @@
             }
         },
         "field": {
-            "id" : "ID"
+            "id" : "#"
         },
         "ribbon": {
             "dev":"Development"

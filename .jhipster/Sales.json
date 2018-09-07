@@ -14,12 +14,6 @@
             "otherEntityField": "id"
         },
         {
-            "relationshipName": "location",
-            "otherEntityName": "location",
-            "relationshipType": "many-to-one",
-            "otherEntityField": "id"
-        },
-        {
             "relationshipType": "many-to-many",
             "otherEntityRelationshipName": "sales",
             "relationshipName": "product",
@@ -28,10 +22,12 @@
             "ownerSide": true
         },
         {
-            "relationshipName": "conditionHead",
-            "otherEntityName": "conditionHead",
-            "relationshipType": "many-to-one",
-            "otherEntityField": "id"
+            "relationshipType": "many-to-many",
+            "otherEntityRelationshipName": "sales",
+            "relationshipName": "saleConditions",
+            "otherEntityName": "saleConditions",
+            "otherEntityField": "id",
+            "ownerSide": true
         }
     ],
     "fields": [
@@ -46,18 +42,6 @@
         {
             "fieldName": "createDate",
             "fieldType": "Instant"
-        },
-        {
-            "fieldName": "active",
-            "fieldType": "Integer"
-        },
-        {
-            "fieldName": "conditions",
-            "fieldType": "String",
-            "fieldValidateRules": [
-                "maxlength"
-            ],
-            "fieldValidateRulesMaxlength": 2000
         },
         {
             "fieldName": "userId",

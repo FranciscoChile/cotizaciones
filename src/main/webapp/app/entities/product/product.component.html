@@ -28,7 +28,6 @@
             <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="model"><span jhiTranslate="cotizacionesApp.product.model">Model</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="priceList"><span jhiTranslate="cotizacionesApp.product.priceList">Price List</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="stock"><span jhiTranslate="cotizacionesApp.product.stock">Stock</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="description"><span jhiTranslate="cotizacionesApp.product.description">Description</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="imageRef"><span jhiTranslate="cotizacionesApp.product.imageRef">Image Ref</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="loadDiagram"><span jhiTranslate="cotizacionesApp.product.loadDiagram">Load Diagram</span> <span class="fa fa-sort"></span></th>
@@ -41,7 +40,6 @@
                 <td><a [routerLink]="['../product', product.id ]">{{product.id}}</a></td>
                 <td>{{product.model}}</td>
                 <td>{{product.priceList}}</td>
-                <td>{{product.stock}}</td>
                 <td>{{product.description | slice:0:100}}</td>
                 <td>
                     <a *ngIf="product.imageRef" (click)="openFile(product.imageRefContentType, product.imageRef)" jhiTranslate="entity.action.open">open</a>

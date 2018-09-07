@@ -20,30 +20,21 @@ public class SalesDTO implements Serializable {
 
     private Instant createDate;
 
-    private Integer active;
-
     private Integer userId;
-
-    @Size(max = 2000)
-    private String conditions;
 
     private Long clientId;
 
     private Long contactId;
 
-    private Long locationId;
-
     private Set<ProductDTO> products = new HashSet<>();
 
-    private Set<SaleConditionDTO> saleConditions = new HashSet<>();
+    private Set<SaleConditionsDTO> saleConditions = new HashSet<>();
 
     private String clientName;
 
     private String contactName;
 
     private String contactSurname;
-
-    private String locationDescription;
 
     private String clientAddress;
 
@@ -54,12 +45,95 @@ public class SalesDTO implements Serializable {
     private String contactEmail;
 
 
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Integer getFinalPrice() {
+        return finalPrice;
+    }
+
+    public void setFinalPrice(Integer finalPrice) {
+        this.finalPrice = finalPrice;
+    }
+
+    public Instant getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Instant createDate) {
+        this.createDate = createDate;
+    }
+
     public Integer getUserId() {
         return userId;
     }
 
     public void setUserId(Integer userId) {
         this.userId = userId;
+    }
+
+    public Long getClientId() {
+        return clientId;
+    }
+
+    public void setClientId(Long clientId) {
+        this.clientId = clientId;
+    }
+
+    public Long getContactId() {
+        return contactId;
+    }
+
+    public void setContactId(Long contactId) {
+        this.contactId = contactId;
+    }
+
+    public Set<ProductDTO> getProducts() {
+        return products;
+    }
+
+    public void setProducts(Set<ProductDTO> products) {
+        this.products = products;
+    }
+
+    public Set<SaleConditionsDTO> getSaleConditions() {
+        return saleConditions;
+    }
+
+    public void setSaleConditions(Set<SaleConditionsDTO> saleConditions) {
+        this.saleConditions = saleConditions;
+    }
+
+
+    public String getClientName() {
+        return clientName;
+    }
+
+    public void setClientName(String clientName) {
+        this.clientName = clientName;
+    }
+
+
+    public String getContactName() {
+        return contactName;
+    }
+
+    public void setContactName(String contactName) {
+        this.contactName = contactName;
+    }
+
+    public String getContactSurname() {
+        return contactSurname;
+    }
+
+    public void setContactSurname(String contactSurname) {
+        this.contactSurname = contactSurname;
     }
 
     public String getContactEmail() {
@@ -95,121 +169,6 @@ public class SalesDTO implements Serializable {
         this.clientAddress = clientAddress;
     }
 
-    public String getClientName() {
-        return clientName;
-    }
-
-    public void setClientName(String clientName) {
-        this.clientName = clientName;
-    }
-
-
-    public String getContactName() {
-        return contactName;
-    }
-
-    public void setContactName(String contactName) {
-        this.contactName = contactName;
-    }
-
-    public String getContactSurname() {
-        return contactSurname;
-    }
-
-    public void setContactSurname(String contactSurname) {
-        this.contactSurname = contactSurname;
-    }
-
-    public String getLocationDescription() {
-        return locationDescription;
-    }
-
-    public void setLocationDescription(String locationDescription) {
-        this.locationDescription = locationDescription;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Integer getFinalPrice() {
-        return finalPrice;
-    }
-
-    public void setFinalPrice(Integer finalPrice) {
-        this.finalPrice = finalPrice;
-    }
-
-    public Instant getCreateDate() {
-        return createDate;
-    }
-
-    public void setCreateDate(Instant createDate) {
-        this.createDate = createDate;
-    }
-
-    public Integer getActive() {
-        return active;
-    }
-
-    public void setActive(Integer active) {
-        this.active = active;
-    }
-
-    public String getConditions() {
-        return conditions;
-    }
-
-    public void setConditions(String conditions) {
-        this.conditions = conditions;
-    }
-
-    public Long getClientId() {
-        return clientId;
-    }
-
-    public void setClientId(Long clientId) {
-        this.clientId = clientId;
-    }
-
-    public Long getContactId() {
-        return contactId;
-    }
-
-    public void setContactId(Long contactId) {
-        this.contactId = contactId;
-    }
-
-    public Long getLocationId() {
-        return locationId;
-    }
-
-    public void setLocationId(Long locationId) {
-        this.locationId = locationId;
-    }
-
-    public Set<ProductDTO> getProducts() {
-        return products;
-    }
-
-    public void setProducts(Set<ProductDTO> products) {
-        this.products = products;
-    }
-
-
-    public Set<SaleConditionDTO> getSaleConditions() {
-        return saleConditions;
-    }
-
-    public void setSaleConditions(Set<SaleConditionDTO> saleConditions) {
-        this.saleConditions = saleConditions;
-    }
-
-
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -237,9 +196,7 @@ public class SalesDTO implements Serializable {
             "id=" + getId() +
             ", finalPrice=" + getFinalPrice() +
             ", createDate='" + getCreateDate() + "'" +
-            ", active=" + getActive() +
-            ", userId=" + getUserId()  +
-            ", conditions='" + getConditions() + "'" +
+            ", userId=" + getUserId() +
             "}";
     }
 }

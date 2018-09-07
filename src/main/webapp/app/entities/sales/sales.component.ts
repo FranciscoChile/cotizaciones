@@ -11,7 +11,7 @@ import { ITEMS_PER_PAGE, Principal } from '../../shared';
 import { CurrencyPipe, DatePipe } from '@angular/common';
 
 const headerHiab = require('./header_wide.png');
-const blankImage = require('./white.jpg');
+const blankImage = require('./white.png');
 const portadaHiab = require('./portada.png');
 const logoHiab = require('./logoHiabSmall.jpeg');
 
@@ -278,6 +278,14 @@ currentAccount: any;
 
               prodModel = productsList[0].model;
 
+              if (currentAccountAux.telephone === null) {
+                currentAccountAux.telephone = '';
+              }
+
+              if (currentAccountAux.email === null) {
+                currentAccountAux.email = '';
+              }
+
               docDefinition = {
                   pageSize: 'LETTER',
                   footer: function(currentPage, pageCount) {
@@ -355,8 +363,10 @@ currentAccount: any;
                 for (let i = 0; i < productsList.length; i++) {
                     const prod = productsList[i];
 
-                    const imageRefAux = prod.imageRef === null ? encondeWhiteAux : 'data:image/jpeg;base64,' + prod.imageRef;
-                    const loadDiagramAux = prod.loadDiagram === null ? encondeWhiteAux : 'data:image/jpeg;base64,' + prod.loadDiagram;
+                    const imageRefAux = prod.imageRef === null ?
+                      encondeWhiteAux : 'data:image/jpeg;base64,' + prod.imageRef;
+                    const loadDiagramAux = prod.loadDiagram === null ?
+                      encondeWhiteAux : 'data:image/jpeg;base64,' + prod.loadDiagram;
 
                     if (i > 0) {
                         productsListPdf.push(
@@ -402,6 +412,11 @@ currentAccount: any;
                       productsListPdf.push({text: '\n'});
                     }
 */
+
+                    if (prod.description === null) {
+                        prod.description = '';
+                    }
+
                     productsListPdf.push(
                       {
                         margin: [0, 30, 0, 0],
@@ -410,13 +425,12 @@ currentAccount: any;
                       {
                         table: {
                           widths: [250, '*'],
-                          heights: [150, 'auto', 'auto'],
                           body: [
                             [ {text: prod.description, alignment: 'justified'},
                               {image: imageRefAux, width: 250, alignment: 'right'}
                             ]
                           ]
-                        }     , layout: 'noBorders', fillColor: '#eeeeee'
+                        }, fillColor: '#eeeeee'
                       },
                       {
                         margin: [0, 30, 0, 0],
@@ -494,7 +508,7 @@ currentAccount: any;
 
     validateLenTrim(text: any) {
 
-      if (text.length > 0) {
+      if (text != null && text.length > 0) {
         return text.trim();
       } else {
         return text;

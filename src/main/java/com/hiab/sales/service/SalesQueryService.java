@@ -84,12 +84,6 @@ public class SalesQueryService extends QueryService<Sales> {
             if (criteria.getCreateDate() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getCreateDate(), Sales_.createDate));
             }
-            if (criteria.getActive() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getActive(), Sales_.active));
-            }
-            if (criteria.getConditions() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getConditions(), Sales_.conditions));
-            }
             if (criteria.getUserId() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getUserId(), Sales_.userId));
             }
@@ -99,14 +93,11 @@ public class SalesQueryService extends QueryService<Sales> {
             if (criteria.getContactId() != null) {
                 specification = specification.and(buildReferringEntitySpecification(criteria.getContactId(), Sales_.contact, Contact_.id));
             }
-            if (criteria.getLocationId() != null) {
-                specification = specification.and(buildReferringEntitySpecification(criteria.getLocationId(), Sales_.location, Location_.id));
-            }
-            if (criteria.getSaleConditionId() != null) {
-                specification = specification.and(buildReferringEntitySpecification(criteria.getSaleConditionId(), Sales_.saleConditions, SaleCondition_.id));
-            }
             if (criteria.getProductId() != null) {
                 specification = specification.and(buildReferringEntitySpecification(criteria.getProductId(), Sales_.products, Product_.id));
+            }
+            if (criteria.getSaleConditionsId() != null) {
+                specification = specification.and(buildReferringEntitySpecification(criteria.getSaleConditionsId(), Sales_.saleConditions, SaleConditions_.id));
             }
         }
         return specification;

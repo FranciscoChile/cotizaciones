@@ -7,11 +7,19 @@
     </div>
     <div class="modal-body">
         <jhi-alert-error></jhi-alert-error>
-        <div class="form-group" [hidden]="!client.id">
-            <label for="id" jhiTranslate="global.field.id">ID</label>
-            <input type="text" class="form-control" id="id" name="id"
-                   [(ngModel)]="client.id" readonly />
+        <div [hidden]="!client.id">
+            <label for="id" jhiTranslate="global.field.id" style="display: inline-block;">ID</label>
+            <p style="display: inline-block;" class="lead">{{client.id}}</p>
         </div>
+        <div [hidden]="client.id">
+            <label style="display: inline-block;" class="form-control-label" jhiTranslate="cotizacionesApp.client.createDate" for="field_createDate">Create Date</label>
+            <p style="display: inline-block;" ><strong>{{currentDate}}</strong></p>
+        </div>
+        <div [hidden]="!client.id">
+            <label style="display: inline-block;" class="form-control-label" jhiTranslate="cotizacionesApp.client.createDate" for="field_createDate">Create Date</label>
+            <p style="display: inline-block;"><strong>{{client.createDate | date:'longDate'}}</strong></p>
+        </div>
+
         <div class="form-group">
             <label class="form-control-label" jhiTranslate="cotizacionesApp.client.name" for="field_name">Name</label>
             <input type="text" class="form-control" name="name" id="field_name"
@@ -37,13 +45,6 @@
             <label class="form-control-label" jhiTranslate="cotizacionesApp.client.comments" for="field_comments">Comments</label>
             <input type="text" class="form-control" name="comments" id="field_comments"
                 [(ngModel)]="client.comments" />
-        </div>
-        <div class="form-group" >
-            <label class="form-control-label" jhiTranslate="cotizacionesApp.client.createDate" for="field_createDate">Create Date</label>
-            <div class="d-flex">
-                <input id="field_createDate" type="date" class="form-control" name="createDate" [(ngModel)]="client.createDate"
-                readonly />
-            </div>
         </div>
         <div class="form-group" [hidden]="true">
             <label class="form-control-label" jhiTranslate="cotizacionesApp.client.active" for="field_active">Active</label>

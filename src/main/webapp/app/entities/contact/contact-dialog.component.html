@@ -7,11 +7,19 @@
     </div>
     <div class="modal-body">
         <jhi-alert-error></jhi-alert-error>
-        <div class="form-group" [hidden]="!contact.id">
-            <label for="id" jhiTranslate="global.field.id">ID</label>
-            <input type="text" class="form-control" id="id" name="id"
-                   [(ngModel)]="contact.id" readonly />
+        <div [hidden]="!contact.id">
+            <label for="id" jhiTranslate="global.field.id" style="display: inline-block;">ID</label>
+            <p style="display: inline-block;" class="lead">{{contact.id}}</p>
         </div>
+        <div [hidden]="contact.id">
+            <label style="display: inline-block;" class="form-control-label" jhiTranslate="cotizacionesApp.contact.createDate" for="field_createDate">Create Date</label>
+            <p style="display: inline-block;" ><strong>{{currentDate}}</strong></p>
+        </div>
+        <div [hidden]="!contact.id">
+            <label style="display: inline-block;" class="form-control-label" jhiTranslate="cotizacionesApp.contact.createDate" for="field_createDate">Create Date</label>
+            <p style="display: inline-block;"><strong>{{contact.createDate | date:'longDate'}}</strong></p>
+        </div>
+
         <div class="form-group">
             <label class="form-control-label" jhiTranslate="cotizacionesApp.contact.name" for="field_name">Name</label>
             <input type="text" class="form-control" name="name" id="field_name"
@@ -57,13 +65,7 @@
             <input type="text" class="form-control" name="comments" id="field_comments"
                 [(ngModel)]="contact.comments" />
         </div>
-        <div class="form-group">
-            <label class="form-control-label" jhiTranslate="cotizacionesApp.contact.createDate" for="field_createDate">Create Date</label>
-            <div class="d-flex">
-                <input id="field_createDate" type="date" class="form-control" name="createDate" [(ngModel)]="contact.createDate"
-                readonly/>
-            </div>
-        </div>
+
         <div class="form-group" [hidden]="true">
             <label class="form-control-label" jhiTranslate="cotizacionesApp.contact.active" for="field_active">Active</label>
             <input type="number" class="form-control" name="active" id="field_active"

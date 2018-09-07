@@ -7,11 +7,19 @@
     </div>
     <div class="modal-body">
         <jhi-alert-error></jhi-alert-error>
-        <div class="form-group" [hidden]="!sales.id">
-            <label for="id" jhiTranslate="global.field.id">ID</label>
-            <input type="text" class="form-control" id="id" name="id"
-                   [(ngModel)]="sales.id" readonly />
+        <div [hidden]="!sales.id">
+            <label for="id" jhiTranslate="global.field.id" style="display: inline-block;">ID</label>
+            <p style="display: inline-block;" class="lead">{{sales.id}}</p>
         </div>
+        <div [hidden]="sales.id">
+            <label style="display: inline-block;" class="form-control-label" jhiTranslate="cotizacionesApp.sales.createDate" for="field_createDate">Create Date</label>
+            <p style="display: inline-block;" ><strong>{{currentDate}}</strong></p>
+        </div>
+        <div [hidden]="!sales.id">
+            <label style="display: inline-block;" class="form-control-label" jhiTranslate="cotizacionesApp.sales.createDate" for="field_createDate">Create Date</label>
+            <p style="display: inline-block;"><strong>{{sales.createDate | date:'longDate'}}</strong></p>
+        </div>
+
         <div class="form-group">
             <label class="form-control-label" jhiTranslate="cotizacionesApp.sales.finalPrice" for="field_finalPrice">Final Price</label>
             <input type="number" class="form-control" name="finalPrice" id="field_finalPrice"
@@ -27,26 +35,6 @@
                 </small>
             </div>
         </div>
-        <div class="form-group" [hidden]="true">
-            <label class="form-control-label" jhiTranslate="cotizacionesApp.sales.active" for="field_active">Active</label>
-            <input type="number" class="form-control" name="active" id="field_active"
-                [(ngModel)]="sales.active" />
-        </div>
-        <div class="form-group" [hidden]="true">
-            <label class="form-control-label" jhiTranslate="cotizacionesApp.sales.conditions" for="field_conditions">Conditions</label>
-            <textarea class="form-control" name="conditions" id="field_conditions" #conditionsSales
-                [(ngModel)]="sales.conditions" maxlength="2000" rows="6"></textarea>
-                <small class="form-text text-danger">
-                    {{ conditionsSales.value.length }}/2000
-                </small>
-            <div [hidden]="!(editForm.controls.conditions?.dirty && editForm.controls.conditions?.invalid)">
-                <small class="form-text text-danger"
-                   [hidden]="!editForm.controls.conditions?.errors?.maxlength" jhiTranslate="entity.validation.maxlength" translateValues="{ max: 2000 }">
-                   This field cannot be longer than 2000 characters.
-                </small>
-            </div>
-        </div>
-
         <div class="form-group">
             <label class="form-control-label" jhiTranslate="cotizacionesApp.sales.client" for="field_client">Client</label>
             <select class="form-control" id="field_client" name="client" [(ngModel)]="sales.clientId" (change)="captureValueClient($event)">
@@ -58,14 +46,7 @@
             <label class="form-control-label" jhiTranslate="cotizacionesApp.sales.contact" for="field_contact">Contact</label>
             <select class="form-control" id="field_contact" name="contact" [(ngModel)]="sales.contactId" >
                 <option [ngValue]="null"></option>
-                <option [ngValue]="contactOption.id" *ngFor="let contactOption of filteredContacts; trackBy: trackContactById">{{contactOption.name}}</option>
-            </select>
-        </div>
-        <div class="form-group" [hidden]="true">
-            <label class="form-control-label" jhiTranslate="cotizacionesApp.sales.location" for="field_location">Location</label>
-            <select class="form-control" id="field_location" name="location" [(ngModel)]="sales.locationId" >
-                <option [ngValue]="null"></option>
-                <option [ngValue]="locationOption.id" *ngFor="let locationOption of filteredLocations; trackBy: trackLocationById">{{locationOption.description}}</option>
+                <option [ngValue]="contactOption.id" *ngFor="let contactOption of filteredContacts; trackBy: trackContactById">{{contactOption.name}} {{contactOption.surname}}</option>
             </select>
         </div>
         <div class="form-group">
@@ -75,11 +56,13 @@
             </select>
         </div>
         <div class="form-group">
-            <label class="form-control-label" jhiTranslate="cotizacionesApp.sales.createDate" for="field_createDate">Create Date</label>
-            <div class="d-flex">
-                <input id="field_createDate" type="date" class="form-control" name="createDate" [(ngModel)]="sales.createDate"
-                readonly/>
-            </div>
+            <label jhiTranslate="cotizacionesApp.sales.saleConditions" for="field_saleConditions">Sale Conditions</label>
+            <select class="form-control" id="field_saleConditions" multiple name="saleConditions" [(ngModel)]="sales.saleConditions">
+                <option [ngValue]="getSelected(sales.saleConditions, saleConditionsOption)"
+                  *ngFor="let saleConditionsOption of saleconditions; trackBy: trackSaleConditionsById">
+                  {{saleConditionsOption.key}} - {{saleConditionsOption.value}}
+                </option>
+            </select>
         </div>
     </div>
     <div class="modal-footer">

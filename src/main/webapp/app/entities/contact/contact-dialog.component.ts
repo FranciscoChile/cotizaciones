@@ -23,6 +23,7 @@ export class ContactDialogComponent implements OnInit {
     isSaving: boolean;
 
     clients: Client[];
+    currentDate: any;
 
     constructor(
         public activeModal: NgbActiveModal,
@@ -34,6 +35,11 @@ export class ContactDialogComponent implements OnInit {
     }
 
     ngOnInit() {
+
+        let pipe = new DatePipe('es-CL');
+        let now = Date.now();
+        this.currentDate = pipe.transform(now, 'longDate');
+
         this.isSaving = false;
 
         if (this.contact.id !== undefined) {

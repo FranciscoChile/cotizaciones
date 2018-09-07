@@ -32,21 +32,15 @@ public class SalesCriteria implements Serializable {
 
     private InstantFilter createDate;
 
-    private IntegerFilter active;
-
-    private StringFilter conditions;
-
     private IntegerFilter userId;
 
     private LongFilter clientId;
 
     private LongFilter contactId;
 
-    private LongFilter locationId;
-
-    private LongFilter saleConditionId;
-
     private LongFilter productId;
+
+    private LongFilter saleConditionsId;
 
     public SalesCriteria() {
     }
@@ -75,22 +69,6 @@ public class SalesCriteria implements Serializable {
         this.createDate = createDate;
     }
 
-    public IntegerFilter getActive() {
-        return active;
-    }
-
-    public void setActive(IntegerFilter active) {
-        this.active = active;
-    }
-
-    public StringFilter getConditions() {
-        return conditions;
-    }
-
-    public void setConditions(StringFilter conditions) {
-        this.conditions = conditions;
-    }
-
     public IntegerFilter getUserId() {
         return userId;
     }
@@ -115,22 +93,6 @@ public class SalesCriteria implements Serializable {
         this.contactId = contactId;
     }
 
-    public LongFilter getLocationId() {
-        return locationId;
-    }
-
-    public void setLocationId(LongFilter locationId) {
-        this.locationId = locationId;
-    }
-
-    public LongFilter getSaleConditionId() {
-        return saleConditionId;
-    }
-
-    public void setSaleConditionId(LongFilter saleConditionId) {
-        this.saleConditionId = saleConditionId;
-    }
-
     public LongFilter getProductId() {
         return productId;
     }
@@ -139,20 +101,25 @@ public class SalesCriteria implements Serializable {
         this.productId = productId;
     }
 
+    public LongFilter getSaleConditionsId() {
+        return saleConditionsId;
+    }
+
+    public void setSaleConditionsId(LongFilter saleConditionsId) {
+        this.saleConditionsId = saleConditionsId;
+    }
+
     @Override
     public String toString() {
         return "SalesCriteria{" +
                 (id != null ? "id=" + id + ", " : "") +
                 (finalPrice != null ? "finalPrice=" + finalPrice + ", " : "") +
                 (createDate != null ? "createDate=" + createDate + ", " : "") +
-                (active != null ? "active=" + active + ", " : "") +
-                (conditions != null ? "conditions=" + conditions + ", " : "") +
                 (userId != null ? "userId=" + userId + ", " : "") +
                 (clientId != null ? "clientId=" + clientId + ", " : "") +
                 (contactId != null ? "contactId=" + contactId + ", " : "") +
-                (locationId != null ? "locationId=" + locationId + ", " : "") +
-                (saleConditionId != null ? "saleConditionId=" + saleConditionId + ", " : "") +
                 (productId != null ? "productId=" + productId + ", " : "") +
+                (saleConditionsId != null ? "saleConditionsId=" + saleConditionsId + ", " : "") +
             "}";
     }
 

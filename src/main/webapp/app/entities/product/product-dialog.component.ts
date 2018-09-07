@@ -23,6 +23,7 @@ export class ProductDialogComponent implements OnInit {
     isSaving: boolean;
 
     sales: Sales[];
+    currentDate: any;
 
     constructor(
         public activeModal: NgbActiveModal,
@@ -35,6 +36,11 @@ export class ProductDialogComponent implements OnInit {
     }
 
     ngOnInit() {
+
+        let pipe = new DatePipe('es-CL');
+        let now = Date.now();
+        this.currentDate = pipe.transform(now, 'longDate');
+
         this.isSaving = false;
         this.salesService.query()
             .subscribe((res: HttpResponse<Sales[]>) => { this.sales = res.body; }, (res: HttpErrorResponse) => this.onError(res.message));

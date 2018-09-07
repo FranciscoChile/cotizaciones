@@ -49,10 +49,6 @@ public class Client implements Serializable {
 
     @OneToMany(mappedBy = "client")
     @JsonIgnore
-    private Set<Location> locations = new HashSet<>();
-
-    @OneToMany(mappedBy = "client")
-    @JsonIgnore
     private Set<Sales> sales = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
@@ -165,31 +161,6 @@ public class Client implements Serializable {
 
     public void setContacts(Set<Contact> contacts) {
         this.contacts = contacts;
-    }
-
-    public Set<Location> getLocations() {
-        return locations;
-    }
-
-    public Client locations(Set<Location> locations) {
-        this.locations = locations;
-        return this;
-    }
-
-    public Client addLocation(Location location) {
-        this.locations.add(location);
-        location.setClient(this);
-        return this;
-    }
-
-    public Client removeLocation(Location location) {
-        this.locations.remove(location);
-        location.setClient(null);
-        return this;
-    }
-
-    public void setLocations(Set<Location> locations) {
-        this.locations = locations;
     }
 
     public Set<Sales> getSales() {

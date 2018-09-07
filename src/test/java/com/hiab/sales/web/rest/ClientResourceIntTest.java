@@ -4,7 +4,6 @@ import com.hiab.sales.CotizacionesApp;
 
 import com.hiab.sales.domain.Client;
 import com.hiab.sales.domain.Contact;
-import com.hiab.sales.domain.Location;
 import com.hiab.sales.domain.Sales;
 import com.hiab.sales.repository.ClientRepository;
 import com.hiab.sales.service.ClientService;
@@ -505,25 +504,6 @@ public class ClientResourceIntTest {
 
         // Get all the clientList where contact equals to contactId + 1
         defaultClientShouldNotBeFound("contactId.equals=" + (contactId + 1));
-    }
-
-
-    @Test
-    @Transactional
-    public void getAllClientsByLocationIsEqualToSomething() throws Exception {
-        // Initialize the database
-        Location location = LocationResourceIntTest.createEntity(em);
-        em.persist(location);
-        em.flush();
-        client.addLocation(location);
-        clientRepository.saveAndFlush(client);
-        Long locationId = location.getId();
-
-        // Get all the clientList where location equals to locationId
-        defaultClientShouldBeFound("locationId.equals=" + locationId);
-
-        // Get all the clientList where location equals to locationId + 1
-        defaultClientShouldNotBeFound("locationId.equals=" + (locationId + 1));
     }
 
 

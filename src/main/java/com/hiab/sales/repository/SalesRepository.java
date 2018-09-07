@@ -13,10 +13,10 @@ import java.util.List;
 @SuppressWarnings("unused")
 @Repository
 public interface SalesRepository extends JpaRepository<Sales, Long>, JpaSpecificationExecutor<Sales> {
-    @Query("select distinct sales from Sales sales left join fetch sales.products")
+    @Query("select distinct sales from Sales sales left join fetch sales.products left join fetch sales.saleConditions")
     List<Sales> findAllWithEagerRelationships();
 
-    @Query("select sales from Sales sales left join fetch sales.products where sales.id =:id")
+    @Query("select sales from Sales sales left join fetch sales.products left join fetch sales.saleConditions where sales.id =:id")
     Sales findOneWithEagerRelationships(@Param("id") Long id);
 
 }

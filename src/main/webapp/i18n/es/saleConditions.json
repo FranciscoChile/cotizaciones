@@ -1,0 +1,23 @@
+
+{
+    "cotizacionesApp": {
+        "saleConditions" : {
+            "home": {
+                "title": "Condiciones de venta",
+                "createLabel": "Crear nueva Condición de venta",
+                "createOrEditLabel": "Crear o editar Condición de venta"
+            },
+            "created": "Una nueva Condición de venta ha sido creado con el identificador {{ param }}",
+            "updated": "Una Condición de venta ha sido actualizado con el identificador {{ param }}",
+            "deleted": "Una Condición de venta ha sido eliminado con el identificador {{ param }}",
+            "delete": {
+                "question": "¿Seguro que quiere eliminar Condición de venta {{ id }}?"
+            },
+            "detail": {
+                "title": "Condición de venta"
+            },
+            "key": "Título",
+            "value": "Detalle"
+        }
+    }
+}
