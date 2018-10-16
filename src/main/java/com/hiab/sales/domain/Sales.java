@@ -39,6 +39,10 @@ public class Sales implements Serializable {
     @ManyToOne
     private Contact contact;
 
+    @Column(name = "currency")
+    private String currency;
+
+
     @ManyToMany
     @JoinTable(name = "sales_product",
                joinColumns = @JoinColumn(name="sales_id", referencedColumnName="id"),
@@ -52,6 +56,14 @@ public class Sales implements Serializable {
     private Set<SaleConditions> saleConditions = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
+    public String getCurrency() {
+      return currency;
+    }
+
+    public void setCurrency(String currency) {
+      this.currency = currency;
+    }
+    
     public Long getId() {
         return id;
     }

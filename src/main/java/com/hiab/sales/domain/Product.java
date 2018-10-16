@@ -59,11 +59,23 @@ public class Product implements Serializable {
     @Column(name = "active")
     private Integer active;
 
+    @Column(name = "currency")
+    private String currency;
+
+
     @ManyToMany(mappedBy = "products")
     @JsonIgnore
     private Set<Sales> sales = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
+  	public String getCurrency() {
+  		return currency;
+  	}
+
+  	public void setCurrency(String currency) {
+  		this.currency = currency;
+  	}
+
     public Long getId() {
         return id;
     }

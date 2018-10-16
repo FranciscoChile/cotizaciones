@@ -4,7 +4,7 @@
 
     <groupId>com.hiab.sales</groupId>
     <artifactId>cotizaciones</artifactId>
-    <version>1</version>
+    <version>demo</version>
     <packaging>war</packaging>
     <name>Cotizaciones</name>
 

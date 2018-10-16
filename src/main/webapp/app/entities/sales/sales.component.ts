@@ -266,7 +266,13 @@ currentAccount: any;
 
               let moneyDisplay = currencyPipe.transform( salesPdf.finalPrice, 'CLP', 'symbol-narrow', '1.0' );
               moneyDisplay = moneyDisplay.replace('$', '');
-              moneyDisplay = '$ ' + moneyDisplay;
+              let symbol;
+
+              if (salesPdf.currency === 'USD') {symbol = '$ '; }
+              if (salesPdf.currency === 'CLP') {symbol = '$ '; }
+              if (salesPdf.currency === 'EUR') {symbol = '€ '; }
+
+              moneyDisplay = symbol + moneyDisplay + ' ' + salesPdf.currency;
 
               let prodModel = [];
 
@@ -443,7 +449,7 @@ currentAccount: any;
                           body: [
                             [{text: 'Características Técnicas'}],
                             [{text: '(*) Se adjunta folleto técnico del modelo', fontSize: 10, italics: true}],
-                            [{image: loadDiagramAux, fit: [550, 250], alignment: 'center', pageBreak: 'after'}]
+                            [{image: loadDiagramAux, width: 400, alignment: 'center', pageBreak: 'after'}]
                           ]
                         }     , layout: 'noBorders'
                       }

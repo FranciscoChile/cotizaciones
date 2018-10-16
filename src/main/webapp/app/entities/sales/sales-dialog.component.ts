@@ -40,6 +40,8 @@ export class SalesDialogComponent implements OnInit {
 
     currentDate: any;
 
+    currencys: any[];
+
     constructor(
         public activeModal: NgbActiveModal,
         private jhiAlertService: JhiAlertService,
@@ -87,6 +89,11 @@ export class SalesDialogComponent implements OnInit {
           const myFormattedDate = pipe.transform(now, 'yyyy-MM-dd');
           this.sales.createDate = myFormattedDate;
         }
+
+        this.currencys = [];
+        this.currencys.push({'key' : 'CLP', 'value' : 'CLP'});
+        this.currencys.push({'key' : 'USD', 'value' : 'USD'});
+        this.currencys.push({'key' : 'EUR', 'value' : 'EUR'});
 
     }
 

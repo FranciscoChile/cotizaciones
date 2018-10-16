@@ -4,6 +4,7 @@ export class Sales implements BaseEntity {
     constructor(
         public id?: number,
         public finalPrice?: number,
+        public currency?: string,
         public createDate?: any,
         public userId?: number,
         public clientId?: number,

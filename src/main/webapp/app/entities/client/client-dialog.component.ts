@@ -31,9 +31,9 @@ export class ClientDialogComponent implements OnInit {
 
     ngOnInit() {
 
-        let pipe = new DatePipe('es-CL');
-        let now = Date.now();
-        this.currentDate = pipe.transform(now, 'longDate');
+        const pipeCurrent = new DatePipe('es-CL');
+        const nowCurrent = Date.now();
+        this.currentDate = pipeCurrent.transform(nowCurrent, 'longDate');
 
         this.isSaving = false;
 

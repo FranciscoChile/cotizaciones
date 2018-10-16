@@ -3,20 +3,21 @@
     "cotizacionesApp": {
         "sales" : {
             "home": {
-                "title": "Fichas",
-                "createLabel": "Crear nueva Ficha",
-                "createOrEditLabel": "Crear o editar Ficha"
+                "title": "Cotizaciones",
+                "createLabel": "Crear nueva Cotización",
+                "createOrEditLabel": "Crear o editar Cotización"
             },
-            "created": "Una nueva Ficha ha sido creada con el identificador {{ param }}",
-            "updated": "Una Ficha ha sido actualizada con el identificador {{ param }}",
-            "deleted": "Una Ficha ha sido eliminada con el identificador {{ param }}",
+            "created": "Una nueva Cotización ha sido creada con el identificador {{ param }}",
+            "updated": "Una Cotización ha sido actualizada con el identificador {{ param }}",
+            "deleted": "Una Cotización ha sido eliminada con el identificador {{ param }}",
             "delete": {
-                "question": "¿Seguro que quiere eliminar Ficha {{ id }}?"
+                "question": "¿Seguro que quiere eliminar Cotización {{ id }}?"
             },
             "detail": {
-                "title": "Fichas"
+                "title": "Cotizaciones"
             },
             "finalPrice": "Precio final",
+            "currency": "Moneda",
             "createDate": "Fecha creación",
             "userId": "Usuario",
             "client": "Cliente",

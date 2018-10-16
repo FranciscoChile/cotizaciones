@@ -39,6 +39,16 @@ public class ProductDTO implements Serializable {
 
     private Integer active;
 
+    private String currency;
+
+    public String getCurrency() {
+  		return currency;
+  	}
+
+  	public void setCurrency(String currency) {
+  		this.currency = currency;
+  	}
+
     public Long getId() {
         return id;
     }
